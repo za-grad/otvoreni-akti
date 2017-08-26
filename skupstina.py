@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 
 # Parse a list of subjects
 
-# In[111]:
+# In[124]:
 
 root_url = 'http://web.zagreb.hr'
 def parse_subjects_list(url):
@@ -20,7 +20,11 @@ def parse_subjects_list(url):
     subjects = []
     for el in els:
         subel = el.contents[0]
-        link = subel.attrs['href']
+        print(subel)
+        try:
+            link = subel.attrs['href']
+        except AttributeError:
+            continue
         title = subel.select('b')[0].contents[0]
         #print(title)
         #print(link)
@@ -28,8 +32,9 @@ def parse_subjects_list(url):
     return subjects
 
 #subjects = parse_subjects_list('http://web.zagreb.hr/sjednice/Sjednice_2009.nsf/DRJ?OpenAgent&3.%20lipnja%202013.%20-%207.lipnja%202013')
-subjects = parse_subjects_list('http://web.zagreb.hr/sjednice/2013/Sjednice_2013.nsf/DRJ?OpenAgent&5.%20lipnja%202017.%20-%209.lipnja%202017')
-print(subjects)
+#subjects = parse_subjects_list('http://web.zagreb.hr/sjednice/2013/Sjednice_2013.nsf/DRJ?OpenAgent&5.%20lipnja%202017.%20-%209.lipnja%202017')
+# subjects = parse_subjects_list('http://web.zagreb.hr/sjednice/2013/Sjednice_2013.nsf/DRJ?OpenAgent&31.%20listopada%202016.%20-%204.studenog%202016')
+# print(subjects)
 
 
 # Parse all acts for a subject
@@ -57,10 +62,10 @@ def parse_subject_details(url):
     subject_details = {'text': text}
 
     #print(text)
-
+    
     act_titles = [el.get_text().strip() for el in soup.select('td a')]
     act_urls = [el.attrs['href'] for el in soup.select('td a')]
-
+    
     acts = []
     for i, act_url in enumerate(act_urls):
         site = requests.get(root_url + act_url).content
@@ -71,8 +76,8 @@ def parse_subject_details(url):
     subject_details['acts'] = acts
     return subject_details
 
-subject = parse_subject_details('http://web.zagreb.hr/Sjednice/Sjednice_2009.nsf/PW?OpenForm&ParentUNID=38EF85D771DCDD7DC1257B7C002EA9F8TARGET="_top"')
-print(subject)
+# subject = parse_subject_details('http://web.zagreb.hr/Sjednice/Sjednice_2009.nsf/PW?OpenForm&ParentUNID=38EF85D771DCDD7DC1257B7C002EA9F8TARGET="_top"')
+# print(subject)
 
 
 # # Connect everything
@@ -95,5 +100,11 @@ def scrape_everything():
                 subject['details'] = subject_details
     return all_subjects
 
+#all_subjects = scrape_everything()
+#print(all_subjects)
+
 
 # In[ ]:
+
+
+

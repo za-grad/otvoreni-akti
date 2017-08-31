@@ -7,6 +7,12 @@ from playhouse.db_url import connect
 # back to a local Sqlite database if no database URL is specified.
 db = connect(os.environ.get('DATABASE_URL') or 'sqlite:///default.db')
 
+# db_url = os.environ.get('DATABASE_URL').split('//')[1]
+# user, rest = db_url.split(':')
+# password, rest = rest.split('@')
+# db_name = rest.split('/')[1]
+# db = MySQLDatabase(db_name, user=user, password=password, charset='utf8mb4')
+
 # https://docs.google.com/spreadsheets/d/1F-hADJqjvD2_n-g9rLd8AGbmeKUnMb9h49fmUxx0rYo/edit#gid=276135992
 
 class BaseModel(Model):
@@ -66,8 +72,15 @@ with open('./skupstina2.pkl', 'rb') as f:
     subjects = pickle.load(f)
     for subject in subjects:
         for act in subject['details']['acts']:
-            new_act = Act(subject=act['title'], content=act['text'], content_url=act['url'])
-            new_act.save()
+            print(act['title'], act['text'], act['url'])
+            try:
+                content = act['text']
+                # content = content.replace('\xB2', '2')
+                # print(content)
+                new_act = Act(subject=act['title'], content=content, content_url=act['url'])
+                new_act.save()
+            except IntegrityError:
+                continue
             
             
             

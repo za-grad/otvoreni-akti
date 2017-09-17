@@ -62,10 +62,10 @@ def parse_subject_details(url):
     subject_details = {'text': text}
 
     #print(text)
-    
+
     act_titles = [el.get_text().strip() for el in soup.select('td a')]
     act_urls = [el.attrs['href'] for el in soup.select('td a')]
-    
+
     acts = []
     for i, act_url in enumerate(act_urls):
         site = requests.get(root_url + act_url).content
@@ -88,7 +88,7 @@ def scrape_everything():
     all_subjects = []
     periods_url = root_url + '/sjednice/2013/Sjednice_2013.nsf/DRJ?OpenAgent&'
     with open('./data/akti.txt') as periods_fd:
-        for act_period in list(periods_fd)[:2]:
+        for act_period in list(periods_fd)[:1]:
             act_period = act_period.strip()
             print('scraping period: ', act_period)
             url = (periods_url + act_period).replace(' ', '%20')
@@ -105,6 +105,3 @@ def scrape_everything():
 
 
 # In[ ]:
-
-
-

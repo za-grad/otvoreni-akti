@@ -1,5 +1,8 @@
 requests
 beautifulsoup4
 peewee
-PyMySQL
+# PyMySQL
 psycopg2
+flask
+honcho
+python-dotenv

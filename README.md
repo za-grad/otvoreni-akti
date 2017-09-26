@@ -21,8 +21,9 @@ Set up the database:
 mkdir -p tmp/postgres
 initdb tmp/postgres
 postgres -D tmp/postgres -p 5434
-psql postgres -p 5434 -c "create database skupstina encoding 'utf8' template template0 owner skupstina;"
 psql postgres -p 5434 -c "create user skupstina with password 'skupstina';"
+psql postgres -p 5434 -c "create database skupstina encoding 'utf8' template template0 owner skupstina;"
+psql skupstina -p 5434 -c "create extension hstore;"
 ```
 
 Then when normally developing:

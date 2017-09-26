@@ -28,6 +28,7 @@ class BaseModel(Model):
 
 class Category(BaseModel):
     type = CharField(unique=True)
+    
     class Meta:
         db_table = 'cat_type'
 
@@ -49,6 +50,7 @@ class Item(BaseModel):
     subject = CharField(1000)
     unit = CharField()
     item_url = CharField()
+
     class Meta:
         db_table = 'db_item'
 

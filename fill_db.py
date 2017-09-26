@@ -1,5 +1,17 @@
+import os
+from dotenv import load_dotenv
+
+# load dotenv in the base root
+APP_ROOT = os.path.dirname(__file__)   # refers to application_top
+dotenv_path = os.path.join(APP_ROOT, '.env')
+load_dotenv(dotenv_path)
+
+print('DATABASE_URL: ', os.getenv('DATABASE_URL'))
+
 from peewee import *
 from skupstina.schema import db, Category, Source, Item, Act
+
+print(db)
 
 # test = Act(subject='bla', content='blabla', content_url = 'http://web.zagreb.hr/sjednice/2013/Sjednice_2013.nsf/DRJ?OpenAgent&31.%20listopada%202016.%20-%204.studenog%202016')
 # test.save()
@@ -39,8 +51,8 @@ with open('./skupstina.pkl', 'rb') as f:
                 # print(content)
                 new_act = Act(subject=act['title'], content=content, content_url=act['url'], type='')
                 new_act.save()
-                print('wrote')
             except IntegrityError as e:
-                print(e)
+                #print(e)
                 db.rollback()
                 continue
+    print('wrote')

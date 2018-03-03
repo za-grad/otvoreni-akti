@@ -100,7 +100,7 @@ ENV/
 
 default.db
 *.pkl
-
+*.sql
 Procfile.dev
 .env
 /tmp

@@ -28,6 +28,7 @@ print(db)
 #
 try:
     db.create_tables([Category, Source, Item, Act])
+    print('created new tables')
 except (ProgrammingError, OperationalError) as e:
     db.rollback()
 
@@ -55,4 +56,9 @@ with open('./skupstina.pkl', 'rb') as f:
                 #print(e)
                 db.rollback()
                 continue
+            except DataError as e:
+                db.rollback()
+                print(e)
+                continue
+                
     print('wrote')

@@ -59,7 +59,7 @@ class Act(BaseModel):
     act_number = IntegerField(null=True)
     type = CharField()
     subject = CharField(1000)
-    content_url = CharField(unique = True)
+    content_url = CharField(1000, unique = True)
     content = TextField()
 
     class Meta:

@@ -6,3 +6,4 @@ flask
 honcho
 python-dotenv
 ipython
+ipdb

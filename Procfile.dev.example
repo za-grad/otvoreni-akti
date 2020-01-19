@@ -1,2 +1,0 @@
-pg: postgres -D tmp/postgres -p 5432
-web: FLASK_DEBUG=1 flask run

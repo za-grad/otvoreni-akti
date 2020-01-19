@@ -87,7 +87,7 @@ def parse_subject_details(url):
 def scrape_everything():
     all_subjects = []
     periods_url = root_url + '/sjednice/2013/Sjednice_2013.nsf/DRJ?OpenAgent&'
-    with open('./data/akti.txt') as periods_fd:
+    with open('./data/akti.txt', encoding='utf8') as periods_fd:
         for act_period in list(periods_fd)[:1]:
             act_period = act_period.strip()
             print('scraping period: ', act_period)

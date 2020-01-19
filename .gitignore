@@ -104,3 +104,6 @@ default.db
 Procfile.dev
 .env
 /tmp
+
+# PyCharm stuff
+.idea/

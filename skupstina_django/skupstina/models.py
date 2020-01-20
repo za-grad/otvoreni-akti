@@ -4,6 +4,9 @@ from django.db import models
 class Category(models.Model):
     type = models.CharField(max_length=32, unique=True)
 
+    def __str__(self):
+        return self.type
+
 
 class Source(models.Model):
     category = models.ForeignKey(Category, related_name='type_id', null=True, on_delete=models.CASCADE)
@@ -12,6 +15,9 @@ class Source(models.Model):
     week = models.IntegerField()
     date = models.DateTimeField()
     url = models.CharField(max_length=300)
+
+    def __str__(self):
+        return self.url
 
 
 class Item(models.Model):
@@ -22,6 +28,9 @@ class Item(models.Model):
     unit = models.CharField(max_length=300)
     item_url = models.CharField(max_length=300)
 
+    def __str__(self):
+        return self.subject
+
 
 class Act(models.Model):
     item = models.ForeignKey(Item, null=True, on_delete=models.CASCADE)
@@ -30,3 +39,6 @@ class Act(models.Model):
     subject = models.CharField(max_length=1000)
     content_url = models.CharField(max_length=1000, unique=True)
     content = models.TextField()
+
+    def __str__(self):
+        return self.subject

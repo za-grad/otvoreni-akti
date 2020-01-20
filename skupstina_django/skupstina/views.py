@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.db.models import Q
 from .models import Act
-from .search import ActDocument
+from .documents import ActDocument
 
 base_url = 'http://web.zagreb.hr/'
 

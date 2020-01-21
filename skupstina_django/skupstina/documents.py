@@ -1,6 +1,13 @@
-from django_elasticsearch_dsl import Document
+from elasticsearch_dsl import analyzer, tokenizer
+from django_elasticsearch_dsl import Document, fields
 from django_elasticsearch_dsl.registries import registry
 from .models import Act
+
+
+act_analyzer = analyzer('act_analyzer',
+                        tokenizer=tokenizer('standard'),
+                        filter=['lowercase', 'snowball']
+                        )
 
 
 @registry.register_document
@@ -12,12 +19,16 @@ class ActDocument(Document):
         settings = {'number_of_shards': 1,
                     'number_of_replicas': 0}
 
+    content = fields.TextField(
+        analyzer=act_analyzer,
+    )
+
     class Django:
         model = Act
         fields = [
             'act_number',
             'type',
             'subject',
-            'content',
             'content_url',
         ]
+

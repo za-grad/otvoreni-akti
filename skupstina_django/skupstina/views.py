@@ -1,21 +1,21 @@
+from django.shortcuts import render
 from django.http import JsonResponse
-from django.db.models import Q
-from .models import Act
-from .documents import ActDocument
-
-base_url = 'http://web.zagreb.hr/'
+from .utils import sql_search, elastic_search
 
 
-def search_results_view(request, search_term):
-    query_set = Act.objects.filter(
-        Q(content__icontains=search_term)
-        | Q(subject__icontains=search_term)
-    ).distinct()
-    result = {'matches': [base_url + m.content_url for m in query_set]}
-    return JsonResponse(result)
+def sql_search_results_view(request):
+    if request.GET:
+        search_term = request.GET.get('q')
+        result = sql_search(search_term)
+        return JsonResponse(result)
 
 
-def elastic_search_results_view(request, search_term):
-    query_set = ActDocument.search().filter("match", content=search_term)
-    result = {'matches': [base_url + m.content_url for m in query_set]}
-    return JsonResponse(result)
+def elastic_search_results_view(request):
+    if request.GET:
+        search_term = request.GET.get('q')
+        result = elastic_search(search_term)
+        return JsonResponse(result)
+
+
+def search_bar(request):
+    return render(request, 'skupstina/search.html')

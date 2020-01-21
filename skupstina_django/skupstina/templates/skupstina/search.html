@@ -1,0 +1,10 @@
+{% extends 'skupstina/base.html' %}
+
+{% block content %}
+    <section>
+        <form method="get" action="{% url 'elastic_search_results' %}">
+            <input type="text" name="q" id="q" placeholder="Search..." value="{{ request.GET.q }}"/>
+            <button type="submit">Submit</button>
+        </form>
+    </section>
+{% endblock content %}

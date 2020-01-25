@@ -1,0 +1,10 @@
+{% extends 'skupstina/search.html' %}
+
+{% block search_results %}
+    <br><span>{{ results|length }} results found:</span><br>
+    <ul>
+        {% for result in results %}
+            <li>{{result.id}} <a href="{{base_url}}{{result.content_url}}">{{result.subject}}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock search_results %}

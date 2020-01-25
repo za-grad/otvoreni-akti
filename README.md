@@ -32,9 +32,20 @@ Then when normally developing:
 honcho -f Procfile.dev start
 ```
 
-Scrape and fill the database:
+Scrape the web:
 
 ```bash
 python scrape.py
+```
+
+Fill the database using peewee (option 1):
+```bash
 python fill_db.py
+```
+
+Fill the database using Django (option 2):
+```bash
+cd skupstina_django
+manage.py shell
+from skupstina import fill_django_db
 ```

@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>
+			{% block title %}
+				Skupstina Search
+				{% if title %}
+					- {{ title }}
+				{% endif %}
+			{% endblock title %}
+		</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		{% block head %}{% endblock %}
+	</head>
+	<body>
+        {% block content %}
+            This is default content.
+        {% endblock content %}
+	</body>
+</html>

@@ -1,0 +1,54 @@
+{% extends 'skupstina/base.html' %}
+
+{% block content %}
+
+    <style>
+        .collapsibleList {
+            padding-top: 10px;
+            font-size: smaller;
+        }
+
+        .collapsibleList input + * {
+            display: none;
+        }
+
+        .collapsibleList input:checked + * {
+            display: block;
+        }
+
+        .collapsibleList input {
+            display: none;
+        }
+
+        .collapsibleList label {
+            cursor: pointer;
+        }
+    </style>
+
+
+    <section>
+
+        <form method="get" action="{% url 'elastic_search_results' %}">
+            <input type="text" name="q" id="q" placeholder="Search..." value="{{ request.GET.q }}"/>
+            <button type="submit">Submit</button>
+        </form>
+
+        <div class = collapsibleList>
+            <label for="search_features">Click here for search features</label>
+            <input type="checkbox" id="search_features" />
+            <ul>
+                <li>Use <strong>space</strong> between search terms to include all terms (similar to <strong>OR</strong>)<br>
+                    <em>Example: <strong>'Park Centar'</strong> will show results for 'Park' along with results for 'Centar'</em></li>
+                <li>Use <strong>AND</strong> before search terms that must also be included<br>
+                    <em>Example: <strong>'Park AND Centar'</strong> will show results for 'Park' that must also contain 'Centar'</em></li>
+                <li>Use <strong>NOT</strong> before search terms that must be excluded<br>
+                    <em>Example: <strong>'Park NOT Centar'</strong> will show results for 'Park' that must not contain 'Centar'</em></li>
+            </ul>
+        </div>
+
+    </section>
+
+    {% block search_results %}
+    {% endblock search_results %}
+
+{% endblock content %}

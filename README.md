@@ -38,14 +38,19 @@ Scrape the web:
 python scrape.py
 ```
 
-Fill the database using peewee (option 1):
-```bash
-python fill_db.py
-```
-
-Fill the database using Django (option 2):
+Fill the database using Django:
 ```bash
 cd skupstina_django
-manage.py shell
+python manage.py migrate
+python manage.py shell
 from skupstina import fill_django_db
+```
+
+Running Elasticsearch:
+
+Download and install Elasticsearch from the [official website](https://www.elastic.co/downloads/elasticsearch).
+
+Run the Django server:
+```bash
+python manage.py runserver
 ```

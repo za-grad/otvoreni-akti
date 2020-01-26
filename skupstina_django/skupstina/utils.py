@@ -21,13 +21,12 @@ def elastic_search(search_term):
     tokens = [t.token for t in response.tokens]
     print(tokens)
 
-    keywords = ['and', 'not']
-
-    if set(keywords).intersection(set(tokens)):
+    keywords = {'and', 'not'}
+    keywords_in_tokens = len(keywords.intersection(set(tokens))) > 0
+    if keywords_in_tokens:
         q = Q("multi_match", query=tokens[0], fields=['content', 'subject'])
-        for token in tokens:
+        for keyword_position, token in enumerate(tokens):
             if token in keywords:
-                keyword_position = tokens.index(token)
                 if keyword_position + 1 != len(tokens):
                     new_query = Q("multi_match", query=tokens[keyword_position+1], fields=['content', 'subject'])
                     if token == 'and':

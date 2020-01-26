@@ -1,6 +1,6 @@
 import pickle
 
-from skupstina_utils import scrape_everything
+from scrape_utils import scrape_everything
 
 # Increased recursion limit to prevent 'maximum recursion depth exceeded' error
 import sys

@@ -109,4 +109,4 @@ Procfile.dev
 .idea/
 
 # Scraper stuff
-skupstina_scraper/scrapes_completed.txt
+skupstina_django/scrapes_completed.txt

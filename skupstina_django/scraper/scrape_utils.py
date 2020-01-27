@@ -1,6 +1,7 @@
 import re
 import requests
 from bs4 import BeautifulSoup
+from skupstina.models import Category, Source, Item, Act
 
 root_url = 'http://web.zagreb.hr'
 
@@ -24,15 +25,15 @@ def parse_subjects_list(url):
 
 
 def get_visible_text(soup):
-    # kill all script and style elements
+    # Additional check for pages with JavaScript redirects
     if 'location.replace(' in soup.getText():
-        # Additional check for pages with JavaScript redirects
         result = re.search('else\n {4}location.replace[(]"(.*)"[)];', soup.getText())
         act_url = result.group(1)
         site = requests.get(root_url + act_url).content
         soup = BeautifulSoup(site, 'html.parser')
         text = get_visible_text(soup)
         return text
+    # kill all script and style elements
     for script in soup(["script", "style"]):
         script.extract()  # rip it out
     text = soup.getText()
@@ -72,8 +73,8 @@ def scrape_everything(url_suffix: str, akti_file: str):
     with open('scrapes_completed.txt', 'a', encoding='utf8') as f:
         # Create a new file if not already created
         pass
-    with open('data/' + akti_file, encoding='utf8') as periods_fd:
-        for act_period in list(periods_fd):
+    with open('scraper/data/' + akti_file, encoding='utf8') as periods_fd:
+        for act_period in list(periods_fd)[:3]:         # To release the Kraken, remove the [:2] >;D
             with open('scrapes_completed.txt', 'r+', encoding='utf8') as scrapes_completed:
                 if act_period not in scrapes_completed.read():
                     parse_complete = False
@@ -84,20 +85,31 @@ def scrape_everything(url_suffix: str, akti_file: str):
                     subjects, num_els = parse_subjects_list(url)
                     all_subjects.extend(subjects)
                     while not parse_complete:
-                        parse_complete = True
                         for subject in subjects:
                             if 'details' not in subject:
                                 try:
                                     print('Parsing ', subject['subject_url'])
                                     subject_details = parse_subject_details(subject['subject_url'])
                                     subject['details'] = subject_details
+                                    for act in subject['details']['acts']:
+                                        # Populate the Act table
+                                        content = act['act_text']
+                                        if not Act.objects.filter(content_url=act['act_url']).exists():
+                                            print('Adding ', act['act_title'])
+                                            new_act = Act(
+                                                subject=act['act_title'],
+                                                content=content,
+                                                content_url=act['act_url'],
+                                                type=''
+                                            )
+                                            new_act.save()
                                     print('Parsed  ', subject['subject_url'], ' **')
+                                    parse_complete = True
                                 except:
                                     print('Error occurred in parsing ', subject['subject_url'])
                                     parse_complete = False
                     scrapes_completed.write('{}\n'.format(act_period))
     print(all_subjects)
-    return all_subjects
 
 
 # def item_checker():

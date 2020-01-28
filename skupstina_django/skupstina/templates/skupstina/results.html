@@ -1,44 +1,48 @@
 {% extends 'skupstina/search.html' %}
 
 {% block search_results %}
-    <br><span>{{ num_results }} results found:</span><br>
-    <ul>
+    <div class="container">
+        <p>{{ num_results }} results found:</p>
         {% for result in results %}
-            <li>{{result.id}} <a href="{{base_url}}{{result.content_url}}">{{result.subject}}</a></li>
-            {% for fragment in result.meta.highlight.content %}
-                <p>{{ fragment|safe }}</p>
-            {% endfor %}
+            <div class="mb-5 mt-5">
+                <h6>
+                    <a href="{{base_url}}{{result.content_url}}">{{result.subject}}</a>
+                </h6>
+                {% for fragment in result.meta.highlight.content %}
+                    <span class="highlight text-muted">{{ fragment|safe }}</span>
+                {% endfor %}
+            </div>
         {% endfor %}
-    </ul>
 
-    {% if results.has_other_pages %}
-        <ul class="pagination">
-            {% if results.has_previous  %}
-                <li><a class="button" href="?q={{ request.GET.q }}&page={{ results.previous_page_number }}">Prev</a></li>
-                <li><a class="page" href="?q={{ request.GET.q }}&page=1">1</a></li>
-            {% endif %}
-            {% if results.number|add:'-2' > 1 %}
-                <li><span>...</span></li>
-            {% endif %}
+        {% if results.has_other_pages %}
+            <ul class="pagination">
+                {% if results.has_previous  %}
+                    <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&page={{ results.previous_page_number }}">Prev</a></li>
+                    <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&page=1">1</a></li>
+                {% endif %}
+                {% if results.number|add:'-2' > 1 %}
+                    <li class="page-item"><span>...</span></li>
+                {% endif %}
 
-            {% if results.has_previous == True and results.previous_page_number > 1 %}
-                <li><a class="page" href="?q={{ request.GET.q }}&page={{ results.previous_page_number }}">{{ results.previous_page_number }}</a></li>
-            {% endif %}
+                {% if results.has_previous == True and results.previous_page_number > 1 %}
+                    <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&page={{ results.previous_page_number }}">{{ results.previous_page_number }}</a></li>
+                {% endif %}
 
-            <li><a class="page active" href="">{{ results.number }} (current)</a></li>
+                <li class="page-item active"><a class="page-link" href="">{{ results.number }}</a></li>
 
-            {% if results.has_next == True and results.next_page_number < results.paginator.num_pages %}
-                <li><a class="page" href="?q={{ request.GET.q }}&page={{ results.next_page_number }}">{{ results.next_page_number }}</a></li>
-            {% endif %}
+                {% if results.has_next == True and results.next_page_number < results.paginator.num_pages %}
+                    <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&page={{ results.next_page_number }}">{{ results.next_page_number }}</a></li>
+                {% endif %}
 
-            {% if results.number|add:'2' < results.paginator.num_pages %}
-                <li><span>...</span></li>
-            {% endif %}
-            {% if results.has_next %}
-                <li><a class="page" href="?q={{ request.GET.q }}&page={{ results.paginator.num_pages }}">{{ results.paginator.num_pages }}</a></li>
-                <li><a class="button" href="?q={{ request.GET.q }}&page={{ results.next_page_number }}">Next</a></li>
-            {% endif %}
-        </ul>
-    {% endif %}
+                {% if results.number|add:'2' < results.paginator.num_pages %}
+                    <li class="page-item"><span>...</span></li>
+                {% endif %}
+                {% if results.has_next %}
+                    <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&page={{ results.paginator.num_pages }}">{{ results.paginator.num_pages }}</a></li>
+                    <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&page={{ results.next_page_number }}">Next</a></li>
+                {% endif %}
+            </ul>
+        {% endif %}
+    </div>
 
 {% endblock search_results %}

@@ -1,0 +1,72 @@
+* {
+    box-sizing: border-box;
+}
+
+/* Common styles for search class */
+.search {
+    padding-top: 20px;
+}
+
+/* Style the search field */
+form.search input[type=text] {
+    padding: 10px;
+    font-size: 15px;
+    border: 1px solid grey;
+    border-radius: 5px 0px 0px 5px;
+    float: left;
+    width: 90%;
+    background: #f1f1f1;
+}
+
+/* Style the submit button */
+form.search button {
+    float: left;
+    width: 10%;
+    padding: 10px;
+    background: #2196F3;
+    color: white;
+    font-size: 15px;
+    border: 1px solid grey;
+    border-left: none; /* Prevent double borders */
+    cursor: pointer;
+    border-radius: 0px 5px 5px 0px;
+}
+
+form.search button:hover {
+    background: #0b7dda;
+}
+
+/* Clear floats */
+form.example::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+
+/* Help information (collapsible) */
+.collapsibleList {
+    padding-top: 10px;
+    font-size: smaller;
+}
+
+.collapsibleList input + * {
+    display: none;
+}
+
+.collapsibleList input:checked + * {
+    display: block;
+}
+
+.collapsibleList input {
+    display: none;
+}
+
+.collapsibleList label {
+    cursor: pointer;
+}
+
+/* Highlighted text */
+.highlight em {
+    font-weight: bold;
+}

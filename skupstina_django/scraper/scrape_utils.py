@@ -67,6 +67,21 @@ def parse_subject_details(url):
     return subject_details
 
 
+def write_to_db(acts):
+    for act in acts:
+        # Populate the Act table
+        content = act['act_text']
+        if not Act.objects.filter(content_url=act['act_url']).exists():
+            print('Adding ', act['act_title'])
+            new_act = Act(
+                subject=act['act_title'],
+                content=content,
+                content_url=act['act_url'],
+                type=''
+            )
+            new_act.save()
+
+
 def scrape_everything(url_suffix: str, akti_file: str):
     all_subjects = []
     periods_url = root_url + url_suffix
@@ -74,7 +89,7 @@ def scrape_everything(url_suffix: str, akti_file: str):
         # Create a new file if not already created
         pass
     with open('scraper/data/' + akti_file, encoding='utf8') as periods_fd:
-        for act_period in list(periods_fd)[:3]:         # To release the Kraken, remove the [:2] >;D
+        for act_period in list(periods_fd):
             with open('scrapes_completed.txt', 'r+', encoding='utf8') as scrapes_completed:
                 if act_period not in scrapes_completed.read():
                     parse_complete = False
@@ -91,18 +106,7 @@ def scrape_everything(url_suffix: str, akti_file: str):
                                     print('Parsing ', subject['subject_url'])
                                     subject_details = parse_subject_details(subject['subject_url'])
                                     subject['details'] = subject_details
-                                    for act in subject['details']['acts']:
-                                        # Populate the Act table
-                                        content = act['act_text']
-                                        if not Act.objects.filter(content_url=act['act_url']).exists():
-                                            print('Adding ', act['act_title'])
-                                            new_act = Act(
-                                                subject=act['act_title'],
-                                                content=content,
-                                                content_url=act['act_url'],
-                                                type=''
-                                            )
-                                            new_act.save()
+                                    write_to_db(subject['details']['acts'])
                                     print('Parsed  ', subject['subject_url'], ' **')
                                     parse_complete = True
                                 except:

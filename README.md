@@ -32,25 +32,25 @@ Then when normally developing:
 honcho -f Procfile.dev start
 ```
 
-Scrape the web:
+Scrape the web and populate Django DB:
 
-```bash
-python scrape.py
-```
-
-Fill the database using Django:
 ```bash
 cd skupstina_django
 python manage.py migrate
 python manage.py shell
-from skupstina import fill_django_db
+from scraper import scrape
 ```
 
 Running Elasticsearch:
 
 Download and install Elasticsearch from the [official website](https://www.elastic.co/downloads/elasticsearch).
+Then run this command:
+```bash
+python manage.py search_index --rebuild
+```
 
-Run the Django server:
+
+Run the Django server (if not running):
 ```bash
 python manage.py runserver
 ```

@@ -107,3 +107,6 @@ Procfile.dev
 
 # PyCharm stuff
 .idea/
+
+# Scraper stuff
+skupstina_django/scrapes_completed.txt

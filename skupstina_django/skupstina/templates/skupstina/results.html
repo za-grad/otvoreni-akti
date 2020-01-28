@@ -5,6 +5,9 @@
     <ul>
         {% for result in results %}
             <li>{{result.id}} <a href="{{base_url}}{{result.content_url}}">{{result.subject}}</a></li>
+            {% for fragment in result.meta.highlight.content %}
+                <p>{{ fragment|safe }}</p>
+            {% endfor %}
         {% endfor %}
     </ul>
 {% endblock search_results %}

@@ -33,13 +33,13 @@ def elastic_search(search_term):
                         q = q & new_query
                     elif token == 'not':
                         q = q & ~new_query
-
     else:
         q = Q("multi_match", query=search_term, fields=['content', 'subject'])
 
-    query_set = ActDocument.search().query(q)
+    query_set = ActDocument.search()\
+        .query(q)\
+        .highlight('content', fragment_size=50)
 
     # Override Elasticsearch's default max of 10 results
     results = query_set[0:query_set.count()].execute()
-
     return results

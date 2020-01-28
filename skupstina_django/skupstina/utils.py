@@ -41,5 +41,5 @@ def elastic_search(search_term):
         .highlight('content', fragment_size=50)
 
     # Override Elasticsearch's default max of 10 results
-    results = query_set[0:query_set.count()].execute()
+    results = query_set[0:10000].execute()
     return results

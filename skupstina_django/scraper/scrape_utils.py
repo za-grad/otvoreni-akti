@@ -9,24 +9,24 @@ root_url = 'http://web.zagreb.hr'
 def parse_subjects_list(url):
     site = requests.get(url).content
     soup = BeautifulSoup(site, 'html.parser')
-    els = soup.select('.centralTD ul ol li')
-    print(len(els), ' elements')
+    table_items = soup.select('.centralTD ul ol li')
+    print(len(table_items), ' elements')
     subjects = []
-    for el in els:
-        subel = el.contents[0]
-        print(subel)
+    for item in table_items:
+        content = item.contents[0]
         try:
-            link = subel.attrs['href']
+            link = content.attrs['href']
         except AttributeError:
             continue
-        title = subel.select('b')[0].contents[0]
+        title = content.select('b')[0].contents[0]
         subjects.append({'title:': title, 'subject_url': root_url + link})
-    return subjects, len(els)
+    return subjects, len(table_items)
 
 
 def get_visible_text(soup):
     # Additional check for pages with JavaScript redirects
     if 'location.replace(' in soup.getText():
+        # Regex to extract redirect URL from the 'else' branch of Javascript code
         result = re.search('else\n {4}location.replace[(]"(.*)"[)];', soup.getText())
         act_url = result.group(1)
         site = requests.get(root_url + act_url).content

@@ -62,3 +62,7 @@ class ActDocument(Document):
             'subject', 'subject__item', 'subject__item__period',
         )
 
+    def get_instances_from_related(self, related_instance):
+        if isinstance(related_instance, Subject):
+            return related_instance.act_set.all()
+

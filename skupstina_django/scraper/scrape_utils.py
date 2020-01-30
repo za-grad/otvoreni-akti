@@ -1,5 +1,7 @@
 import re
+import time
 import requests
+from requests import exceptions
 from bs4 import BeautifulSoup
 from .db_utils import write_period_to_db, write_subject_to_db, write_act_to_db
 
@@ -89,8 +91,10 @@ def scrape_everything(url_suffix: str, akti_file: str):
                             try:
                                 subject_details = parse_subject_details(subject['subject_url'])
                                 parse_complete = True
-                            except:
-                                print('Error occured in parsing ', subject['subject_url'])
+                            except exceptions.ConnectionError as e:
+                                print('Connection Error while parsing {}:\n{}\n'.format(subject['subject_url'], e))
+                                print('Retrying...\n')
+                                time.sleep(10)
                                 parse_complete = False
                         subject['details'] = subject_details
                         subject_obj = write_subject_to_db(subject, period_obj)

@@ -36,6 +36,12 @@ form.search button:hover {
     background: #0b7dda;
 }
 
+/* Style the search metadata */
+.subject, .period {
+    font-size: smaller;
+}
+
+
 /* Clear floats */
 form.example::after {
     content: "";

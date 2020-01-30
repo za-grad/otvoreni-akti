@@ -1,19 +1,7 @@
-from django.db.models import Q as QDjango
 from elasticsearch_dsl import Q
 from .documents import ActDocument, act_analyzer
-from .models import Act
 
 base_url = 'http://web.zagreb.hr/'
-
-
-def sql_search(search_term):
-    """Returns result in JSON format"""
-    query_set = Act.objects.filter(
-        QDjango(content__icontains=search_term)
-        | QDjango(subject__icontains=search_term)
-    ).distinct()
-    results = {'matches': [base_url + m.content_url for m in query_set]}
-    return results
 
 
 def elastic_search(search_term):

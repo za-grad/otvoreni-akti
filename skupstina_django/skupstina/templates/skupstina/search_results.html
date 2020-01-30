@@ -8,6 +8,8 @@
                 <h6>
                     <a href="{{base_url}}{{result.content_url}}">{{result.title}}</a>
                 </h6>
+                <span>Parent URL: <a href="{{ result.subject.subject_url }}">{{ result.subject.subject_title }}</a></span><br>
+                <span><a href="{{ result.subject.item.period.period_url }}">{{ result.subject.item.item_title }}</a></span><br>
                 {% for fragment in result.meta.highlight.content %}
                     <span class="highlight text-muted">{{ fragment|safe }}</span>
                 {% endfor %}

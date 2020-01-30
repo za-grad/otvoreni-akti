@@ -86,16 +86,22 @@ def scrape_everything(url_suffix: str, akti_file: str):
                     subjects, num_els = parse_subjects_list(url)
                     for subject in subjects:
                         parse_complete = False
+                        max_retries = 10
+                        sleep_time = 10
                         print('Parsing ', subject['subject_url'])
-                        while not parse_complete:
+                        while not parse_complete and max_retries > 0:
                             try:
                                 subject_details = parse_subject_details(subject['subject_url'])
                                 parse_complete = True
                             except exceptions.ConnectionError as e:
+                                parse_complete = False
+                                max_retries -= 1
                                 print('Connection Error while parsing {}:\n{}\n'.format(subject['subject_url'], e))
                                 print('Retrying...\n')
-                                time.sleep(10)
-                                parse_complete = False
+                                time.sleep(sleep_time)
+                        if max_retries == 0:
+                            print('Maximum retries exceeded. Please run the scraper again.\n')
+                            raise exceptions.ConnectionError
                         subject['details'] = subject_details
                         subject_obj = write_subject_to_db(subject, period_obj)
                         write_act_to_db(subject['details']['acts'], subject_obj)

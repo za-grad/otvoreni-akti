@@ -1,29 +1,12 @@
 import re
 import requests
 from bs4 import BeautifulSoup
-from skupstina.models import Category, Source, Item, Act
+from .db_utils import write_period_to_db, write_subject_to_db, write_act_to_db
 
 root_url = 'http://web.zagreb.hr'
 
 
-def parse_subjects_list(url):
-    site = requests.get(url).content
-    soup = BeautifulSoup(site, 'html.parser')
-    table_items = soup.select('.centralTD ul ol li')
-    print(len(table_items), ' elements')
-    subjects = []
-    for item in table_items:
-        content = item.contents[0]
-        try:
-            link = content.attrs['href']
-        except AttributeError:
-            continue
-        title = content.select('b')[0].contents[0]
-        subjects.append({'title:': title, 'subject_url': root_url + link})
-    return subjects, len(table_items)
-
-
-def get_visible_text(soup):
+def get_visible_text(soup) -> str:
     # Additional check for pages with JavaScript redirects
     if 'location.replace(' in soup.getText():
         # Regex to extract redirect URL from the 'else' branch of Javascript code
@@ -46,7 +29,24 @@ def get_visible_text(soup):
     return text
 
 
-def parse_subject_details(url):
+def parse_subjects_list(url: str) -> tuple:
+    site = requests.get(url).content
+    soup = BeautifulSoup(site, 'html.parser')
+    table_items = soup.select('.centralTD ul ol li')
+    print(len(table_items), ' elements')
+    subjects = []
+    for table_item in table_items:
+        content = table_item.contents[0]
+        try:
+            link = content.attrs['href']
+        except AttributeError:
+            continue
+        subject_title = content.select('b')[0].contents[0]
+        subjects.append({'subject_title': subject_title, 'subject_url': root_url + link})
+    return subjects, len(table_items)
+
+
+def parse_subject_details(url: str) -> dict:
     site = requests.get(url).content
     soup = BeautifulSoup(site, 'html.parser')
 
@@ -60,68 +60,40 @@ def parse_subject_details(url):
     for i, act_url in enumerate(act_urls):
         site = requests.get(root_url + act_url).content
         soup = BeautifulSoup(site, 'html.parser')
-        act_text = get_visible_text(soup)
+        act_content = get_visible_text(soup)
         act_title = act_titles[i]
-        acts.append({'act_text': act_text, 'act_url': act_url, 'act_title': act_title})
+        acts.append({'act_content': act_content, 'act_url': act_url, 'act_title': act_title})
     subject_details['acts'] = acts
     return subject_details
 
 
-def write_to_db(acts):
-    for act in acts:
-        # Populate the Act table
-        content = act['act_text']
-        if not Act.objects.filter(content_url=act['act_url']).exists():
-            print('Adding ', act['act_title'])
-            new_act = Act(
-                subject=act['act_title'],
-                content=content,
-                content_url=act['act_url'],
-                type=''
-            )
-            new_act.save()
-
-
 def scrape_everything(url_suffix: str, akti_file: str):
-    all_subjects = []
     periods_url = root_url + url_suffix
     with open('scrapes_completed.txt', 'a', encoding='utf8') as f:
         # Create a new file if not already created
         pass
     with open('scraper/data/' + akti_file, encoding='utf8') as periods_fd:
-        for act_period in list(periods_fd):
+        for act_period in list(periods_fd)[:2]:
             with open('scrapes_completed.txt', 'r+', encoding='utf8') as scrapes_completed:
                 if act_period not in scrapes_completed.read():
-                    parse_complete = False
                     act_period = act_period.strip()
                     print('\nScraping period: ', act_period)
                     url = (periods_url + act_period).replace(' ', '%20')
                     print(url)
+                    period_obj = write_period_to_db(act_period, url)
                     subjects, num_els = parse_subjects_list(url)
-                    all_subjects.extend(subjects)
-                    while not parse_complete:
-                        for subject in subjects:
-                            if 'details' not in subject:
-                                try:
-                                    print('Parsing ', subject['subject_url'])
-                                    subject_details = parse_subject_details(subject['subject_url'])
-                                    subject['details'] = subject_details
-                                    write_to_db(subject['details']['acts'])
-                                    print('Parsed  ', subject['subject_url'], ' **')
-                                    parse_complete = True
-                                except:
-                                    print('Error occurred in parsing ', subject['subject_url'])
-                                    parse_complete = False
+                    for subject in subjects:
+                        parse_complete = False
+                        print('Parsing ', subject['subject_url'])
+                        while not parse_complete:
+                            try:
+                                subject_details = parse_subject_details(subject['subject_url'])
+                                parse_complete = True
+                            except:
+                                print('Error occured in parsing ', subject['subject_url'])
+                                parse_complete = False
+                        subject['details'] = subject_details
+                        subject_obj = write_subject_to_db(subject, period_obj)
+                        write_act_to_db(subject['details']['acts'], subject_obj)
+                        print('Parsed  ', subject['subject_url'], ' **')
                     scrapes_completed.write('{}\n'.format(act_period))
-    print(all_subjects)
-
-
-# def item_checker():
-#     act_url = '/sjednice/2017/Sjednice_2017.nsf/Dokument_opci_sjednica_noatt_web?OpenForm&ParentUNID=6591FDDD6E4FEF15C12584F00030C87E'
-#     # act_url = '/sjednice/2017/Sjednice_2017.nsf/Dokument_opci_sjednica_noatt_web?OpenForm&ParentUNID=6591FDDD6E4FEF15C12584F00030C87E&AutoFramed'
-#     site = requests.get(root_url + act_url).content
-#     print(root_url + act_url, '\n')
-#     soup = BeautifulSoup(site, 'html.parser')
-#     act_text = get_visible_text(soup)
-#     print('Act text:', act_text)
-# item_checker()

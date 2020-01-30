@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-from .models import Category, Source, Item, Act
+from .models import Period, Item, Subject, Act
 
-admin.site.register(Category)
-admin.site.register(Source)
+admin.site.register(Period)
 admin.site.register(Item)
+admin.site.register(Subject)
 admin.site.register(Act)

@@ -1,44 +1,41 @@
 from django.db import models
 
 
-class Category(models.Model):
-    type = models.CharField(max_length=32, unique=True)
+class Period(models.Model):
+    period_text = models.CharField(max_length=100, unique=True)
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+    parent_url = models.CharField(max_length=300)
+    period_url = models.CharField(max_length=300)
 
     def __str__(self):
-        return self.type
-
-
-class Source(models.Model):
-    category = models.ForeignKey(Category, related_name='type_id', null=True, on_delete=models.CASCADE)
-    nr = models.IntegerField()
-    year = models.IntegerField()
-    week = models.IntegerField()
-    date = models.DateTimeField()
-    url = models.CharField(max_length=300)
-
-    def __str__(self):
-        return self.url
+        return self.period_text
 
 
 class Item(models.Model):
-    source = models.ForeignKey(Source, null=True, on_delete=models.CASCADE)
+    period = models.ForeignKey(Period, on_delete=models.CASCADE)
+    item_title = models.CharField(max_length=100, unique=True)
     item_number = models.IntegerField()
-    item_description = models.CharField(max_length=1000)
-    subject = models.CharField(max_length=1000)
-    unit = models.CharField(max_length=300)
-    item_url = models.CharField(max_length=300)
+    item_text = models.CharField(max_length=300, null=True)
 
     def __str__(self):
-        return self.subject
+        return self.item_title
+
+
+class Subject(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    subject_title = models.CharField(max_length=1000)
+    subject_url = models.CharField(max_length=300, unique=True)
+
+    def __str__(self):
+        return self.subject_url
 
 
 class Act(models.Model):
-    item = models.ForeignKey(Item, null=True, on_delete=models.CASCADE)
-    act_number = models.IntegerField(null=True)
-    type = models.CharField(max_length=32)
-    subject = models.CharField(max_length=1000)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    title = models.CharField(max_length=300)
     content_url = models.CharField(max_length=1000, unique=True)
     content = models.TextField()
 
     def __str__(self):
-        return self.subject
+        return self.title

@@ -5,7 +5,7 @@
     <section>
         <div class="container">
             <div>
-                <form class="search" method="get" action="{% url 'elastic_search_results' %}">
+                <form class="search" method="get" action="{% url 'search_results' %}">
                     <input type="text" name="q" placeholder="Search..." value="{{ request.GET.q }}">
                     <button type="submit">
                         <i class="fa fa-search"></i>

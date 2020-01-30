@@ -1,3 +1,4 @@
+dateparser
 django
 django-elasticsearch-dsl
 requests

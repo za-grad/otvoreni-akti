@@ -29,9 +29,7 @@ class ActDocument(Document):
     class Django:
         model = Act
         fields = [
-            'act_number',
-            'type',
-            'subject',
+            'title',
             'content_url',
         ]
 

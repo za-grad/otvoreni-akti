@@ -36,7 +36,7 @@ def write_period_to_db(period_text: str, period_url: str):
 
 def write_item_to_db(subject_details, period_obj):
     item_number, item_text = parse_item_details(subject_details)
-    item_title = 'Item {} of Period {}'.format(str(item_number), period_obj.period_text)
+    item_title = '#{} from period {}'.format(str(item_number), period_obj.period_text)
     if not Item.objects.filter(item_title=item_title).exists():
         print('Adding item:', item_title)
         new_item = Item(

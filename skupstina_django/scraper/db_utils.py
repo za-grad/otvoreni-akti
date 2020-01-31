@@ -20,6 +20,8 @@ def parse_item_details(subject_details):
 
 def write_period_to_db(period_text: str, period_url: str):
     start_date, end_date = parse_date_range(period_text)
+    date_format = '%d.%b.%Y'
+    period_text = '{} to {}'.format(start_date.strftime(date_format), end_date.strftime(date_format))
     if not Period.objects.filter(period_text=period_text).exists():
         print('Adding period:', period_text)
         new_period = Period(

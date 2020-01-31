@@ -40,7 +40,7 @@ def parse_subjects_list(url: str) -> tuple:
     for table_item in table_items:
         content = table_item.contents[0]
         try:
-            link = content.attrs['href']
+            link = content.attrs['href'].lower()
         except AttributeError:
             continue
         subject_title = content.select('b')[0].contents[0]
@@ -56,7 +56,7 @@ def parse_subject_details(url: str) -> dict:
     subject_details = {'text': text}
 
     act_titles = [el.get_text().strip() for el in soup.select('td a')]
-    act_urls = [el.attrs['href'] for el in soup.select('td a')]
+    act_urls = [el.attrs['href'].lower() for el in soup.select('td a')]
 
     acts = []
     for i, act_url in enumerate(act_urls):
@@ -70,7 +70,7 @@ def parse_subject_details(url: str) -> dict:
 
 
 def scrape_everything(url_suffix: str, akti_file: str):
-    periods_url = root_url + url_suffix
+    periods_url = root_url + url_suffix.lower()
     with open('scrapes_completed.txt', 'a', encoding='utf8') as f:
         # Create a new file if not already created
         pass
@@ -80,7 +80,7 @@ def scrape_everything(url_suffix: str, akti_file: str):
                 if act_period not in scrapes_completed.read():
                     act_period = act_period.strip()
                     print('\nScraping period: ', act_period)
-                    url = (periods_url + act_period).replace(' ', '%20')
+                    url = (periods_url + act_period).replace(' ', '%20').lower()
                     print(url)
                     period_obj = write_period_to_db(act_period, url)
                     subjects, num_els = parse_subjects_list(url)

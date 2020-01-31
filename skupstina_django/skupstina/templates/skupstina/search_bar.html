@@ -13,9 +13,9 @@
 
                     {% if request.GET %}
                         <span class="text-muted">Filter results by date:</span><br>
-                        <input type="date" name="start_date" placeholder="YYYY/MM/DD" value="{{ request.GET.start_date }}">
+                        <input type="date" name="start_date" value="{{ request.GET.start_date }}">
                         to
-                        <input type="date" name="end_date" placeholder="End Date" value="{{ request.GET.end_date }}">
+                        <input type="date" name="end_date" value="{{ request.GET.end_date }}">
                     {% endif %}
 
                 </form>

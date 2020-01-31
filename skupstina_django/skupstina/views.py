@@ -1,3 +1,4 @@
+import time
 from datetime import datetime
 from django.shortcuts import render
 from django.core.paginator import Paginator
@@ -21,7 +22,9 @@ def search_results(request):
             # If no user input, sets default end date to today
             end_date = str(datetime.now())
 
+        t1 = time.time()
         results = elastic_search(search_term, start_date=start_date, end_date=end_date)
+        time_taken = '{0:.5g}'.format(time.time()-t1)
         num_results = len(results)
 
         # Pagination
@@ -31,10 +34,11 @@ def search_results(request):
         context = {
             'results': results,
             'num_results': num_results,
+            'time_taken': time_taken,
             'base_url': base_url,
             }
         return render(request, 'skupstina/search_results.html', context)
 
 
-def search_bar(request):
-    return render(request, 'skupstina/search_bar.html')
+def search_home(request):
+    return render(request, 'skupstina/search_home.html')

@@ -1,15 +1,15 @@
-{% extends 'skupstina/search_bar.html' %}
+{% extends 'skupstina/search_home.html' %}
 
 {% block search_results %}
     <div class="container">
-        <p class="mt-2">{{ num_results }} results found:</p>
+        <p class="mt-2">{{ num_results }} results ({{ time_taken }} seconds):</p>
         {% for result in results %}
             <div class="mb-5 mt-2">
                 <h6>
-                    <a href="{{base_url}}{{result.content_url}}">{{result.title}}</a>
+                    <a href="{{base_url}}{{result.content_url}}" target="_blank">{{result.title}}</a>
                 </h6>
-                <span class="subject">Subject: <a href="{{ result.subject.subject_url }}">{{ result.subject.subject_title }}</a></span><br>
-                <span class="period">Item: <a href="{{ result.subject.item.period.period_url }}">{{ result.subject.item.item_title }}</a></span><br>
+                <span class="subject">Subject: <a href="{{ result.subject.subject_url }}" target="_blank">{{ result.subject.subject_title }}</a></span><br>
+                <span class="period">Item: <a href="{{ result.subject.item.period.period_url }}" target="_blank">{{ result.subject.item.item_title }}</a></span><br>
                 {% for fragment in result.meta.highlight.content %}
                     <span class="highlight text-muted">{{ fragment|safe }}</span>
                 {% endfor %}

@@ -2,9 +2,9 @@
 
 {% block search_results %}
     <div class="container">
-        <p>{{ num_results }} results found:</p>
+        <p class="mt-2">{{ num_results }} results found:</p>
         {% for result in results %}
-            <div class="mb-5 mt-5">
+            <div class="mb-5 mt-2">
                 <h6>
                     <a href="{{base_url}}{{result.content_url}}">{{result.title}}</a>
                 </h6>

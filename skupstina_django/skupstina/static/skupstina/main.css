@@ -8,14 +8,26 @@
 }
 
 /* Style the search field */
-form.search input[type=text] {
+form.search input {
     padding: 10px;
     font-size: 15px;
     border: 1px solid grey;
+    background: #f1f1f1;
+}
+
+form.search input[type=text] {
     border-radius: 5px 0px 0px 5px;
     float: left;
     width: 90%;
-    background: #f1f1f1;
+}
+
+form.search input[type=date] {
+    margin-top: 5px;
+    border-radius: 5px;
+}
+
+form.search span {
+    font-size: smaller;
 }
 
 /* Style the submit button */

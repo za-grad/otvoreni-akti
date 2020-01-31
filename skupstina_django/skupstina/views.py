@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import render
 from django.core.paginator import Paginator
 from .utils import elastic_search
@@ -9,7 +10,18 @@ def search_results(request):
     if request.GET:
         page = request.GET.get('page')
         search_term = request.GET.get('q')
-        results = elastic_search(search_term)
+        start_date = request.GET.get('start_date')
+        end_date = request.GET.get('end_date')
+
+        if not start_date:
+            # If no user input, sets default start date to 1 Jan 1900
+            start_date = str(datetime(1900, 1, 1, 0, 0))
+
+        if not end_date:
+            # If no user input, sets default end date to today
+            end_date = str(datetime.now())
+
+        results = elastic_search(search_term, start_date=start_date, end_date=end_date)
         num_results = len(results)
 
         # Pagination

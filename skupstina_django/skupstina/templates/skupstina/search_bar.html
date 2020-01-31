@@ -10,11 +10,18 @@
                     <button type="submit">
                         <i class="fa fa-search"></i>
                     </button>
+
+                    {% if request.GET %}
+                        <span class="text-muted">Filter results by date:</span><br>
+                        <input type="date" name="start_date" placeholder="YYYY/MM/DD" value="{{ request.GET.start_date }}">
+                        to
+                        <input type="date" name="end_date" placeholder="End Date" value="{{ request.GET.end_date }}">
+                    {% endif %}
+
                 </form>
             </div>
 
             <div class = "collapsibleList text-muted">
-                <br><br>
                 <label for="search_features">Click here for search features</label>
                 <input type="checkbox" id="search_features" />
                 <ul>

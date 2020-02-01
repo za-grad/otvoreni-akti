@@ -1,9 +1,9 @@
 import re
 import time
-import requests
 from requests import exceptions
 from bs4 import BeautifulSoup
 from .db_utils import write_period_to_db, write_subject_to_db, write_act_to_db
+from .scrape_utils_requests import requests_retry_session
 
 root_url = 'http://web.zagreb.hr'
 
@@ -14,7 +14,7 @@ def get_visible_text(soup) -> str:
         # Regex to extract redirect URL from the 'else' branch of Javascript code
         result = re.search('else\n {4}location.replace[(]"(.*)"[)];', soup.getText())
         act_url = result.group(1)
-        site = requests.get(root_url + act_url).content
+        site = requests_retry_session().get(root_url + act_url).content
         soup = BeautifulSoup(site, 'html.parser')
         text = get_visible_text(soup)
         return text
@@ -32,7 +32,7 @@ def get_visible_text(soup) -> str:
 
 
 def parse_subjects_list(url: str) -> tuple:
-    site = requests.get(url).content
+    site = requests_retry_session().get(url).content
     soup = BeautifulSoup(site, 'html.parser')
     table_items = soup.select('.centralTD ul ol li')
     print(len(table_items), ' elements')
@@ -49,7 +49,7 @@ def parse_subjects_list(url: str) -> tuple:
 
 
 def parse_subject_details(url: str) -> dict:
-    site = requests.get(url).content
+    site = requests_retry_session().get(url).content
     soup = BeautifulSoup(site, 'html.parser')
 
     text = get_visible_text(soup)
@@ -60,7 +60,7 @@ def parse_subject_details(url: str) -> dict:
 
     acts = []
     for i, act_url in enumerate(act_urls):
-        site = requests.get(root_url + act_url).content
+        site = requests_retry_session().get(root_url + act_url).content
         soup = BeautifulSoup(site, 'html.parser')
         act_content = get_visible_text(soup)
         act_title = act_titles[i]
@@ -72,10 +72,14 @@ def parse_subject_details(url: str) -> dict:
 def scrape_engine(act_period: str, periods_url: str) -> None:
     """
     Scraper engine used to scrape open act.
-    :param act_period: Example: '20. siječnja 2020. - 24.siječnja 2020'
-    :param periods_url: Example: 'http://web.zagreb.hr/sjednice/2017/Sjednice_2017.nsf/DRJ?OpenAgent&'
+
+    :param str act_period:
+        Example: '20. siječnja 2020. - 24.siječnja 2020'
+
+    :param str periods_url:
+        Example: 'http://web.zagreb.hr/sjednice/2017/Sjednice_2017.nsf/DRJ?OpenAgent&'
     """
-    act_period = act_period.strip()
+    act_period = act_period.strip().lower()
     print('\nScraping period: ', act_period)
     url = (periods_url + act_period).replace(' ', '%20').lower()
     print(url)
@@ -108,8 +112,12 @@ def scrape_engine(act_period: str, periods_url: str) -> None:
 def scrape_last(last_n_periods: int, url_suffix: str) -> None:
     """
     Scrapes the last n periods once again from the scrapes_completed file.
-    :param last_n_periods: Number of entries to scrape from scrapes_completed file
-    :param url_suffix: URL suffix for which range of years to scrape
+
+    :param int last_n_periods:
+        Number of entries to scrape from scrapes_completed file.
+
+    :param str url_suffix:
+        URL suffix for which range of years to scrape.
     """
     periods_url = root_url + url_suffix.lower()
     with open('scrapes_completed.txt', 'r', encoding='utf8') as f:
@@ -123,15 +131,19 @@ def scrape_last(last_n_periods: int, url_suffix: str) -> None:
 def scrape_everything(url_suffix: str, akti_file: str) -> None:
     """
     Initial scrape to scrape all open acts.
-    :param url_suffix: URL suffix for which range of years to scrape
-    :param akti_file: File containing list of periods containing open acts
+
+    :param str url_suffix:
+        URL suffix for which range of years to scrape
+
+    :param str akti_file:
+        File containing list of periods containing open acts
     """
     periods_url = root_url + url_suffix.lower()
     with open('scrapes_completed.txt', 'a', encoding='utf8') as f:
         # Create a new file if not already created
         pass
     with open('scraper/data/' + akti_file, encoding='utf8') as periods_fd:
-        for act_period in list(periods_fd)[:2]:
+        for act_period in list(periods_fd):
             with open('scrapes_completed.txt', 'r+', encoding='utf8') as scrapes_completed:
                 if act_period not in scrapes_completed.read():
                     scrape_engine(act_period, periods_url)

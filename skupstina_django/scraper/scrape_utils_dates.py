@@ -1,5 +1,5 @@
-import requests
 from bs4 import BeautifulSoup
+from .scrape_utils_requests import requests_retry_session
 
 
 def extract_months(year, url):
@@ -12,7 +12,7 @@ def extract_months(year, url):
         'rb_godina': year,
         '% % Surrogate_rb_sjednice': 1,
     }
-    site = requests.post(url, data=payload).content
+    site = requests_retry_session().post(url, data=payload).content
     soup = BeautifulSoup(site, 'html.parser')
     months_soup = soup.find("select", {'name': 'rb_sjednice'}).findAll('option')
     month_list = months_soup[0].text.split('\n')
@@ -24,7 +24,7 @@ def extract_months(year, url):
 def extract_dates(period, url):
     with open('scraper/data/akti_' + period + '.txt', 'r+', encoding='utf8') as periods_fd:
         months_on_file = periods_fd.read().splitlines()
-        site = requests.get(url).content
+        site = requests_retry_session().get(url).content
         soup = BeautifulSoup(site, 'html.parser')
         years_soup = soup.find("select", {'name': 'rb_godina'}).findAll('option')
         # Get list of years in descending order

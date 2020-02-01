@@ -10,18 +10,21 @@ base_url = 'http://web.zagreb.hr/'
 def elastic_search(search_term, *args, **kwargs):
     """
     Search function using Elasticsearch.
+
     :param search_term:
-    Search term input by user
-    Accepts the following keywords inside search_term:
-    'AND' : Use AND before search terms that must be included
-    'NOT' : Use NOT before search terms that must be excluded
-    'OR' : Use OR or space between search terms to include all terms
-    "" : Search terms inside quotation marks will be searched for an exact match
+        Search term input by user
+        Accepts the following keywords inside search_term:
+        'AND' : Use AND before search terms that must be included
+        'NOT' : Use NOT before search terms that must be excluded
+        'OR' : Use OR or space between search terms to include all terms
+        "" : Search terms inside quotation marks will be searched for an exact match
+
     :param kwargs:
-    'start_date' : Excludes any results before start_date
-    'end_date' : Excludes any results after end_date
+        'start_date' : Excludes any results before start_date
+        'end_date' : Excludes any results after end_date
+
     :return: results:
-    Returns search results to view
+        Returns search results to view
     """
     # Regex to search for exact terms within quotation marks
     exact_search_terms = re.findall(r'"(.*?)"', search_term)

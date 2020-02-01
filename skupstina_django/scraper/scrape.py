@@ -23,4 +23,4 @@ for k, v in sidebar_dict.items():
 
 for k, v in akti_dict.items():
     print('Scrape started for date ranges in {}'.format(k))
-    subjects = scrape_everything(akti_file=k, url_suffix=v)
+    scrape_everything(akti_file=k, url_suffix=v)

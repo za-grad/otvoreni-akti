@@ -69,7 +69,63 @@ def parse_subject_details(url: str) -> dict:
     return subject_details
 
 
-def scrape_everything(url_suffix: str, akti_file: str):
+def scrape_engine(act_period: str, periods_url: str) -> None:
+    """
+    Scraper engine used to scrape open act.
+    :param act_period: Example: '20. siječnja 2020. - 24.siječnja 2020'
+    :param periods_url: Example: 'http://web.zagreb.hr/sjednice/2017/Sjednice_2017.nsf/DRJ?OpenAgent&'
+    """
+    act_period = act_period.strip()
+    print('\nScraping period: ', act_period)
+    url = (periods_url + act_period).replace(' ', '%20').lower()
+    print(url)
+    period_obj = write_period_to_db(act_period, url)
+    subjects, num_els = parse_subjects_list(url)
+    for subject in subjects:
+        parse_complete = False
+        max_retries = 10
+        sleep_time = 10
+        print('Parsing ', subject['subject_url'])
+        while not parse_complete and max_retries > 0:
+            try:
+                subject_details = parse_subject_details(subject['subject_url'])
+                parse_complete = True
+            except exceptions.ConnectionError as e:
+                parse_complete = False
+                max_retries -= 1
+                print('Connection Error while parsing {}:\n{}\n'.format(subject['subject_url'], e))
+                print('Retrying...\n')
+                time.sleep(sleep_time)
+        if max_retries == 0:
+            print('Maximum retries exceeded. Please run the scraper again.\n')
+            raise exceptions.ConnectionError
+        subject['details'] = subject_details
+        subject_obj = write_subject_to_db(subject, period_obj)
+        write_act_to_db(subject['details']['acts'], subject_obj)
+        print('Parsed  ', subject['subject_url'], ' **')
+
+
+def scrape_last(last_n_periods: int, url_suffix: str) -> None:
+    """
+    Scrapes the last n periods once again from the scrapes_completed file.
+    :param last_n_periods: Number of entries to scrape from scrapes_completed file
+    :param url_suffix: URL suffix for which range of years to scrape
+    """
+    periods_url = root_url + url_suffix.lower()
+    with open('scrapes_completed.txt', 'r', encoding='utf8') as f:
+        for i, act_period in enumerate(list(f)):
+            if i < last_n_periods:
+                scrape_engine(act_period, periods_url)
+            else:
+                break
+
+
+def scrape_everything(url_suffix: str, akti_file: str) -> None:
+    """
+    Initial scrape to scrape all open acts.
+    :param url_suffix: URL suffix for which range of years to scrape
+    :param akti_file: File containing list of periods containing open acts
+    """
     periods_url = root_url + url_suffix.lower()
     with open('scrapes_completed.txt', 'a', encoding='utf8') as f:
         # Create a new file if not already created
@@ -78,32 +134,5 @@ def scrape_everything(url_suffix: str, akti_file: str):
         for act_period in list(periods_fd)[:2]:
             with open('scrapes_completed.txt', 'r+', encoding='utf8') as scrapes_completed:
                 if act_period not in scrapes_completed.read():
-                    act_period = act_period.strip()
-                    print('\nScraping period: ', act_period)
-                    url = (periods_url + act_period).replace(' ', '%20').lower()
-                    print(url)
-                    period_obj = write_period_to_db(act_period, url)
-                    subjects, num_els = parse_subjects_list(url)
-                    for subject in subjects:
-                        parse_complete = False
-                        max_retries = 10
-                        sleep_time = 10
-                        print('Parsing ', subject['subject_url'])
-                        while not parse_complete and max_retries > 0:
-                            try:
-                                subject_details = parse_subject_details(subject['subject_url'])
-                                parse_complete = True
-                            except exceptions.ConnectionError as e:
-                                parse_complete = False
-                                max_retries -= 1
-                                print('Connection Error while parsing {}:\n{}\n'.format(subject['subject_url'], e))
-                                print('Retrying...\n')
-                                time.sleep(sleep_time)
-                        if max_retries == 0:
-                            print('Maximum retries exceeded. Please run the scraper again.\n')
-                            raise exceptions.ConnectionError
-                        subject['details'] = subject_details
-                        subject_obj = write_subject_to_db(subject, period_obj)
-                        write_act_to_db(subject['details']['acts'], subject_obj)
-                        print('Parsed  ', subject['subject_url'], ' **')
-                    scrapes_completed.write('{}\n'.format(act_period))
+                    scrape_engine(act_period, periods_url)
+                    scrapes_completed.write('{}'.format(act_period))

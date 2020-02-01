@@ -25,7 +25,7 @@ class Item(models.Model):
 class Subject(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     subject_title = models.CharField(max_length=1000)
-    subject_url = models.CharField(max_length=300, unique=True)
+    subject_url = models.CharField(max_length=1000, unique=True)
 
     def __str__(self):
         return self.subject_url
@@ -33,7 +33,7 @@ class Subject(models.Model):
 
 class Act(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    title = models.CharField(max_length=300)
+    title = models.CharField(max_length=1000)
     content_url = models.CharField(max_length=1000, unique=True)
     content = models.TextField()
 

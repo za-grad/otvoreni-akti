@@ -5,6 +5,9 @@ from skupstina.models import Period, Item, Subject, Act
 
 def parse_date_range(date_range: str) -> tuple:
     """Parses Croatian date range to return datetime objects."""
+    if 'studenog' in date_range:
+        # Parser cannot parse 'studenog' for some reason
+        date_range = date_range.replace('studenog', 'studeni')
     start_date, end_date = date_range.split(' - ')
     start_date = dateparser.parse(start_date, languages=['hr'])
     end_date = dateparser.parse(end_date, languages=['hr'])

@@ -3,8 +3,7 @@ from datetime import datetime
 from django.shortcuts import render
 from django.core.paginator import Paginator
 from .utils import elastic_search
-
-base_url = 'http://web.zagreb.hr'
+from skupstina_django.settings import ACTS_ROOT_URL as root_url
 
 
 def search_results(request):
@@ -35,7 +34,7 @@ def search_results(request):
             'results': results,
             'num_results': num_results,
             'time_taken': time_taken,
-            'base_url': base_url,
+            'root_url': root_url,
             }
         return render(request, 'skupstina/search_results.html', context)
 

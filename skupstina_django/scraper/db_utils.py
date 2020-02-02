@@ -81,5 +81,6 @@ def write_act_to_db(acts: dict, subject_obj):
                 title=act['act_title'],
                 content=act['act_content'],
                 content_url=act['act_url'],
+                file_type=act['act_file_type'],
             )
             new_act.save()

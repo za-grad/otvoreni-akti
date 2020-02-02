@@ -4,6 +4,7 @@ from requests import exceptions
 from bs4 import BeautifulSoup
 from .db_utils import write_period_to_db, write_subject_to_db, write_act_to_db
 from .scrape_utils_requests import requests_retry_session
+from .scrape_utils_docu import parse_document_link
 
 root_url = 'http://web.zagreb.hr'
 
@@ -64,7 +65,29 @@ def parse_subject_details(url: str) -> dict:
         soup = BeautifulSoup(site, 'html.parser')
         act_content = get_visible_text(soup)
         act_title = act_titles[i]
-        acts.append({'act_content': act_content, 'act_url': act_url, 'act_title': act_title})
+        acts.append(
+            {
+                'act_content': act_content,
+                'act_url': act_url,
+                'act_title': act_title,
+                'act_file_type': 'HTML',
+            }
+        )
+
+    # Check for word or pdf attachments
+    if "<a href='" in text:
+        # Regex to extract link to document
+        docu_urls = re.findall("<a href='(.*)','Dokument", text)
+        for docu_url in docu_urls:
+            docu_title, docu_raw_data, docu_file_type = parse_document_link(docu_url)
+            acts.append(
+                {
+                    'act_content': docu_raw_data,
+                    'act_url': docu_url,
+                    'act_title': docu_title,
+                    'act_file_type': docu_file_type,
+                }
+            )
     subject_details['acts'] = acts
     return subject_details
 

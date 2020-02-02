@@ -1,4 +1,4 @@
-from .scrape_utils_data import scrape_everything
+from .scrape_utils_html import scrape_everything
 from .scrape_utils_dates import extract_dates
 
 # Dictionary linking each akti_*.txt file to its unique URL

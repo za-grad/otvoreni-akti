@@ -32,10 +32,22 @@ class Subject(models.Model):
 
 
 class Act(models.Model):
+    CHOICES = [
+        ('HTML', 'HTML'),
+        ('docx', 'docx'),
+        ('pdf', 'pdf'),
+        ('unknown', 'unknown')
+    ]
+
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     title = models.CharField(max_length=1000)
     content_url = models.CharField(max_length=1000, unique=True)
     content = models.TextField()
+    file_type = models.CharField(
+        max_length=20,
+        default='HTML',
+        choices=CHOICES,
+    )
 
     def __str__(self):
         return self.title

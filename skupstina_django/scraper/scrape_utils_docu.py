@@ -28,10 +28,17 @@ def parse_document_link(docu_url: str) -> tuple:
     docu_text = soup.select('tr td b font')
     docu_link = soup.select('tr td a')[0].attrs['href']
     docu_title = ''
+
+    # Strip all <br/> from soup
+    for br in soup.findAll('br'):
+        br.extract()
+
+    # Get document title
     for sub_docu_text in docu_text:
         if sub_docu_text.contents:
             if sub_docu_text.contents[0] != 'Dodatni opis':
                 docu_title += sub_docu_text.contents[0] + ' '
+
     docu_file_type = 'unknown'
     if '.docx' in docu_link in docu_link:
         docu_raw_data = extract_docxfile_data(root_url + docu_link)

@@ -1,5 +1,5 @@
 import io
-import docx
+import docx2txt
 from PyPDF2 import PdfFileReader
 from bs4 import BeautifulSoup
 from .scrape_utils_requests import requests_retry_session
@@ -9,11 +9,7 @@ from skupstina_django.settings import ACTS_ROOT_URL as root_url
 def extract_docxfile_data(url_docx: str) -> str:
     response = requests_retry_session().get(url_docx)
     file = io.BytesIO(response.content)
-    doc = docx.Document(file)
-    doc_raw_data = ''
-    for para in doc.paragraphs:
-        doc_raw_data += para.text + '\n'
-    return doc_raw_data
+    return docx2txt.process(file)
 
 
 def extract_pdffile_data(url_pdf: str) -> str:
@@ -31,7 +27,11 @@ def parse_document_link(docu_url: str) -> tuple:
     soup = BeautifulSoup(site, 'html.parser')
     docu_text = soup.select('tr td b font')
     docu_link = soup.select('tr td a')[0].attrs['href']
-    docu_title = '{}: {}'.format(docu_text[0].contents[0], docu_text[1].contents[0])
+    docu_title = ''
+    for sub_docu_text in docu_text:
+        if sub_docu_text.contents:
+            if sub_docu_text.contents[0] != 'Dodatni opis':
+                docu_title += sub_docu_text.contents[0] + ' '
     docu_file_type = 'unknown'
     if '.docx' in docu_link in docu_link:
         docu_raw_data = extract_docxfile_data(root_url + docu_link)

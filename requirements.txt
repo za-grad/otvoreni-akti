@@ -4,6 +4,8 @@ django-elasticsearch-dsl
 requests
 beautifulsoup4
 psycopg2-binary
+PyPDF2
+docx2txt
 honcho
 python-dotenv
 ipython

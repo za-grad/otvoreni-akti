@@ -5,8 +5,7 @@ from bs4 import BeautifulSoup
 from .db_utils import write_period_to_db, write_subject_to_db, write_act_to_db
 from .scrape_utils_requests import requests_retry_session
 from .scrape_utils_docu import parse_document_link
-
-root_url = 'http://web.zagreb.hr'
+from skupstina_django.settings import ACTS_ROOT_URL as root_url
 
 
 def get_visible_text(soup) -> str:

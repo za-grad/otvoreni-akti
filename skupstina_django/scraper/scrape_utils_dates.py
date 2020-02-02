@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from .scrape_utils_requests import requests_retry_session
+from skupstina_django.settings import ACTS_ROOT_URL as root_url
 
 
 def extract_months(year, url):
@@ -22,6 +23,7 @@ def extract_months(year, url):
 
 
 def extract_dates(period, url):
+    url = root_url + url
     with open('scraper/data/akti_' + period + '.txt', 'r+', encoding='utf8') as periods_fd:
         months_on_file = periods_fd.read().splitlines()
         site = requests_retry_session().get(url).content

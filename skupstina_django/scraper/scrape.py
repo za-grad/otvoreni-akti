@@ -10,9 +10,9 @@ akti_dict = {
 
 # Dictionary linking each Act database to its sidebar URL
 sidebar_dict = {
-    '2017-20xx': 'http://web.zagreb.hr/sjednice/2017/Sjednice_2017.nsf/web_pretraga?OpenForm&BaseTarget=desni',
-    '2013-2017': 'http://web.zagreb.hr/sjednice/2013/Sjednice_2013.nsf/web_pretraga?OpenForm&BaseTarget=desni',
-    '2009-2013': 'http://web.zagreb.hr/sjednice/Sjednice_2009.nsf/web_pretraga?OpenForm&BaseTarget=desni',
+    '2017-20xx': '/sjednice/2017/Sjednice_2017.nsf/web_pretraga?OpenForm&BaseTarget=desni',
+    '2013-2017': '/sjednice/2013/Sjednice_2013.nsf/web_pretraga?OpenForm&BaseTarget=desni',
+    '2009-2013': '/sjednice/Sjednice_2009.nsf/web_pretraga?OpenForm&BaseTarget=desni',
 }
 
 

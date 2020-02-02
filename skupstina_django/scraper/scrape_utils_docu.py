@@ -3,8 +3,7 @@ import docx
 from PyPDF2 import PdfFileReader
 from bs4 import BeautifulSoup
 from .scrape_utils_requests import requests_retry_session
-
-root_url = 'http://web.zagreb.hr'
+from skupstina_django.settings import ACTS_ROOT_URL as root_url
 
 
 def extract_docxfile_data(url_docx: str) -> str:

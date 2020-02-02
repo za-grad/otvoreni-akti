@@ -6,7 +6,16 @@
         {% for result in results %}
             <div class="mb-5 mt-2">
                 <h6>
-                    <a href="{{base_url}}{{result.content_url}}" target="_blank">{{result.title}}</a>
+                    <a href="{{base_url}}{{result.content_url}}" target="_blank">
+                        {{result.title}}
+                        {% if result.file_type == 'docx' %}
+                            <i class="far fa-file-word"></i>
+                        {% elif result.file_type == 'pdf' %}
+                            <i class="far fa-file-pdf"></i>
+                        {% elif result.file_type == 'unknown' %}
+                            <i class="far fa-file-alt"></i>
+                        {% endif %}
+                    </a>
                 </h6>
                 <span class="subject">Subject: <a href="{{ result.subject.subject_url }}" target="_blank">{{ result.subject.subject_title }}</a></span><br>
                 <span class="period">Item: <a href="{{ result.subject.item.period.period_url }}" target="_blank">{{ result.subject.item.item_title }}</a></span><br>

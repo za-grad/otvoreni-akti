@@ -5,6 +5,9 @@ from skupstina.models import Period, Item, Subject, Act
 
 def parse_date_range(date_range: str) -> tuple:
     """Parses Croatian date range to return datetime objects."""
+    if 'studenog' in date_range:
+        # Parser cannot parse 'studenog' for some reason
+        date_range = date_range.replace('studenog', 'studeni')
     start_date, end_date = date_range.split(' - ')
     start_date = dateparser.parse(start_date, languages=['hr'])
     end_date = dateparser.parse(end_date, languages=['hr'])
@@ -20,6 +23,8 @@ def parse_item_details(subject_details):
 
 def write_period_to_db(period_text: str, period_url: str):
     start_date, end_date = parse_date_range(period_text)
+    date_format = '%d.%b.%Y'
+    period_text = '{} to {}'.format(start_date.strftime(date_format), end_date.strftime(date_format))
     if not Period.objects.filter(period_text=period_text).exists():
         print('Adding period:', period_text)
         new_period = Period(
@@ -76,5 +81,6 @@ def write_act_to_db(acts: dict, subject_obj):
                 title=act['act_title'],
                 content=act['act_content'],
                 content_url=act['act_url'],
+                file_type=act['act_file_type'],
             )
             new_act.save()

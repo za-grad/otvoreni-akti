@@ -51,8 +51,6 @@ dump.rdb
 # PyCharm stuff
 .idea/
 
-# Scraper stuff
-
 # locally persisted stuff
 *.db
 *.pkl

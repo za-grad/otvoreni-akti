@@ -1,1 +1,1 @@
-web: gunicorn skupstina_django.wsgi --pythonpath skupstina_django
+web: gunicorn otvoreni_akti.wsgi --pythonpath otvoreni_akti

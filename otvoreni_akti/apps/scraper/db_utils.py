@@ -1,6 +1,6 @@
 import dateparser
 import re
-from skupstina.models import Period, Item, Subject, Act
+from otvoreni_akti.apps.search.models import Period, Item, Subject, Act
 
 
 def parse_date_range(date_range: str) -> tuple:

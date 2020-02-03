@@ -10,24 +10,38 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
-import os
-from dotenv import load_dotenv
+import environ
+from django.core.exceptions import ImproperlyConfigured
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DOTENV_PATH = os.path.abspath(os.path.join(__file__, "../../../.env"))
-load_dotenv(DOTENV_PATH)
+env = environ.Env( # set default values and casting
+    DEBUG=(bool, False),
+    DEPLOYMENT=(str, 'prod'),
+    SECRET_KEY=(str, '9c-cjj9*1idd#prb#+1%=a1&&avhk2po#*5u$(=4-cj28!3+6*'),
+)
+# Build paths inside the project like this: base('desired/local/path')
+# - the path containing manage.py
+#   (e.g. ~/code/posterbat)
+base = environ.Path(__file__) - 3 # two folders back (/a/b/ - 2 = /)
+BASE_DIR = base()
+#BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# - the Django project root containing settings.py
+# (e.g. ~/code/posterbat/posterbat)
+root = environ.Path(__file__) - 1
+PROJECT_ROOT = root()
+#PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+environ.Env.read_env(env_file=base('.env')) # reading .env file
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+SECRET_KEY = env('SECRET_KEY') # default used if not in os.environ
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG') # False if not in os.environ
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -86,19 +100,8 @@ WSGI_APPLICATION = 'skupstina_django.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        # Uncomment to use SQLite3 database
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-
-        # PostgreSQL database
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'skupstina',
-        'USER': 'skupstina',
-        'PASSWORD': 'skupstina',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-    }
+    # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
+    'default': env.db(),
 }
 
 

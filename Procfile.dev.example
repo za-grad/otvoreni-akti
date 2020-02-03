@@ -1,2 +1,2 @@
 pg: postgres -D tmp/postgres -p 5432
-python manage.py runserver
+web: (cd skupstina_django; python manage.py runserver)

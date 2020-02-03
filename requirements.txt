@@ -1,6 +1,7 @@
 dateparser
 django
 django-elasticsearch-dsl
+django-environ
 gunicorn
 requests
 beautifulsoup4
@@ -8,6 +9,5 @@ psycopg2-binary
 PyPDF2
 docx2txt
 honcho
-python-dotenv
 ipython
 ipdb

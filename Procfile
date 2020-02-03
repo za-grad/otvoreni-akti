@@ -1,0 +1,1 @@
+web: gunicorn skupstina_django.wsgi --pythonpath skupstina_django

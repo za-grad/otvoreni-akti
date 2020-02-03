@@ -3,7 +3,7 @@
 Set up a virtualenv:
 
 ```bash
-python3 -m venv .venv --prompt skupstina
+python3 -m venv --prompt otvoreni-akti .venv
 source ./.venv/bin/activate
 pip install -r requirements.txt
 ```

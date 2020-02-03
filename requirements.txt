@@ -1,6 +1,7 @@
 dateparser
 django
 django-elasticsearch-dsl
+gunicorn
 requests
 beautifulsoup4
 psycopg2-binary

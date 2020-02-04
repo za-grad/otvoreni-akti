@@ -3,7 +3,7 @@ from datetime import datetime
 from django.shortcuts import render
 from django.core.paginator import Paginator
 from .utils import elastic_search
-from skupstina_django.settings import ACTS_ROOT_URL as root_url
+from otvoreni_akti.settings import ACTS_ROOT_URL as root_url
 
 
 def search_results(request):
@@ -36,8 +36,8 @@ def search_results(request):
             'time_taken': time_taken,
             'root_url': root_url,
             }
-        return render(request, 'skupstina/search_results.html', context)
+        return render(request, 'search/search_results.html', context)
 
 
 def search_home(request):
-    return render(request, 'skupstina/search_home.html')
+    return render(request, 'search/search_home.html')

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from skupstina.views import search_results, search_home
+from .apps.search.views import search_results, search_home
 
 urlpatterns = [
     path('admin/', admin.site.urls),

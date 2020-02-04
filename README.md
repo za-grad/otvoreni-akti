@@ -21,9 +21,9 @@ Set up the database:
 mkdir -p tmp/postgres
 initdb tmp/postgres
 postgres -D tmp/postgres -p 5432
-psql postgres -p 5432 -c "create user skupstina with password 'skupstina';"
-psql postgres -p 5432 -c "create database skupstina encoding 'utf8' template template0 owner skupstina;"
-psql skupstina -p 5432 -c "create extension hstore;"
+psql postgres -p 5432 -c "create user otvoreniakti with password 'otvoreniakti';"
+psql postgres -p 5432 -c "create database otvoreniakti encoding 'utf8' template template0 owner otvoreniakti;"
+psql otvoreniakti -p 5432 -c "create extension hstore;"
 ```
 
 Then when normally developing:
@@ -35,10 +35,9 @@ honcho -f Procfile.dev start
 Scrape the web and populate Django DB:
 
 ```bash
-cd skupstina_django
 python manage.py migrate
 python manage.py shell
-from scraper import scrape
+from otvoreni_akti.apps.scraper import scrape
 ```
 
 Running Elasticsearch:

@@ -38,13 +38,13 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('subject_title', models.CharField(max_length=1000)),
                 ('subject_url', models.CharField(max_length=1000, unique=True)),
-                ('item', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='skupstina.Item')),
+                ('item', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='search.Item')),
             ],
         ),
         migrations.AddField(
             model_name='item',
             name='period',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='skupstina.Period'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='search.Period'),
         ),
         migrations.CreateModel(
             name='Act',
@@ -54,7 +54,7 @@ class Migration(migrations.Migration):
                 ('content_url', models.CharField(max_length=1000, unique=True)),
                 ('content', models.TextField()),
                 ('file_type', models.CharField(choices=[('HTML', 'HTML'), ('docx', 'docx'), ('pdf', 'pdf'), ('unknown', 'unknown')], default='HTML', max_length=20)),
-                ('subject', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='skupstina.Subject')),
+                ('subject', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='search.Subject')),
             ],
         ),
     ]

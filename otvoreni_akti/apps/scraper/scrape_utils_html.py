@@ -2,10 +2,11 @@ import re
 import time
 from requests import exceptions
 from bs4 import BeautifulSoup
+from .models import ScraperPeriod
 from .db_utils import write_period_to_db, write_subject_to_db, write_act_to_db
 from .scrape_utils_requests import requests_retry_session
 from .scrape_utils_docu import parse_document_link
-from skupstina_django.settings import ACTS_ROOT_URL as root_url
+from otvoreni_akti.settings import ACTS_ROOT_URL as root_url
 
 
 def get_visible_text(soup) -> str:
@@ -131,42 +132,30 @@ def scrape_engine(act_period: str, periods_url: str) -> None:
         print('Parsed  ', subject['subject_url'], ' **')
 
 
-def scrape_last(last_n_periods: int, url_suffix: str) -> None:
+def scrape_everything(year_range: str, url_suffix: str, *args, **kwargs) -> None:
     """
-    Scrapes the last n periods once again from the scrapes_completed file.
-
-    :param int last_n_periods:
-        Number of entries to scrape from scrapes_completed file.
+    Initial scrape to scrape all open acts with an option to scrape last n dates.
 
     :param str url_suffix:
         URL suffix for which range of years to scrape.
+
+    :param str year_range:
+        Range of years to scrape from.
+        Example: '2017-20xx'
+
+    :param kwargs:
+        int scrape_last_n: Scrapes only the last 'scrape_last_n' acts in 'year_range'
     """
     periods_url = root_url + url_suffix.lower()
-    with open('scrapes_completed.txt', 'r', encoding='utf8') as f:
-        for i, act_period in enumerate(list(f)):
-            if i < last_n_periods:
-                scrape_engine(act_period, periods_url)
-            else:
-                break
-
-
-def scrape_everything(url_suffix: str, akti_file: str) -> None:
-    """
-    Initial scrape to scrape all open acts.
-
-    :param str url_suffix:
-        URL suffix for which range of years to scrape
-
-    :param str akti_file:
-        File containing list of periods containing open acts
-    """
-    periods_url = root_url + url_suffix.lower()
-    with open('scrapes_completed.txt', 'a', encoding='utf8') as f:
-        # Create a new file if not already created
-        pass
-    with open('scraper/data/' + akti_file, encoding='utf8') as periods_fd:
-        for act_period in list(periods_fd):
-            with open('scrapes_completed.txt', 'r+', encoding='utf8') as scrapes_completed:
-                if act_period not in scrapes_completed.read():
-                    scrape_engine(act_period, periods_url)
-                    scrapes_completed.write('{}'.format(act_period))
+    count = 0
+    for scraper_period in ScraperPeriod.objects.all().order_by('-start_date'):
+        if 'scrape_last_n' in kwargs:
+            if scraper_period.scrape_completed is True \
+                    and scraper_period.year_range == year_range\
+                    and count < kwargs['scrape_last_n']:
+                scrape_engine(scraper_period.period_text, periods_url)
+                count += 1
+        elif scraper_period.scrape_completed is False and scraper_period.year_range == year_range:
+            scrape_engine(scraper_period.period_text, periods_url)
+            scraper_period.scrape_completed = True
+            scraper_period.save()

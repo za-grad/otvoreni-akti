@@ -1,5 +1,5 @@
 """
-ASGI config for skupstina_django project.
+ASGI config for otvoreni_akti project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'skupstina_django.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'otvoreni_akti.settings')
 
 application = get_asgi_application()

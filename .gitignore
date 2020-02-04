@@ -51,9 +51,6 @@ dump.rdb
 # PyCharm stuff
 .idea/
 
-# Scraper stuff
-skupstina_django/scrapes_completed.txt
-
 # locally persisted stuff
 *.db
 *.pkl

@@ -143,7 +143,7 @@ STATIC_ROOT = root('staticfiles')
 STATIC_URL = '/static/'
 
 # Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (base('otvoreni_akti/search/static'),)
+# STATICFILES_DIRS = (base('otvoreni_akti/static'),)
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 

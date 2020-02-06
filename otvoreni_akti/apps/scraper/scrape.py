@@ -29,20 +29,18 @@ def start(*args, **kwargs):
         print('Searching for any new date ranges to be scraped from {}...'.format(k))
         extract_dates(year_range=k, url_suffix=v)
 
-    if 'max_periods' in kwargs:
-        max_periods = kwargs['max_periods']
-    else:
-        max_periods = 0
-
     for k, v in akti_dict.items():
         print('Scrape started for date ranges in {}'.format(k))
-        scrape_everything(year_range=k, url_suffix=v, max_periods=max_periods)
+        if 'max_periods' in kwargs:
+            max_periods = kwargs['max_periods']
+            scrape_everything(year_range=k, url_suffix=v, max_periods=max_periods)
+        else:
+            scrape_everything(year_range=k, url_suffix=v)
 
 
 def rescrape():
     scrape_everything(
         rescrape_last_n=2,
-        max_periods=0,
         year_range='2017-20xx',
         url_suffix='/sjednice/2017/Sjednice_2017.nsf/DRJ?OpenAgent&',
     )

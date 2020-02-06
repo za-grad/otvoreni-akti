@@ -144,15 +144,23 @@ def scrape_everything(year_range: str, url_suffix: str, *args, **kwargs) -> None
         Example: '2017-20xx'
 
     :param kwargs:
-        int scrape_last_n: Scrapes only the last 'scrape_last_n' acts in 'year_range'
+        int rescrape_last_n:
+            Rescrapes the last 'scrape_last_n' acts in 'year_range'
+        int max_periods:
+            Scrapes the latest acts within the last 'max_periods' periods.
+            If max_periods is 0, it scrapes everything.
     """
     periods_url = root_url + url_suffix.lower()
     count = 0
-    for scraper_period in ScraperPeriod.objects.all().order_by('-start_date'):
-        if 'scrape_last_n' in kwargs:
+    all_periods = ScraperPeriod.objects.all().order_by('-start_date')
+    max_periods = kwargs['max_periods']
+    if max_periods == 0:
+        max_periods = all_periods.count()
+    for scraper_period in all_periods[:max_periods]:
+        if 'rescrape_last_n' in kwargs:
             if scraper_period.scrape_completed is True \
                     and scraper_period.year_range == year_range\
-                    and count < kwargs['scrape_last_n']:
+                    and count < kwargs['rescrape_last_n']:
                 scrape_engine(scraper_period.period_text, periods_url)
                 count += 1
         elif scraper_period.scrape_completed is False and scraper_period.year_range == year_range:

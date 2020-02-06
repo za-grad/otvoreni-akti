@@ -38,9 +38,16 @@ def start(*args, **kwargs):
             scrape_everything(year_range=k, url_suffix=v)
 
 
-def rescrape():
+def rescrape(rescrape_last_n: int = 2):
+    """
+    Rescrapes the last few periods of acts.
+    :param
+        int rescrape_last_n:
+            Rescrapes the latest acts within the last 'rescrape_last_n' periods.
+            Example: rescrape_last_n=2 will rescrape the last 2 scraped periods of acts once again.
+    """
     scrape_everything(
-        rescrape_last_n=2,
+        rescrape_last_n=rescrape_last_n,
         year_range='2017-20xx',
         url_suffix='/sjednice/2017/Sjednice_2017.nsf/DRJ?OpenAgent&',
     )

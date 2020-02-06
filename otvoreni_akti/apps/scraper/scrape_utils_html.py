@@ -145,7 +145,7 @@ def scrape_everything(year_range: str, url_suffix: str, *args, **kwargs) -> None
 
     :param kwargs:
         int rescrape_last_n:
-            Rescrapes the last 'scrape_last_n' acts in 'year_range'
+            Rescrapes the latest acts within the last 'rescrape_last_n' periods.
         int max_periods:
             Scrapes the latest acts within the last 'max_periods' periods.
     """

@@ -61,9 +61,11 @@ INSTALLED_APPS = [
 ]
 
 # Default host for Elasticsearch
+ES_URL = env('BONSAI_URL')
+
 ELASTICSEARCH_DSL = {
     'default': {
-        'hosts': 'localhost:9200'
+        'hosts': ES_URL
     },
 }
 

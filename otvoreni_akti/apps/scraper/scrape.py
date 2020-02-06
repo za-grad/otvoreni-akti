@@ -18,11 +18,36 @@ sidebar_dict = {
 }
 
 
-for k, v in sidebar_dict.items():
-    print('Searching for any new date ranges to be scraped from {}...'.format(k))
-    extract_dates(year_range=k, url_suffix=v)
+def start(*args, **kwargs):
+    """
+    :param kwargs:
+        int max_periods:
+            Scrapes the latest acts within the last 'max_periods' periods.
+            If max_periods is not defined or 0, it scrapes everything.
+    """
+    for k, v in sidebar_dict.items():
+        print('Searching for any new date ranges to be scraped from {}...'.format(k))
+        extract_dates(year_range=k, url_suffix=v)
+
+    for k, v in akti_dict.items():
+        print('Scrape started for date ranges in {}'.format(k))
+        if 'max_periods' in kwargs:
+            max_periods = kwargs['max_periods']
+            scrape_everything(year_range=k, url_suffix=v, max_periods=max_periods)
+        else:
+            scrape_everything(year_range=k, url_suffix=v)
 
 
-for k, v in akti_dict.items():
-    print('Scrape started for date ranges in {}'.format(k))
-    scrape_everything(year_range=k, url_suffix=v)
+def rescrape(rescrape_last_n: int = 2):
+    """
+    Rescrapes the last few periods of acts.
+    :param
+        int rescrape_last_n:
+            Rescrapes the latest acts within the last 'rescrape_last_n' periods.
+            Example: rescrape_last_n=2 will rescrape the last 2 scraped periods of acts once again.
+    """
+    scrape_everything(
+        rescrape_last_n=rescrape_last_n,
+        year_range='2017-20xx',
+        url_suffix='/sjednice/2017/Sjednice_2017.nsf/DRJ?OpenAgent&',
+    )

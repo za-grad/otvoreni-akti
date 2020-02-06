@@ -32,6 +32,7 @@ Then when normally developing:
 honcho -f Procfile.dev start
 ```
 
+
 Scrape the web and populate Django DB:
 
 ```bash
@@ -39,6 +40,13 @@ python manage.py migrate
 python manage.py shell
 from otvoreni_akti.apps.scraper import scrape
 ```
+To scrape everything: ```scrape.start()```
+
+To perform a limited scrape of last 3 periods ```scrape.start(max_periods=3)```
+
+To rescrape last few entries ```scrape.rescrape()```
+
+
 
 Running Elasticsearch:
 

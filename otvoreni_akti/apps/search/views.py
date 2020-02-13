@@ -6,6 +6,10 @@ from .utils import elastic_search
 from otvoreni_akti.settings import ACTS_ROOT_URL as root_url
 
 
+def search_home(request):
+    return render(request, 'search/search_home.html')
+
+
 def search_results(request):
     if request.GET:
         page = request.GET.get('page')
@@ -38,6 +42,3 @@ def search_results(request):
             }
         return render(request, 'search/search_results.html', context)
 
-
-def search_home(request):
-    return render(request, 'search/search_home.html')

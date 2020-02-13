@@ -54,3 +54,7 @@ dump.rdb
 # locally persisted stuff
 *.db
 *.pkl
+
+# Testing stuff
+htmlcov
+*.coverage

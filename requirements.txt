@@ -5,7 +5,11 @@ django-environ
 gunicorn
 requests
 beautifulsoup4
+mixer
 psycopg2-binary
+pytest
+pytest-django
+pytest-cov
 PyPDF2
 docx2txt
 honcho

@@ -1,6 +1,7 @@
 import dateparser
 import re
 from datetime import datetime, timedelta
+from django.utils import timezone
 from elasticsearch_dsl import Q
 from .documents import ActDocument, act_analyzer
 
@@ -38,9 +39,16 @@ def elastic_search(search_term, *args, **kwargs):
     tokens = [t.token for t in response.tokens]
     print(tokens)
 
-    # Parse start and end dates into strings
+    # Parse start and end dates (stores None if these are invalid)
     start_date = dateparser.parse(kwargs['start_date'])
     end_date = dateparser.parse(kwargs['end_date'])
+
+    # Check for garbage user inputs for dates and add padding if valid
+    if start_date:
+        start_date = timezone.make_aware(start_date) - timedelta(hours=12)
+
+    if end_date:
+        end_date = timezone.make_aware(end_date) + timedelta(hours=12)
 
     keywords = {'and', 'not', 'or'}
     query_string = ''
@@ -81,7 +89,7 @@ def elastic_search(search_term, *args, **kwargs):
         .highlight('content', fragment_size=50) \
         .filter(
         'range',
-        **{'subject__item__period__end_date': {'from': start_date - timedelta(1), 'to': datetime.now()}}
+        **{'subject__item__period__end_date': {'from': start_date, 'to': timezone.now()}}
     )\
         .filter(
         'range',

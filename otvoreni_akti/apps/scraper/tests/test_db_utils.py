@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.utils import timezone
 from django.test import TestCase
 from mixer.backend.django import mixer
 import pytest
@@ -82,14 +83,26 @@ class TestParseDateRange(TestCase):
     def test_function_returns_correct_dates(self):
         date_range = '3. veljače 2020.   -   7.veljače 2020'
         start_date, end_date = db_utils.parse_date_range(date_range)
-        self.assertEqual(start_date, datetime(2020, 2, 3, 0, 0, 0))
-        self.assertEqual(end_date, datetime(2020, 2, 7, 0, 0, 0))
+        self.assertEqual(
+            start_date,
+            timezone.make_aware(datetime(2020, 2, 3, 0, 0, 0))
+        )
+        self.assertEqual(
+            end_date,
+            timezone.make_aware(datetime(2020, 2, 7, 0, 0, 0))
+        )
 
     def test_function_handles_studenog(self):
         date_range = '25. studenog 2019. - 29.studenog 2019'
         start_date, end_date = db_utils.parse_date_range(date_range)
-        self.assertEqual(start_date, datetime(2019, 11, 25, 0, 0, 0))
-        self.assertEqual(end_date, datetime(2019, 11, 29, 0, 0, 0))
+        self.assertEqual(
+            start_date,
+            timezone.make_aware(datetime(2019, 11, 25, 0, 0, 0))
+        )
+        self.assertEqual(
+            end_date,
+            timezone.make_aware(datetime(2019, 11, 29, 0, 0, 0))
+        )
 
 
 class TestParseItemDetails(TestCase):
@@ -106,8 +119,14 @@ class TestWritePeriodToDB(TestCase):
         period_obj = db_utils.write_period_to_db(period_text, period_url)
         self.assertEqual(period_obj.pk, 1)
         self.assertEqual(period_obj.period_text, '25.Nov.2019 to 29.Nov.2019')
-        self.assertEqual(period_obj.start_date, datetime(2019, 11, 25, 0, 0, 0))
-        self.assertEqual(period_obj.end_date, datetime(2019, 11, 29, 0, 0, 0))
+        self.assertEqual(
+            period_obj.start_date,
+            timezone.make_aware(datetime(2019, 11, 25, 0, 0, 0))
+        )
+        self.assertEqual(
+            period_obj.end_date,
+            timezone.make_aware(datetime(2019, 11, 29, 0, 0, 0))
+        )
         self.assertEqual(period_obj.period_url, 'dummyurl')
 
     def test_function_ignores_duplicate_data(self):

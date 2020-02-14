@@ -71,7 +71,7 @@ def write_subject_to_db(subject, period_obj):
         return Subject.objects.get(subject_url=subject['subject_url'])
 
 
-def write_act_to_db(acts: dict, subject_obj):
+def write_act_to_db(acts: list, subject_obj):
     for act in acts:
         # Populate the Act table
         if not Act.objects.filter(content_url=act['act_url']).exists():

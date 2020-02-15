@@ -1,6 +1,6 @@
 import io
 import docx2txt
-from PyPDF2 import PdfFileReader
+import fitz
 from bs4 import BeautifulSoup
 from .scrape_utils_requests import requests_retry_session
 from otvoreni_akti.settings import ACTS_ROOT_URL as root_url
@@ -15,10 +15,10 @@ def extract_docxfile_data(url_docx: str) -> str:
 def extract_pdffile_data(url_pdf: str) -> str:
     response = requests_retry_session().get(url_pdf)
     file = io.BytesIO(response.content)
-    pdf_reader = PdfFileReader(file)
+    pdf_reader = fitz.open(stream=file, filetype='pdf')
     pdf_raw_data = ''
-    for page in range(pdf_reader.numPages):
-        pdf_raw_data += pdf_reader.getPage(page).extractText() + '\n'
+    for page in range(pdf_reader.pageCount):
+        pdf_raw_data += pdf_reader.loadPage(page).getText() + '\n'
     return pdf_raw_data
 
 

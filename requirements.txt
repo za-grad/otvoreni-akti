@@ -10,7 +10,7 @@ psycopg2-binary
 pytest
 pytest-django
 pytest-cov
-PyPDF2
+PyMuPDF
 docx2txt
 honcho
 ipython

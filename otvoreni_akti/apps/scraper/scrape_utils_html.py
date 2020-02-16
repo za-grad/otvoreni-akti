@@ -40,10 +40,8 @@ def parse_subjects_list(url: str) -> tuple:
     subjects = []
     for table_item in table_items:
         content = table_item.contents[0]
-        try:
+        if hasattr(content, 'href'):
             link = content.attrs['href'].lower()
-        except AttributeError:
-            continue
         subject_title = content.select('b')[0].contents[0]
         subjects.append({'subject_title': subject_title, 'subject_url': root_url + link})
     return subjects, len(table_items)

@@ -27,13 +27,13 @@ def parse_document_link(docu_url: str) -> tuple:
     soup = BeautifulSoup(site, 'html.parser')
     docu_text = soup.select('tr td b font')
     docu_link = soup.select('tr td a')[0].attrs['href']
-    docu_title = ''
 
     # Strip all <br/> from soup
     for br in soup.findAll('br'):
         br.extract()
 
     # Get document title
+    docu_title = ''
     for sub_docu_text in docu_text:
         if sub_docu_text.contents:
             if sub_docu_text.contents[0] != 'Dodatni opis':

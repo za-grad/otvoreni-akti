@@ -33,7 +33,7 @@ class TestGetVisibleText(TestCase):
 
 class TestParseSubjectList(TestCase):
     def test_function_extracts_correct_data(self):
-        with open(file_path + '/dummy_website/dummy_subjects_list2.html', 'rb') as file:
+        with open(file_path + '/dummy_website/dummy_subjects_list.html', 'rb') as file:
             subjects, num_els = requests_patcher(
                 parent_module=scrape_utils_html,
                 function_to_patch=scrape_utils_html.parse_subjects_list,
@@ -99,7 +99,7 @@ class TestParseSubjectDetails(TestCase):
 class TestScrapeEngine(TestCase):
     """This test uses requires City Website to be online and reachable."""
 
-    test_act_period = '20. kolovoza 2018. - 24.kolovoza 2018'
+    test_act_period = '13. kolovoza 2018. - 17.kolovoza 2018'
     test_periods_url = 'http://web.zagreb.hr/sjednice/2017/Sjednice_2017.nsf/DRJ?OpenAgent&'
 
     def test_function_saves_all_data(self):
@@ -112,5 +112,6 @@ class TestScrapeEngine(TestCase):
 
         self.assertEqual(Period.objects.count(), 1)
         self.assertEqual(Item.objects.count(), 17)
-        self.assertEqual(Subject.objects.count(), 19)
-        self.assertEqual(Act.objects.count(), 105)
+        self.assertEqual(Subject.objects.count(), 25)
+        self.assertEqual(Act.objects.count(), 89)
+

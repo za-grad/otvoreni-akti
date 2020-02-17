@@ -1,7 +1,4 @@
 from django.test import TestCase
-import pytest
-
-pytestmark = pytest.mark.django_db
 
 
 class TestSearchHome(TestCase):

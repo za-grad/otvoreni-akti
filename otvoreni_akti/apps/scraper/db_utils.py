@@ -1,5 +1,6 @@
 import dateparser
 import re
+from django.utils import timezone
 from otvoreni_akti.apps.search.models import Period, Item, Subject, Act
 
 
@@ -11,6 +12,11 @@ def parse_date_range(date_range: str) -> tuple:
     start_date, end_date = date_range.split(' - ')
     start_date = dateparser.parse(start_date, languages=['hr'])
     end_date = dateparser.parse(end_date, languages=['hr'])
+
+    # Add timezone awareness
+    start_date = timezone.make_aware(start_date)
+    end_date = timezone.make_aware(end_date)
+
     return start_date, end_date
 
 
@@ -71,7 +77,7 @@ def write_subject_to_db(subject, period_obj):
         return Subject.objects.get(subject_url=subject['subject_url'])
 
 
-def write_act_to_db(acts: dict, subject_obj):
+def write_act_to_db(acts: list, subject_obj):
     for act in acts:
         # Populate the Act table
         if not Act.objects.filter(content_url=act['act_url']).exists():

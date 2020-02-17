@@ -57,11 +57,11 @@ class ActDocument(Document):
         ]
         related_models = [Subject, Item, Period]  # Optional: to ensure the Act will be re-saved when Subject is updated
 
-    def get_queryset(self):
-        """Not mandatory but to improve performance we can select related in one sql request"""
-        return super(ActDocument, self).get_queryset().select_related(
-            'subject', 'subject__item', 'subject__item__period',
-        )
+    # def get_queryset(self):
+    #     """Not mandatory but to improve performance we can select related in one sql request"""
+    #     return super(ActDocument, self).get_queryset().select_related(
+    #         'subject', 'subject__item', 'subject__item__period',
+    #     )
 
     def get_instances_from_related(self, related_instance):
         if isinstance(related_instance, Subject):

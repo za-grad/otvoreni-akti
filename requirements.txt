@@ -10,7 +10,7 @@ psycopg2-binary
 pytest
 pytest-django
 pytest-cov
-PyMuPDF
+PyMuPDF==1.16.0
 docx2txt
 honcho
 ipython

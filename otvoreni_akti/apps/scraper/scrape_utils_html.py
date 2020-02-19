@@ -42,8 +42,11 @@ def parse_subjects_list(url: str) -> tuple:
         content = table_item.contents[0]
         if hasattr(content, 'href'):
             link = content.attrs['href'].lower()
-        subject_title = content.select('b')[0].contents[0]
-        subjects.append({'subject_title': subject_title, 'subject_url': root_url + link})
+            try:
+                subject_title = content.select('b')[0].contents[0]
+                subjects.append({'subject_title': subject_title, 'subject_url': root_url + link})
+            except AttributeError as e:
+                print('Error occured while extracting subject title from {}: {}'.format(content, e))
     return subjects, len(table_items)
 
 

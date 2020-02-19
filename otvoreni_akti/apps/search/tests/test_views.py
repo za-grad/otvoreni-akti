@@ -1,4 +1,8 @@
 from django.test import TestCase
+from mixer.backend.django import mixer
+import pytest
+
+pytestmark = pytest.mark.django_db
 
 
 class TestSearchHome(TestCase):
@@ -9,10 +13,15 @@ class TestSearchHome(TestCase):
 
 class TestSearchResults(TestCase):
     def test_results_view_uses_correct_template(self):
+        period1 = mixer.blend('search.Period')
+        period2 = mixer.blend('search.Period')
         response = self.client.get('/search/?q=dubrovnik')
         self.assertTemplateUsed(response, 'search/search_results.html')
 
     def test_can_handle_different_searches(self):
+        period1 = mixer.blend('search.Period')
+        period2 = mixer.blend('search.Period')
+
         # Search for 'Zagreb' may take a long time but shouldn't crash above 10,000 results
         response = self.client.get('/search/?q=zagreb')
         self.assertEqual(response.status_code, 200)

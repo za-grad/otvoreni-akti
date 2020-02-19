@@ -2,7 +2,8 @@
 
 {% block search_results %}
     <div class="container">
-        <p class="mt-2">{{ num_results }} results ({{ time_taken }} seconds):</p>
+        <p class="mt-2">Currently indexing all acts between {{ earliest_period|date:"d.M.Y" }} and {{ latest_period|date:"d.M.Y" }} ({{ total_acts }} acts).</p>
+        <p class="mt-2"><strong>{{ num_results }} results ({{ time_taken }} seconds):</strong></p>
         {% for result in results %}
             <div class="mb-5 mt-2">
                 <h6>

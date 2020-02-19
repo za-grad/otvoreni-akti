@@ -44,3 +44,13 @@ class TestSearchResults(TestCase):
         # Tests for empty search
         response = self.client.get('/search/?q=')
         self.assertEqual(response.status_code, 200)
+
+    def test_view_shows_correct_number_of_results(self):
+        for i in range(100):
+            mixer.blend('search.Act', content='Letsgetschwifti')
+        period1 = mixer.blend('search.Period')
+        period2 = mixer.blend('search.Period')
+        response = self.client.get('/search/?q=Letsgetschwifti')
+        self.assertTemplateUsed(response, 'search/search_results.html')
+        self.assertNotContains(response, '20 results')
+        self.assertContains(response, '100 results')

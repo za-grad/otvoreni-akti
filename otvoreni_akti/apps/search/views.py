@@ -29,13 +29,13 @@ def search_results(request):
         t1 = time.time()
         results = elastic_search(search_term, start_date=start_date, end_date=end_date)
         time_taken = '{0:.5g}'.format(time.time()-t1)
+        num_results = len(results)
 
         # Pagination
         pagniator = Paginator(results, 20)
         results = pagniator.get_page(page)
 
         # Vanity Metrics
-        num_results = len(results)
         earliest_period = Period.objects.order_by('start_date').first().start_date
         latest_period = Period.objects.order_by('-end_date').first().end_date
         total_acts = Act.objects.count()

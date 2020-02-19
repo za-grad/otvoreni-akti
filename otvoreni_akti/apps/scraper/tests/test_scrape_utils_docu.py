@@ -40,6 +40,8 @@ class TestParseDocumentLink(TestCase):
     test_url_docx = '/Sjednice/2017/Sjednice_2017.nsf/0/BA0CD92F5FD33BB5C12584CC0031AEAB?OpenDocument'
     test_url_pdf = '/sjednice/2017/Sjednice_2017.nsf/0/E4DD04E1B54F903AC12583CC004A61B7?OpenDocument'
     test_url_doc = '/Sjednice/2017/Sjednice_2017.nsf/0/8203D0E3AE893366C12585030031087D?OpenDocument'
+    # Test URL for .doc file with .docx inside filename
+    test_url_doc_tricky = '/sjednice/2013/Sjednice_2013.nsf/0/9EBD801EFB8BCD5EC12580B8004E5431?OpenDocument'
 
     def test_function_extracts_correct_docx_data(self):
         docu_title, docu_raw_data, docu_file_type = scrape_utils_docu.parse_document_link(self.test_url_docx)
@@ -59,5 +61,12 @@ class TestParseDocumentLink(TestCase):
         docu_title, docu_raw_data, docu_file_type = scrape_utils_docu.parse_document_link(self.test_url_doc)
         self.assertEqual(docu_file_type, 'unknown')
         self.assertIn('PLAN', docu_title)
+        self.assertNotIn('Dodatni opis', docu_title)
+        self.assertIn('The search engine could not extract data', docu_raw_data)
+
+    def test_function_only_processes_files_ending_with_extension(self):
+        docu_title, docu_raw_data, docu_file_type = scrape_utils_docu.parse_document_link(self.test_url_doc_tricky)
+        self.assertEqual(docu_file_type, 'unknown')
+        self.assertIn('OBRAZLOŽENJE', docu_title)
         self.assertNotIn('Dodatni opis', docu_title)
         self.assertIn('The search engine could not extract data', docu_raw_data)

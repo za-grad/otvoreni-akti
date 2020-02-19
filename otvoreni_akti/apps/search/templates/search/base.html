@@ -17,6 +17,9 @@
 		<!-- Custom Fonts -->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dancing+Script&display=swap">
 
+		<!-- Github ribbon -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css" />
+
 		<title>
 			{% block title %}
 				Otvoreni Akti Search
@@ -29,6 +32,15 @@
 		{% block head %}{% endblock %}
 	</head>
 	<body>
+
+		<!-- WARNING FOR ALPHA TESTING -->
+		<div class="alert alert-warning" role="alert">
+			This is an alpha release with a limited number of acts.
+			The full version will index all open acts :).
+			Your <a href="https://forms.gle/hw8ecY5MgSjQzmKU9" target="_blank">feedback</a> is most valuable in making this site ever better for you!
+		</div>
+		<!-- END OF WARNING -->
+
         {% block content %}
             This is default content.
         {% endblock content %}
@@ -49,5 +61,8 @@
 			<script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
 			<noscript><div class="statcounter"><a title="Web Analytics Made Easy - StatCounter" href="https://statcounter.com/" target="_blank"><img class="statcounter" src="https://c.statcounter.com/12193139/0/8c5a7478/1/" alt="Web Analytics Made Easy -StatCounter"></a></div></noscript>
 		<!-- End of Statcounter Code -->
+
+		<!--Github ribbon -->
+		<a class="github-fork-ribbon" href="https://github.com/za-grad/otvoreni-akti" data-ribbon="Fork me on GitHub" title="Fork me on GitHub" target="_blank">Fork me on GitHub</a>
 	</body>
 </html>

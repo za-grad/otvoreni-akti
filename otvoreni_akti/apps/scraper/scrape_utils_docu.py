@@ -40,10 +40,10 @@ def parse_document_link(docu_url: str) -> tuple:
                 docu_title += sub_docu_text.contents[0] + ' '
 
     docu_file_type = 'unknown'
-    if '.docx' in docu_link in docu_link:
+    if docu_link.endswith('.docx'):
         docu_raw_data = extract_docxfile_data(root_url + docu_link)
         docu_file_type = 'docx'
-    elif '.pdf' in docu_link:
+    elif docu_link.endswith('.pdf'):
         docu_raw_data = extract_pdffile_data(root_url + docu_link)
         docu_file_type = 'pdf'
     else:

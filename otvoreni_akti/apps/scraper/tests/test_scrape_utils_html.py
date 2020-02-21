@@ -43,7 +43,13 @@ class TestParseSubjectList(TestCase):
                 'Korištenje - Gradski ured za sport i mlade',
                 subjects[4]['subject_title']
             )
-            self.assertEqual(num_els, 56)
+            # Function can handle Subjects without a link
+            self.assertEqual(
+                'Dom za starije osobe Sv. Josip Zagreb i dr.',
+                subjects[57]['subject_title']
+            )
+
+            self.assertEqual(num_els, 59)
 
 
 class TestParseSubjectDetails(TestCase):
@@ -114,4 +120,3 @@ class TestScrapeEngine(TestCase):
         self.assertEqual(Item.objects.count(), 17)
         self.assertEqual(Subject.objects.count(), 25)
         self.assertEqual(Act.objects.count(), 89)
-

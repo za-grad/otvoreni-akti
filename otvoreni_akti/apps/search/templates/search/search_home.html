@@ -7,17 +7,21 @@
             <h1><a href="{% url 'search_home' %}">Otvoreni Akti</a></h1>
         </div>
         <div>
-            <form class="search" method="get" action="{% url 'search_results' %}">
-                <input type="text" name="q" placeholder="Search..." value="{{ request.GET.q }}">
-                <button type="submit">
-                    <i class="fa fa-search"></i>
-                </button>
+            <form method="get" action="{% url 'search_results' %}">
+                <div class="search_bar">
+                    <input type="text" name="q" placeholder="Search..." value="{{ request.GET.q }}">
+                    <button type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
 
                 {% if request.GET %}
-                    <span class="text-muted">Filter results by date:</span><br>
-                    <input type="date" name="start_date" value="{{ request.GET.start_date }}">
-                    to
-                    <input type="date" name="end_date" value="{{ request.GET.end_date }}">
+                    <div class="search_metadata">
+                        <span class="text-muted">Filter results by date:</span><br>
+                        <input type="date" name="start_date" value="{{ request.GET.start_date }}">
+                        to
+                        <input type="date" name="end_date" value="{{ request.GET.end_date }}">
+                    </div>
                 {% endif %}
             </form>
         </div>

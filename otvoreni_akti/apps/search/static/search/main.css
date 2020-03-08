@@ -17,7 +17,7 @@
     text-decoration: none;
 }
 
-/* Search flexbox */
+/* Search Flexbox */
 .search_bar {
     display: flex;
     flex-wrap: nowrap;
@@ -76,15 +76,6 @@
     font-size: smaller;
 }
 
-
-/* Clear floats */
-form.example::after {
-    content: "";
-    clear: both;
-    display: table;
-}
-
-
 /* Help information (collapsible) */
 .collapsibleList {
     margin-left: 2px;
@@ -105,6 +96,7 @@ form.example::after {
 }
 
 .collapsibleList label {
+    text-decoration: underline;
     cursor: pointer;
 }
 

@@ -72,7 +72,7 @@
 }
 
 /* Style the search metadata */
-.subject, .period {
+.subject, .period, .archived {
     font-size: smaller;
 }
 

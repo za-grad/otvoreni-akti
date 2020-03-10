@@ -51,6 +51,7 @@ class ActDocument(Document):
     class Django:
         model = Act
         fields = [
+            'id',
             'title',
             'content_url',
             'file_type',

@@ -1,0 +1,25 @@
+{% extends 'search/search_home.html' %}
+
+{% block search_results %}
+    <div class="container">
+        <p><strong>This is an archived, text-only version of the act:</strong></p>
+        <div class="mb-5 mt-2">
+            <h6>
+                <a href="{{root_url}}{{act.content_url}}" target="_blank">
+                    {{act.title}}
+                    {% if act.file_type == 'docx' %}
+                        <i class="far fa-file-word"></i>
+                    {% elif act.file_type == 'pdf' %}
+                        <i class="far fa-file-pdf"></i>
+                    {% elif act.file_type == 'unknown' %}
+                        <i class="far fa-file-alt"></i>
+                    {% endif %}
+                </a>
+            </h6>
+            <span class="subject">Subject: <a href="{{ act.subject.subject_url }}" target="_blank">{{ act.subject.subject_title }}</a></span><br>
+            <span class="period">Item: <a href="{{ act.subject.item.period.period_url }}" target="_blank">{{ act.subject.item.item_title }}</a></span><br>
+            <p class="mt-4">{{ act.content }}</p>
+        </div>
+    </div>
+
+{% endblock search_results %}

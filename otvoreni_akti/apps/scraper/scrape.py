@@ -20,6 +20,18 @@ sidebar_dict = {
 
 def start(*args, **kwargs):
     """
+    This function first checks if there are any new periods that have been added to the Grad Zagreb website
+    since the last performed scrape. It only scrapes new periods that are not inside the ScraperPeriod model
+    and does not check for new acts added to a previously scraped period in the ScraperPeriod model.
+
+    Example:
+    1. The last full scrape was done on 29.Feb.2020.
+    2. The database has all acts from 28.Feb.2020 to 03.June.2009
+    3. This function is run on 08.Mar.2020.
+    4. If it finds that a new period has been added (03.Mar.2020 to 08.Mar.2020), it will scrape all the acts from
+       this new period.
+    5. If it finds that no new periods have been added since 28.Feb.2020, it will exit.
+
     :param kwargs:
         int max_periods:
             Scrapes the latest acts within the last 'max_periods' periods.
@@ -40,7 +52,19 @@ def start(*args, **kwargs):
 
 def rescrape(rescrape_last_n: int = 2):
     """
-    Rescrapes the last few periods of acts.
+    This function rescrapes the last rescrape_last_n periods inside the ScraperPeriod model. It only
+    saves new acts that were added to previously scraped periods in the ScraperPeriod model.
+    It does not check for new periods added to the Grad Zagreb website since the last scrape.start().
+
+    Example:
+    1. The last full scrape was done on 29.Feb.2020.
+    2. The database has all acts from 28.Feb.2020 to 03.June.2009
+    3. This function is run on 08.Mar.2020 with rescrape_last_n = 2.
+    4. If a new period has been added (03.Mar.2020 to 08.Mar.2020) to Grad Zagreb, it will ignore this new period.
+    5. This function will check for new acts within the last 2 scraped periods,
+       i.e. 24.Feb.2020 to 28.Feb.2020 and 17.Feb.2020 to 21.Feb.2020.
+    6. If new acts are found within these 2 previously scraped periods, it will save them.
+
     :param
         int rescrape_last_n:
             Rescrapes the latest acts within the last 'rescrape_last_n' periods.

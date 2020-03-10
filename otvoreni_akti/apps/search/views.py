@@ -1,6 +1,6 @@
 import time
 from datetime import datetime
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, HttpResponse
 from django.core.paginator import Paginator
 from .utils import elastic_search
 from .models import Act, Period
@@ -51,3 +51,11 @@ def search_results(request):
         }
         return render(request, 'search/search_results.html', context)
 
+
+def act_detail(request, id):
+    act = get_object_or_404(Act, id=id)
+    context = {
+        'root_url': root_url,
+        'act': act,
+    }
+    return render(request, 'search/act_detail.html', context)

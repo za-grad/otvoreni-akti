@@ -54,3 +54,12 @@ class TestSearchResults(TestCase):
         self.assertTemplateUsed(response, 'search/search_results.html')
         self.assertNotContains(response, '20 results')
         self.assertContains(response, '100 results')
+
+
+class TestActDetail(TestCase):
+    def test_act_detail_view_uses_correct_template(self):
+        mixer.blend('search.Act', content='Letsgetschwifti', id=1)
+        response = self.client.get('/acts/1/')
+        self.assertTemplateUsed(response, 'search/act_detail.html')
+        self.assertContains(response, 'Letsgetschwifti')
+

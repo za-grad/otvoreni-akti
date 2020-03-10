@@ -17,46 +17,30 @@
     text-decoration: none;
 }
 
-/* Common styles for search class */
-form.search {
-    overflow: auto;
+/* Search Flexbox */
+.search_bar {
+    display: flex;
+    flex-wrap: nowrap;
     padding-top: 5px;
     padding-bottom: 5px;
 }
 
-/* Style the search field */
-form.search input {
+.search_bar > input {
+    width: 100%;
     padding: 10px;
     font-size: 15px;
     border: 1px solid grey;
     background: #f7f7f7;
     transition: box-shadow .3s;
+    border-radius: 3px 0px 0px 3px;
 }
 
-form.search input:hover {
+.search_bar > input:hover {
     box-shadow: 0px 0.125rem 8px rgba(0, 0, 0, 0.15);
 }
 
-form.search input[type=text] {
-    border-radius: 3px 0px 0px 3px;
-    float: left;
-    width: 92%;
-}
-
-form.search input[type=date] {
-    margin-top: 3px;
-    border-radius: 3px;
-}
-
-form.search span {
-    margin-left: 2px;
-    font-size: smaller;
-}
-
-/* Style the submit button */
-form.search button {
-    float: left;
-    width: 8%;
+.search_bar > button {
+    width: 50px;
     padding: 10px;
     background: var(--ink-color);
     color: white;
@@ -67,23 +51,30 @@ form.search button {
     border-radius: 0px 3px 3px 0px;
 }
 
-form.search button:hover {
+.search_bar > button:hover {
     background: var(--ink-color);
 }
 
-/* Style the search metadata */
-.subject, .period {
+.search_metadata > input[type=date] {
+    margin-top: 3px;
+    border-radius: 3px;
+    padding: 10px;
+    font-size: 15px;
+    border: 1px solid grey;
+    background: #f7f7f7;
+    transition: box-shadow .3s;
+    border-radius: 3px;
+}
+
+.search_metadata > span {
+    margin-left: 2px;
     font-size: smaller;
 }
 
-
-/* Clear floats */
-form.example::after {
-    content: "";
-    clear: both;
-    display: table;
+/* Style the search metadata */
+.subject, .period, .archived {
+    font-size: smaller;
 }
-
 
 /* Help information (collapsible) */
 .collapsibleList {
@@ -105,6 +96,7 @@ form.example::after {
 }
 
 .collapsibleList label {
+    text-decoration: underline;
     cursor: pointer;
 }
 

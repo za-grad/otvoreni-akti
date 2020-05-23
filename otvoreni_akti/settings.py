@@ -61,7 +61,11 @@ INSTALLED_APPS = [
 ]
 
 # Default host for Elasticsearch
-ES_URL = env.str('ELASTICSEARCH_URL')
+# we need either ELASTICSEARCH_URL (Dokku) or BONSAI_URL (Heroku)
+try:
+    ES_URL = env.str('ELASTICSEARCH_URL')
+except ImproperlyConfigured:
+    ES_URL = env('BONSAI_URL')
 
 ELASTICSEARCH_DSL = {
     'default': {

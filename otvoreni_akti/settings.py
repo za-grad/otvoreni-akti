@@ -105,7 +105,7 @@ WSGI_APPLICATION = 'otvoreni_akti.wsgi.application'
 
 DATABASES = {
     # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
-    'default': env.db(),
+    'default': env.db(default=''),
 }
 
 # Password validation

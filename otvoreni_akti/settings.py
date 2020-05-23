@@ -61,7 +61,7 @@ INSTALLED_APPS = [
 ]
 
 # Default host for Elasticsearch
-ES_URL = env.str('ELASTICSEARCH_URL', default='')
+ES_URL = env.str('ELASTICSEARCH_URL')
 
 ELASTICSEARCH_DSL = {
     'default': {
@@ -105,7 +105,7 @@ WSGI_APPLICATION = 'otvoreni_akti.wsgi.application'
 
 DATABASES = {
     # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
-    'default': env.db(default=''),
+    'default': env.db(),
 }
 
 # Password validation

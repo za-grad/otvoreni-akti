@@ -61,7 +61,7 @@ INSTALLED_APPS = [
 ]
 
 # Default host for Elasticsearch
-ES_URL = env('BONSAI_URL')
+ES_URL = env.str('ELASTICSEARCH_URL', default='')
 
 ELASTICSEARCH_DSL = {
     'default': {

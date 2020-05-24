@@ -174,6 +174,19 @@ CELERY_BEAT_SCHEDULE = {
     },
 }
 
+# Sentry settings
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+sentry_sdk.init(
+    dsn="https://ecf4aa705eee46a7abbbbf80a0d43018@o397377.ingest.sentry.io/5251765",
+    integrations=[DjangoIntegration()],
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
+
 # Custom variables
 ACTS_ROOT_URL = 'http://web.zagreb.hr'
 SITE_ID = 1

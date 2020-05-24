@@ -16,3 +16,4 @@ honcho==1.0.1
 ipython==7.13.0
 ipdb==0.13.2
 whitenoise==5.0.1
+celery==4.4.2

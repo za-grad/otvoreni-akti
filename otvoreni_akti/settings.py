@@ -151,6 +151,30 @@ STATIC_URL = '/static/'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# Celery settings
+CELERY_BROKER_URL = env('REDIS_URL')
+CELERY_RESULT_BACKEND = env('REDIS_URL')
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+
+CELERY_BEAT_SCHEDULE = {
+    'scrape-everything-per-schedule': {
+        'task': 'otvoreni_akti.apps.scraper.tasks.celery_scrape_everything',
+        'schedule': 24 * 60 * 60,
+        'options': {
+            'expires': 48 * 60 * 60,
+        },
+    },
+    'rescrape-last-n-periods-per-schedule': {
+        'task': 'otvoreni_akti.apps.scraper.tasks.celery_rescrape_last_n',
+        'schedule': 12 * 60 * 60,
+        'options': {
+            'expires': 24 * 60 * 60,
+        },
+    },
+}
+
 # Custom variables
 ACTS_ROOT_URL = 'http://web.zagreb.hr'
 SITE_ID = 1
+RESCRAPE_LAST_N_PERIODS = 5

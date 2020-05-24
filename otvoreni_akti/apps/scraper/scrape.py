@@ -1,5 +1,6 @@
 """Scrape everything from the City database."""
 
+from otvoreni_akti.settings import RESCRAPE_LAST_N_PERIODS
 from .scrape_utils_html import scrape_everything
 from .scrape_utils_dates import extract_dates
 
@@ -50,7 +51,7 @@ def start(*args, **kwargs):
             scrape_everything(year_range=k, url_suffix=v)
 
 
-def rescrape(rescrape_last_n: int = 2):
+def rescrape(rescrape_last_n: int = RESCRAPE_LAST_N_PERIODS):
     """
     This function rescrapes the last rescrape_last_n periods inside the ScraperPeriod model. It only
     saves new acts that were added to previously scraped periods in the ScraperPeriod model.
@@ -68,7 +69,7 @@ def rescrape(rescrape_last_n: int = 2):
     :param
         int rescrape_last_n:
             Rescrapes the latest acts within the last 'rescrape_last_n' periods.
-            Example: rescrape_last_n=2 will rescrape the last 2 scraped periods of acts once again.
+            Example: rescrape_last_n=10 will rescrape the last 10 scraped periods of acts once again.
     """
     scrape_everything(
         rescrape_last_n=rescrape_last_n,

@@ -1,10 +1,11 @@
 import time
 from datetime import datetime
-from django.shortcuts import render, get_object_or_404, HttpResponse
+from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
+
+from otvoreni_akti.settings import MAX_SEARCH_RESULTS, ACTS_ROOT_URL as root_url
 from .utils import elastic_search
 from .models import Act, Period
-from otvoreni_akti.settings import ACTS_ROOT_URL as root_url
 
 
 def search_home(request):
@@ -43,6 +44,7 @@ def search_results(request):
         context = {
             'results': results,
             'num_results': num_results,
+            'max_results': MAX_SEARCH_RESULTS,
             'root_url': root_url,
             'time_taken': time_taken,
             'earliest_period': earliest_period,

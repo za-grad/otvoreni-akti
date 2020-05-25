@@ -3,6 +3,8 @@ import re
 from datetime import datetime, timedelta
 from django.utils import timezone
 from elasticsearch_dsl import Q
+
+from otvoreni_akti.settings import MAX_SEARCH_RESULTS
 from .documents import ActDocument, act_analyzer
 
 
@@ -97,5 +99,5 @@ def elastic_search(search_term, *args, **kwargs):
     )
 
     # Override Elasticsearch's default max of 10 results
-    results = query_set[0:10000].execute()
+    results = query_set[0:MAX_SEARCH_RESULTS].execute()
     return results

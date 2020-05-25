@@ -96,7 +96,8 @@ def elastic_search(search_term, *args, **kwargs):
         .filter(
         'range',
         **{'subject__item__period__start_date': {'from': datetime(1900, 1, 1, 0, 0), 'to': end_date}}
-    )
+    )\
+        .params(request_timeout=30)
 
     # Override Elasticsearch's default max of 10 results
     results = query_set[0:MAX_SEARCH_RESULTS].execute()

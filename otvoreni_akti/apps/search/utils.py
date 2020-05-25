@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from django.utils import timezone
 from elasticsearch_dsl import Q
 
-from otvoreni_akti.settings import MAX_SEARCH_RESULTS
+from otvoreni_akti.settings import MAX_SEARCH_RESULTS, SEARCH_REQUEST_TIMEOUT
 from .documents import ActDocument, act_analyzer
 
 
@@ -97,7 +97,7 @@ def elastic_search(search_term, *args, **kwargs):
         'range',
         **{'subject__item__period__start_date': {'from': datetime(1900, 1, 1, 0, 0), 'to': end_date}}
     )\
-        .params(request_timeout=30)
+        .params(request_timeout=SEARCH_REQUEST_TIMEOUT)
 
     # Override Elasticsearch's default max of 10 results
     results = query_set[0:MAX_SEARCH_RESULTS].execute()

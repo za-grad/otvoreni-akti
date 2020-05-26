@@ -3,19 +3,20 @@
 }
 
 :root {
-  --ink-color: #3169d0;
+  --purple-dark-color: #522F91;
 }
 
 /* Header */
+.header-container {
+  background-color: var(--purple-dark-color);
+  margin-top: 0;
+  padding: 1rem 0 1rem 0;
+  margin-bottom: 2rem;
+}
 .header {
-    padding-top: 20px;
-    font-family: 'Dancing Script', Arial;
-    color: var(--ink-color);
+  padding-top: 20px;
 }
-
-.header a:hover{
-    text-decoration: none;
-}
+.header svg { margin-left: -10px; }
 
 /* Search Flexbox */
 .search_bar {
@@ -42,7 +43,7 @@
 .search_bar > button {
     width: 50px;
     padding: 10px;
-    background: var(--ink-color);
+    background: var(--purple-dark-color);
     color: white;
     font-size: 15px;
     border: 1px solid grey;
@@ -52,7 +53,7 @@
 }
 
 .search_bar > button:hover {
-    background: var(--ink-color);
+    background: var(--purple-dark-color);
 }
 
 .search_metadata > input[type=date] {

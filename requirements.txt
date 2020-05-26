@@ -2,6 +2,7 @@ dateparser==0.7.4
 django==3.0.4
 django-elasticsearch-dsl==7.1.1
 django-environ==0.4.5
+django-inline-svg
 gunicorn==20.0.4
 requests==2.23.0
 beautifulsoup4==4.8.2

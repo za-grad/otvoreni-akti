@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django_elasticsearch_dsl',
+    'svg',
     'otvoreni_akti.apps.search',
     'otvoreni_akti.apps.scraper',
 ]

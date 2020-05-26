@@ -1,11 +1,15 @@
 {% extends 'search/base.html' %}
 
+{% load svg %}
+
 {% block content %}
 
+    <div class="container-fluid header-container">
+      <div class="container header">
+          <h1><a href="{% url 'search_home' %}">{% svg 'search/otvoreni-akti' %}</a></h1>
+      </div>
+    </div>
     <div class="container">
-        <div class="header">
-            <h1><a href="{% url 'search_home' %}">Otvoreni Akti</a></h1>
-        </div>
         <div>
             <form method="get" action="{% url 'search_results' %}">
                 <div class="search_bar">

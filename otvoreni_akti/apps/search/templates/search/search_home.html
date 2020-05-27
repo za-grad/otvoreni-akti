@@ -4,7 +4,7 @@
 
 {% block content %}
 
-    <div class="container-fluid header-container">
+    <div class="container-fluid header_container">
       <div class="container header">
           <h1><a href="{% url 'search_home' %}">{% svg 'search/otvoreni-akti' %}</a></h1>
       </div>
@@ -20,11 +20,21 @@
                 </div>
 
                 {% if request.GET %}
-                    <div class="search_metadata">
-                        <span class="text-muted">Filter results by date:</span><br>
-                        <input type="date" name="start_date" value="{{ request.GET.start_date }}">
-                        to
-                        <input type="date" name="end_date" value="{{ request.GET.end_date }}">
+                    <div class="metadata_container">
+                        <div class="search_metadata">
+                            <span class="text-muted">Filter results by date:</span><br>
+                            <input type="date" name="start_date" value="{{ request.GET.start_date }}">
+                            to
+                            <input type="date" name="end_date" value="{{ request.GET.end_date }}">
+                        </div>
+                        <div class="search_metadata">
+                            <span class="text-muted">Sort by:</span><br>
+                            <select name="sort_by">
+                                <option value="newest_first" {% if request.GET.sort_by == 'newest_first' %}selected{% endif %}>newest first</option>
+                                <option value="oldest_first" {% if request.GET.sort_by == 'oldest_first' %}selected{% endif %}>oldest first</option>
+                                <option value="relevance" {% if request.GET.sort_by == 'relevance' %}selected{% endif %}>relevance</option>
+                            </select>
+                        </div>
                     </div>
                 {% endif %}
             </form>

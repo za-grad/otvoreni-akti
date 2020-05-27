@@ -18,6 +18,7 @@ def search_results(request):
         search_term = request.GET.get('q')
         start_date = request.GET.get('start_date')
         end_date = request.GET.get('end_date')
+        sort_by = request.GET.get('sort_by')
 
         if not start_date:
             # If no user input, sets default start date to 1 Jan 1900
@@ -28,7 +29,12 @@ def search_results(request):
             end_date = str(datetime.now())
 
         t1 = time.time()
-        results = elastic_search(search_term, start_date=start_date, end_date=end_date)
+        results = elastic_search(
+            search_term,
+            start_date=start_date,
+            end_date=end_date,
+            sort_by=sort_by,
+        )
         time_taken = '{0:.5g}'.format(time.time()-t1)
         num_results = len(results)
 

@@ -23,6 +23,7 @@ def elastic_search(search_term, *args, **kwargs):
     :param kwargs:
         datetime start_date: Excludes any results before start_date
         datetime end_date: Excludes any results after end_date
+        string sort_by: Sorts results by date, relevance etc
 
     :return: query_set results:
         Returns search results to view
@@ -54,6 +55,17 @@ def elastic_search(search_term, *args, **kwargs):
 
     keywords = {'and', 'not', 'or'}
     query_string = ''
+
+    # Check for sort_by method
+    if kwargs['sort_by'] == 'newest_first':
+        sort_string = '-subject.item.period.start_date'
+    elif kwargs['sort_by'] == 'oldest_first':
+        sort_string = 'subject.item.period.start_date'
+    elif kwargs['sort_by'] == 'relevance':
+        sort_string = ''
+    else:
+        # Default is newest first
+        sort_string = '-subject.item.period.start_date'
 
     # Create a string to be evaluated later
     for position, token in enumerate(tokens):
@@ -90,14 +102,17 @@ def elastic_search(search_term, *args, **kwargs):
         .query(q)\
         .highlight('content', fragment_size=50) \
         .filter(
-        'range',
-        **{'subject__item__period__end_date': {'from': start_date, 'to': timezone.now()}}
-    )\
+            'range',
+            **{'subject__item__period__end_date': {'from': start_date, 'to': timezone.now()}}
+        )\
         .filter(
-        'range',
-        **{'subject__item__period__start_date': {'from': datetime(1900, 1, 1, 0, 0), 'to': end_date}}
-    )\
-        .params(request_timeout=SEARCH_REQUEST_TIMEOUT)
+            'range',
+            **{'subject__item__period__start_date': {'from': datetime(1900, 1, 1, 0, 0), 'to': end_date}}
+        )\
+        .params(request_timeout=SEARCH_REQUEST_TIMEOUT) \
+
+    if sort_string:
+        query_set = query_set.sort(sort_string)
 
     # Override Elasticsearch's default max of 10 results
     results = query_set[0:MAX_SEARCH_RESULTS].execute()

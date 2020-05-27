@@ -12,7 +12,8 @@ class TestElasticSearch(TestCase):
         results = utils.elastic_search(
             search_term='Seemingly normal search term',
             start_date=self.default_start_date,
-            end_date=self.default_end_date
+            end_date=self.default_end_date,
+            sort_by='relevance',
         )
         self.assertEqual(type(results), Response)
 
@@ -20,7 +21,8 @@ class TestElasticSearch(TestCase):
         results = utils.elastic_search(
             search_term='"Quotations"',
             start_date=self.default_start_date,
-            end_date=self.default_end_date
+            end_date=self.default_end_date,
+            sort_by='relevance',
         )
         self.assertEqual(type(results), Response)
 
@@ -28,7 +30,8 @@ class TestElasticSearch(TestCase):
         results = utils.elastic_search(
             search_term='Normal',
             start_date='some garbage date',
-            end_date='another garbage date'
+            end_date='another garbage date',
+            sort_by='relevance',
         )
         self.assertEqual(type(results), Response)
 
@@ -36,7 +39,8 @@ class TestElasticSearch(TestCase):
         results = utils.elastic_search(
             search_term='and "This test" contains operators and funny or "awesome symbols" not uncommon',
             start_date=self.default_start_date,
-            end_date=self.default_end_date
+            end_date=self.default_end_date,
+            sort_by='relevance',
         )
         self.assertEqual(type(results), Response)
 
@@ -44,7 +48,8 @@ class TestElasticSearch(TestCase):
         results = utils.elastic_search(
             search_term='and or not and and or or not not andnotor not and or or and and and',
             start_date=self.default_start_date,
-            end_date=self.default_end_date
+            end_date=self.default_end_date,
+            sort_by='relevance',
         )
         self.assertEqual(type(results), Response)
 
@@ -52,7 +57,8 @@ class TestElasticSearch(TestCase):
         results = utils.elastic_search(
             search_term='or',
             start_date=self.default_start_date,
-            end_date=self.default_end_date
+            end_date=self.default_end_date,
+            sort_by='relevance',
         )
         self.assertEqual(type(results), Response)
 
@@ -60,6 +66,7 @@ class TestElasticSearch(TestCase):
         results = utils.elastic_search(
             search_term='',
             start_date=self.default_start_date,
-            end_date=self.default_end_date
+            end_date=self.default_end_date,
+            sort_by='relevance',
         )
         self.assertEqual(type(results), Response)

@@ -7,7 +7,7 @@
 }
 
 /* Header */
-.header-container {
+.header_container {
   background-color: var(--purple-dark-color);
   margin-top: 0;
   padding: 1rem 0 1rem 0;
@@ -56,7 +56,16 @@
     background: var(--purple-dark-color);
 }
 
-.search_metadata > input[type=date] {
+.metadata_container {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.search_metadata {
+    padding-right: 20px;
+}
+
+.search_metadata > input, select {
     margin-top: 3px;
     border-radius: 3px;
     padding: 10px;
@@ -65,6 +74,10 @@
     background: #f7f7f7;
     transition: box-shadow .3s;
     border-radius: 3px;
+}
+
+.search_metadata > select{
+    margin-top: 3px;
 }
 
 .search_metadata > span {

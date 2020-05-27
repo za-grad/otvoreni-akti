@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.urls import path
-from .apps.search.views import search_results, search_home, act_detail
+from .apps.search.views import search_results, search_home, act_detail, view_404
 
+handler404 = view_404
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', search_home, name='search_home'),

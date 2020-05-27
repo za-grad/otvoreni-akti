@@ -1,6 +1,6 @@
 import time
 from datetime import datetime
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 
 from otvoreni_akti.settings import MAX_SEARCH_RESULTS, ACTS_ROOT_URL as root_url
@@ -75,3 +75,7 @@ def act_detail(request, id):
         'act': act,
     }
     return render(request, 'search/act_detail.html', context)
+
+
+def view_404(request, exception=None):
+    return redirect('/')

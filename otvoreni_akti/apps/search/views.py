@@ -58,6 +58,7 @@ def search_results(request):
             'total_acts': total_acts,
         }
         return render(request, 'search/search_results.html', context)
+    return render(request, 'search/search_home.html')
 
 
 def act_detail(request, id):

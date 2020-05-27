@@ -18,6 +18,10 @@ class TestSearchResults(TestCase):
         response = self.client.get('/search/?q=dubrovnik')
         self.assertTemplateUsed(response, 'search/search_results.html')
 
+    def test_results_view_uses_correct_template_if_no_get_request(self):
+        response = self.client.get('/search/')
+        self.assertTemplateUsed(response, 'search/search_home.html')
+
     def test_can_handle_different_searches(self):
         period1 = mixer.blend('search.Period')
         period2 = mixer.blend('search.Period')

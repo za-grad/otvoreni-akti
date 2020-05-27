@@ -43,7 +43,7 @@ SECRET_KEY = env('SECRET_KEY')  # default used if not in os.environ
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')  # False if not in os.environ
 
-ALLOWED_HOSTS = ['127.0.0.1:8000', 'akti.za-grad.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'akti.za-grad.com']
 
 # Application definition
 

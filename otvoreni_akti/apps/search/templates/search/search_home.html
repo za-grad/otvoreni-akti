@@ -25,11 +25,13 @@
                 </div>
 
                 <!-- Advanced Search Features -->
-                <span>
-                    <a class="text-muted collapsibleList" data-toggle="collapse" href="#advanced_features" role="button" aria-expanded="false" aria-controls="advanced_features">
-                        Click here for advanced search options
-                    </a>
-                </span>
+                <div>
+                    <span>
+                        <a class="text-muted collapsibleList" data-toggle="collapse" href="#advanced_features" role="button" aria-expanded="false" aria-controls="advanced_features">
+                            Click here for advanced search options
+                        </a>
+                    </span>
+                </div>
                 {% if advanced_used %}
                     <div class="collapse show" id="advanced_features">
                 {% else %}
@@ -46,7 +48,7 @@
                             <span class="text-muted">Filter by file type:</span><br>
                             <select name="file_type">
                                 <option value="All" {% if request.GET.file_type == 'All' %}selected{% endif %}>All</option>
-                                <option value="html" {% if request.GET.file_type == 'HTML' %}selected{% endif %}>HTML</option>
+                                <option value="html" {% if request.GET.file_type == 'html' %}selected{% endif %}>HTML</option>
                                 <option value="pdf" {% if request.GET.file_type == 'pdf' %}selected{% endif %}>pdf</option>
                                 <option value="docx" {% if request.GET.file_type == 'docx' %}selected{% endif %}>docx</option>
                             </select>
@@ -62,14 +64,16 @@
                     </div>
 
                     <!-- Instructions for search -->
-                    <span>
-                        <a class="text-muted collapsibleList" data-toggle="collapse" href="#feature_list" role="button" aria-expanded="true" aria-controls="feature_list">
-                            Click here for full feature list!
-                        </a>
-                    </span>
+                    <div class="pt-2">
+                        <span>
+                            <a class="text-muted collapsibleList" data-toggle="collapse" href="#feature_list" role="button" aria-expanded="true" aria-controls="feature_list">
+                                Click here for full feature list!
+                            </a>
+                        </span>
+                    </div>
                     <div class="collapse text-muted collapsibleList" id="feature_list">
-                        <div class="card card-body">
-                            <ul>
+                        <div>
+                            <ul class="mb-0 pt-2 pb-2">
                                 <li>Use <strong>space</strong> between search terms to include all terms (similar to <strong>OR</strong>)<br>
                                     <em>Example: <strong>Park Centar</strong> will show results for 'Park' along with results for 'Centar'</em></li>
                                 <li>Use <strong>AND</strong> before search terms that must also be included<br>

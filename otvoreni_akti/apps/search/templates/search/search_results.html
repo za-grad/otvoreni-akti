@@ -2,11 +2,11 @@
 
 {% block search_results %}
     <div class="container">
-        <p class="mt-2 search_metrics">Currently indexing all acts between {{ earliest_period|date:"d.M.Y" }} and {{ latest_period|date:"d.M.Y" }} ({{ total_acts }} acts).</p>
+        <p class="search_metrics pt-2 mb-0">Currently indexing all acts between {{ earliest_period|date:"d.M.Y" }} and {{ latest_period|date:"d.M.Y" }} ({{ total_acts }} acts).</p>
         {% if num_results == max_results %}
-            <p class="mt-2"><strong>Over {{ num_results }} results found. Refine your search using the advanced search options ({{ time_taken }} seconds):</strong></p>
+            <p class="pt-2"><strong>Over {{ num_results }} results found. Refine your search using the advanced search options ({{ time_taken }} seconds):</strong></p>
         {% else %}
-            <p class="mt-2"><strong>{{ num_results }} results ({{ time_taken }} seconds):</strong></p>
+            <p class="pt-2"><strong>{{ num_results }} results ({{ time_taken }} seconds):</strong></p>
         {% endif %}
         {% for result in results %}
             <div class="mb-5 mt-2">

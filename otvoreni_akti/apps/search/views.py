@@ -15,7 +15,7 @@ def search_home(request):
 def search_results(request):
     if request.GET:
         page = request.GET.get('page')
-        search_term = request.GET.get('q')
+        search_term = request.GET.get('q', '')
         start_date = request.GET.get('start_date')
         end_date = request.GET.get('end_date')
         sort_by = request.GET.get('sort_by')
@@ -65,7 +65,7 @@ def search_results(request):
             'advanced_used': advanced_used,
         }
         return render(request, 'search/search_results.html', context)
-    return render(request, 'search/search_home.html')
+    return redirect(search_home)
 
 
 def act_detail(request, id):
@@ -78,4 +78,4 @@ def act_detail(request, id):
 
 
 def view_404(request, exception=None):
-    return redirect('/')
+    return redirect(search_home)

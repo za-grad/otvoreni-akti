@@ -12,29 +12,42 @@ class TestSearchHome(TestCase):
 
 
 class TestSearchResults(TestCase):
-    def test_results_view_uses_correct_template(self):
+    def setUp(self) -> None:
         period1 = mixer.blend('search.Period')
         period2 = mixer.blend('search.Period')
+
+    def test_results_view_uses_correct_template(self):
         response = self.client.get('/search/?q=dubrovnik')
         self.assertTemplateUsed(response, 'search/search_results.html')
 
-    def test_results_view_uses_correct_template_if_no_get_request(self):
+    def test_view_redirects_to_home_if_404(self):
+        response = self.client.get('/gobbledeegook/')
+        self.assertRedirects(response, '/')
+
+    def test_results_view_redirects_to_home_if_no_get_request(self):
         response = self.client.get('/search/')
-        self.assertTemplateUsed(response, 'search/search_home.html')
+        self.assertRedirects(response, '/')
+
+    def test_results_view_uses_correct_template_if_no_query_string(self):
+        response = self.client.get('/search/?start_date=')
+        self.assertTemplateUsed(response, 'search/search_results.html')
 
     def test_can_handle_different_searches(self):
-        period1 = mixer.blend('search.Period')
-        period2 = mixer.blend('search.Period')
-
-        # Search for 'Zagreb' may take a long time but shouldn't crash above 10,000 results
+        # Search for 'Zagreb' may take a long time but shouldn't crash
         response = self.client.get('/search/?q=zagreb')
         self.assertEqual(response.status_code, 200)
 
         # Tests for keyword searches with odd combinations
+        response = self.client.get('/search/?totallynotarealvariable=***()')
+        self.assertEqual(response.status_code, 200)
+
         response = self.client.get('/search/?q=%26%26notnotandand')
         self.assertEqual(response.status_code, 200)
 
         response = self.client.get('/search/?q=zagrebandandnotnotordubrovnik')
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.get('/search/?q=zagreb and and not not or dubrovnik')
         self.assertEqual(response.status_code, 200)
 
         # Tests for incorrect dates

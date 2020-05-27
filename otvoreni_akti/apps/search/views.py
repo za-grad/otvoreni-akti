@@ -3,7 +3,7 @@ from datetime import datetime
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 
-from otvoreni_akti.settings import MAX_SEARCH_RESULTS, ACTS_ROOT_URL as root_url
+from otvoreni_akti.settings import MAX_SEARCH_RESULTS, RESULTS_PER_PAGE, ACTS_ROOT_URL as root_url
 from .utils import elastic_search
 from .models import Act, Period
 
@@ -22,10 +22,7 @@ def search_results(request):
         file_type = request.GET.get('file_type')
 
         # Checks if advanced features were used
-        if start_date or end_date or sort_by != 'newest_first' or file_type != 'All':
-            advanced_used = True
-        else:
-            advanced_used = False
+        advanced_used = (start_date or end_date or sort_by != 'newest_first' or file_type != 'All')
 
         # If no user input, sets default start and end dates
         if not start_date:
@@ -45,7 +42,7 @@ def search_results(request):
         num_results = len(results)
 
         # Pagination
-        pagniator = Paginator(results, 20)
+        pagniator = Paginator(results, RESULTS_PER_PAGE)
         results = pagniator.get_page(page)
 
         # Vanity Metrics

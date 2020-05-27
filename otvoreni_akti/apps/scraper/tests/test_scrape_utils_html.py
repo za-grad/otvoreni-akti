@@ -14,7 +14,6 @@ file_path = os.path.dirname(os.path.abspath(__file__))
 
 class TestGetVisibleText(TestCase):
     """This test uses requires City Website to be online and reachable."""
-
     test_url_with_redirect = 'http://web.zagreb.hr/sjednice/2017/Sjednice_2017.nsf/' \
                              'Dokument_opci_sjednica_noatt_web?OpenForm&ParentUNID=2FE43BDF830C9381C12582C000231875'
 
@@ -54,7 +53,6 @@ class TestParseSubjectList(TestCase):
 
 class TestParseSubjectDetails(TestCase):
     """This test uses requires City Website to be online and reachable."""
-
     test_url = 'http://web.zagreb.hr/' \
                'sjednice/2017/sjednice_2017.nsf/pw?openform&parentunid=4a889525e0ddaf45c12582bf004dd869'
 
@@ -104,7 +102,6 @@ class TestParseSubjectDetails(TestCase):
 
 class TestScrapeEngine(TestCase):
     """This test uses requires City Website to be online and reachable."""
-
     test_act_period = '13. kolovoza 2018. - 17.kolovoza 2018'
     test_periods_url = 'http://web.zagreb.hr/sjednice/2017/Sjednice_2017.nsf/DRJ?OpenAgent&'
 

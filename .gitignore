@@ -58,3 +58,6 @@ dump.rdb
 # Testing stuff
 htmlcov
 *.coverage
+
+# Celery stuff
+celerybeat*

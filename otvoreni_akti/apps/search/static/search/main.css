@@ -85,6 +85,12 @@
     font-size: smaller;
 }
 
+
+/* Search metrics */
+.search_metrics {
+    color: var(--purple-dark-color);
+}
+
 /* Style the search metadata */
 .subject, .period, .archived {
     font-size: smaller;
@@ -93,25 +99,7 @@
 /* Help information (collapsible) */
 .collapsibleList {
     margin-left: 2px;
-    margin-top: 5px;
     font-size: smaller;
-}
-
-.collapsibleList input + * {
-    display: none;
-}
-
-.collapsibleList input:checked + * {
-    display: block;
-}
-
-.collapsibleList input {
-    display: none;
-}
-
-.collapsibleList label {
-    text-decoration: underline;
-    cursor: pointer;
 }
 
 /* Highlighted text */

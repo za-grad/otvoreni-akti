@@ -20,6 +20,11 @@ def search_results(request):
         end_date = request.GET.get('end_date')
         sort_by = request.GET.get('sort_by')
 
+        if start_date or end_date or sort_by != 'newest_first':
+            advanced_used = True
+        else:
+            advanced_used = False
+
         if not start_date:
             # If no user input, sets default start date to 1 Jan 1900
             start_date = str(datetime(1900, 1, 1, 0, 0))
@@ -56,6 +61,7 @@ def search_results(request):
             'earliest_period': earliest_period,
             'latest_period': latest_period,
             'total_acts': total_acts,
+            'advanced_used': advanced_used,
         }
         return render(request, 'search/search_results.html', context)
     return render(request, 'search/search_home.html')

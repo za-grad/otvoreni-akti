@@ -4,14 +4,19 @@
 
 {% block content %}
 
+    <!-- Banner -->
     <div class="container-fluid header_container">
-      <div class="container header">
-          <h1><a href="{% url 'search_home' %}">{% svg 'search/otvoreni-akti' %}</a></h1>
-      </div>
+        <div class="container header">
+            <h1><a href="{% url 'search_home' %}">{% svg 'search/otvoreni-akti' %}</a></h1>
+        </div>
     </div>
+
+    <!--Search Container -->
     <div class="container">
         <div>
             <form method="get" action="{% url 'search_results' %}">
+
+                <!-- Search Bar -->
                 <div class="search_bar">
                     <input type="text" name="q" placeholder="Search..." value="{{ request.GET.q }}">
                     <button type="submit">
@@ -19,7 +24,17 @@
                     </button>
                 </div>
 
-                {% if request.GET %}
+                <!-- Advanced Search Features -->
+                <span>
+                    <a class="text-muted collapsibleList" data-toggle="collapse" href="#advanced_features" role="button" aria-expanded="false" aria-controls="advanced_features">
+                        Click here for advanced search options
+                    </a>
+                </span>
+                {% if advanced_used %}
+                    <div class="collapse show" id="advanced_features">
+                {% else %}
+                    <div class="collapse" id="advanced_features">
+                {% endif %}
                     <div class="metadata_container">
                         <div class="search_metadata">
                             <span class="text-muted">Filter results by date:</span><br>
@@ -36,27 +51,33 @@
                             </select>
                         </div>
                     </div>
-                {% endif %}
-            </form>
-        </div>
 
-        <div class = "collapsibleList text-muted">
-            <label for="search_features">Click here for search features</label>
-            <input type="checkbox" id="search_features" />
-            <ul>
-                <li>Use <strong>space</strong> between search terms to include all terms (similar to <strong>OR</strong>)<br>
-                    <em>Example: <strong>Park Centar</strong> will show results for 'Park' along with results for 'Centar'</em></li>
-                <li>Use <strong>AND</strong> before search terms that must also be included<br>
-                    <em>Example: <strong>Park AND Centar</strong> will show results for 'Park' that must also contain 'Centar'</em></li>
-                <li>Use <strong>NOT</strong> before search terms that must be excluded<br>
-                    <em>Example: <strong>Park NOT Centar</strong> will show results for 'Park' that must not contain 'Centar'</em></li>
-                <li>For <strong>"exact search"</strong>, put search term between double quotes</li>
-                    <em>Example: <strong>"Park Centar"</strong> will show results for the exact term "Park Centar"</em></li>
-                <li>Operators can be chained together to form complex queries</li>
-                    <em>Example: <strong>"Volonterski Centar" AND Park NOT Knjižnice</strong> will show results for exact match of "Volonterski Centar" that must also include 'Park' and must not contain 'Knjižnice'</em></li>
-                <li>Operators cannot be chained without keywords in between</li>
-                    <em>Example: <strong>Park AND NOT Centar</strong> will not show results for 'Park' that must not contain 'Centar'</em></li>
-            </ul>
+                    <!-- Instructions for search -->
+                    <span>
+                        <a class="text-muted collapsibleList" data-toggle="collapse" href="#feature_list" role="button" aria-expanded="true" aria-controls="feature_list">
+                            Click here for full feature list!
+                        </a>
+                    </span>
+                    <div class="collapse text-muted collapsibleList" id="feature_list">
+                        <div class="card card-body">
+                            <ul>
+                                <li>Use <strong>space</strong> between search terms to include all terms (similar to <strong>OR</strong>)<br>
+                                    <em>Example: <strong>Park Centar</strong> will show results for 'Park' along with results for 'Centar'</em></li>
+                                <li>Use <strong>AND</strong> before search terms that must also be included<br>
+                                    <em>Example: <strong>Park AND Centar</strong> will show results for 'Park' that must also contain 'Centar'</em></li>
+                                <li>Use <strong>NOT</strong> before search terms that must be excluded<br>
+                                    <em>Example: <strong>Park NOT Centar</strong> will show results for 'Park' that must not contain 'Centar'</em></li>
+                                <li>For <strong>"exact search"</strong>, put search term between double quotes</li>
+                                    <em>Example: <strong>"Park Centar"</strong> will show results for the exact term "Park Centar"</em></li>
+                                <li>Operators can be chained together to form complex queries</li>
+                                    <em>Example: <strong>"Volonterski Centar" AND Park NOT Knjižnice</strong> will show results for exact match of "Volonterski Centar" that must also include 'Park' and must not contain 'Knjižnice'</em></li>
+                                <li>Operators cannot be chained without keywords in between</li>
+                                    <em>Example: <strong>Park AND NOT Centar</strong> will not show results for 'Park' that must not contain 'Centar'</em></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 

@@ -24,6 +24,7 @@ def elastic_search(search_term, *args, **kwargs):
         datetime start_date: Excludes any results before start_date
         datetime end_date: Excludes any results after end_date
         string sort_by: Sorts results by date, relevance etc
+        string file_type: Filters results by file type
 
     :return: query_set results:
         Returns search results to view
@@ -67,6 +68,12 @@ def elastic_search(search_term, *args, **kwargs):
         # Default is newest first
         sort_string = '-subject.item.period.start_date'
 
+    # Set default value for file_type
+    if not kwargs['file_type'] or kwargs['file_type'] == 'All':
+        file_type = 'All'
+    else:
+        file_type = kwargs['file_type']
+
     # Create a string to be evaluated later
     for position, token in enumerate(tokens):
         if token in keywords and (position == 0 or position == len(tokens)-1):
@@ -108,8 +115,11 @@ def elastic_search(search_term, *args, **kwargs):
         .filter(
             'range',
             **{'subject__item__period__start_date': {'from': datetime(1900, 1, 1, 0, 0), 'to': end_date}}
-        )\
+        ) \
         .params(request_timeout=SEARCH_REQUEST_TIMEOUT) \
+
+    if file_type != 'All':
+        query_set = query_set.filter('term', file_type=file_type)
 
     if sort_string:
         query_set = query_set.sort(sort_string)

@@ -34,29 +34,29 @@
         {% if results.has_other_pages %}
             <ul class="pagination">
                 {% if results.has_previous  %}
-                    <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}&sort_by={{ request.GET.sort_by }}&page={{ results.previous_page_number }}">Prev</a></li>
-                    <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}&sort_by={{ request.GET.sort_by }}&page=1">1</a></li>
+                    <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}&sort_by={{ request.GET.sort_by }}&file_type={{ request.GET.file_type }}&page={{ results.previous_page_number }}">Prev</a></li>
+                    <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}&sort_by={{ request.GET.sort_by }}&file_type={{ request.GET.file_type }}&page=1">1</a></li>
                 {% endif %}
                 {% if results.number|add:'-2' > 1 %}
                     <li class="page-item"><span>...</span></li>
                 {% endif %}
 
                 {% if results.has_previous == True and results.previous_page_number > 1 %}
-                    <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}&sort_by={{ request.GET.sort_by }}&page={{ results.previous_page_number }}">{{ results.previous_page_number }}</a></li>
+                    <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}&sort_by={{ request.GET.sort_by }}&file_type={{ request.GET.file_type }}&page={{ results.previous_page_number }}">{{ results.previous_page_number }}</a></li>
                 {% endif %}
 
                 <li class="page-item active"><a class="page-link" href="">{{ results.number }}</a></li>
 
                 {% if results.has_next == True and results.next_page_number < results.paginator.num_pages %}
-                    <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}&sort_by={{ request.GET.sort_by }}&page={{ results.next_page_number }}">{{ results.next_page_number }}</a></li>
+                    <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}&sort_by={{ request.GET.sort_by }}&file_type={{ request.GET.file_type }}&page={{ results.next_page_number }}">{{ results.next_page_number }}</a></li>
                 {% endif %}
 
                 {% if results.number|add:'2' < results.paginator.num_pages %}
                     <li class="page-item"><span>...</span></li>
                 {% endif %}
                 {% if results.has_next %}
-                    <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}&sort_by={{ request.GET.sort_by }}&page={{ results.paginator.num_pages }}">{{ results.paginator.num_pages }}</a></li>
-                    <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}&sort_by={{ request.GET.sort_by }}&page={{ results.next_page_number }}">Next</a></li>
+                    <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}&sort_by={{ request.GET.sort_by }}&file_type={{ request.GET.file_type }}&page={{ results.paginator.num_pages }}">{{ results.paginator.num_pages }}</a></li>
+                    <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}&sort_by={{ request.GET.sort_by }}&file_type={{ request.GET.file_type }}&page={{ results.next_page_number }}">Next</a></li>
                 {% endif %}
             </ul>
         {% endif %}

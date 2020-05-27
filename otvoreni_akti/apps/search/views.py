@@ -19,18 +19,18 @@ def search_results(request):
         start_date = request.GET.get('start_date')
         end_date = request.GET.get('end_date')
         sort_by = request.GET.get('sort_by')
+        file_type = request.GET.get('file_type')
 
-        if start_date or end_date or sort_by != 'newest_first':
+        # Checks if advanced features were used
+        if start_date or end_date or sort_by != 'newest_first' or file_type != 'All':
             advanced_used = True
         else:
             advanced_used = False
 
+        # If no user input, sets default start and end dates
         if not start_date:
-            # If no user input, sets default start date to 1 Jan 1900
             start_date = str(datetime(1900, 1, 1, 0, 0))
-
         if not end_date:
-            # If no user input, sets default end date to today
             end_date = str(datetime.now())
 
         t1 = time.time()
@@ -39,6 +39,7 @@ def search_results(request):
             start_date=start_date,
             end_date=end_date,
             sort_by=sort_by,
+            file_type=file_type,
         )
         time_taken = '{0:.5g}'.format(time.time()-t1)
         num_results = len(results)

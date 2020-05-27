@@ -37,10 +37,19 @@
                 {% endif %}
                     <div class="metadata_container">
                         <div class="search_metadata">
-                            <span class="text-muted">Filter results by date:</span><br>
+                            <span class="text-muted">Filter by date:</span><br>
                             <input type="date" name="start_date" value="{{ request.GET.start_date }}">
                             to
                             <input type="date" name="end_date" value="{{ request.GET.end_date }}">
+                        </div>
+                        <div class="search_metadata">
+                            <span class="text-muted">Filter by file type:</span><br>
+                            <select name="file_type">
+                                <option value="All" {% if request.GET.file_type == 'All' %}selected{% endif %}>All</option>
+                                <option value="html" {% if request.GET.file_type == 'HTML' %}selected{% endif %}>HTML</option>
+                                <option value="pdf" {% if request.GET.file_type == 'pdf' %}selected{% endif %}>pdf</option>
+                                <option value="docx" {% if request.GET.file_type == 'docx' %}selected{% endif %}>docx</option>
+                            </select>
                         </div>
                         <div class="search_metadata">
                             <span class="text-muted">Sort by:</span><br>

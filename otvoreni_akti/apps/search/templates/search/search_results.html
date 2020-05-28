@@ -2,7 +2,7 @@
 
 {% block search_results %}
     <div class="container">
-        <p class="search_metrics pt-2 mb-0">Currently indexing all acts between {{ earliest_period|date:"d.M.Y" }} and {{ latest_period|date:"d.M.Y" }} ({{ total_acts }} acts).</p>
+        <p class="search_metrics pt-2 mb-0">Currently indexing <strong>{{ total_acts }}</strong> acts between <strong>{{ earliest_period|date:"d.M.Y" }}</strong> and <strong>{{ latest_period|date:"d.M.Y" }}</strong>.</p>
         {% if num_results == max_results %}
             <p class="pt-2"><strong>Over {{ num_results }} results found. Refine your search using the advanced search options ({{ time_taken }} seconds):</strong></p>
         {% else %}

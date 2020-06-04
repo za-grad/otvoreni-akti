@@ -54,10 +54,18 @@
     border-left: none; /* Prevent double borders */
     cursor: pointer;
     border-radius: 0px 3px 3px 0px;
+    transition: 500ms;
 }
 
 .search_bar > button:hover {
     background: var(--purple-dark-color);
+    opacity: 0.9;
+    transition: 500ms;
+}
+
+.search_bar button svg {
+    width: 35px;
+    margin: -5px 5px -6px -3px;
 }
 
 .metadata_container {

@@ -16,7 +16,11 @@
 .header {
   padding-top: 20px;
 }
-.header svg { margin-left: -10px; }
+.header svg {
+    min-width: 200px;
+    max-width: 400px;
+    margin-left: -10px;
+}
 
 /* Search Flexbox */
 .search_bar {

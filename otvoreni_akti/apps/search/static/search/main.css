@@ -48,7 +48,6 @@
     padding: 10px;
     background: var(--purple-dark-color);
     color: white;
-    font-size: 15px;
     border: 1px solid grey;
     border-left: none; /* Prevent double borders */
     cursor: pointer;
@@ -80,7 +79,6 @@
     margin-top: 3px;
     border-radius: 3px;
     padding: 10px;
-    font-size: 15px;
     border: 1px solid grey;
     background: #f7f7f7;
     transition: box-shadow .3s;

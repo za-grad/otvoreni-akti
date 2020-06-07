@@ -69,8 +69,8 @@ class TestSearchResults(TestCase):
         period2 = mixer.blend('search.Period')
         response = self.client.get('/search/?q=Letsgetschwifti')
         self.assertTemplateUsed(response, 'search/search_results.html')
-        self.assertNotContains(response, '20 results')
-        self.assertContains(response, '100 results')
+        self.assertNotContains(response, '20 rezultata')
+        self.assertContains(response, '100 rezultata')
 
 
 class TestActDetail(TestCase):

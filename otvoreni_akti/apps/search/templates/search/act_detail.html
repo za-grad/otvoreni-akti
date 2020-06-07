@@ -2,7 +2,7 @@
 
 {% block search_results %}
     <div class="container">
-        <p><strong>This is an archived, text-only version of the act:</strong></p>
+        <p><strong>Ovo je kod nas arhivirana, tekstualna verzija akta:</strong></p>
         <div class="mb-5 mt-2">
             <h6>
                 <a href="{{root_url}}{{act.content_url}}" target="_blank">
@@ -16,8 +16,8 @@
                     {% endif %}
                 </a>
             </h6>
-            <span class="subject">Subject: <a href="{{ act.subject.subject_url }}" target="_blank">{{ act.subject.subject_title }}</a></span><br>
-            <span class="period">Item: <a href="{{ act.subject.item.period.period_url }}" target="_blank">{{ act.subject.item.item_title }}</a></span><br>
+            <span class="subject">Predmet: <a href="{{ act.subject.subject_url }}" target="_blank">{{ act.subject.subject_title }}</a></span><br>
+            <span class="period">Točka: <a href="{{ act.subject.item.period.period_url }}" target="_blank">{{ act.subject.item.item_title }}</a></span><br>
             <p class="mt-4">{{ act.content }}</p>
         </div>
     </div>

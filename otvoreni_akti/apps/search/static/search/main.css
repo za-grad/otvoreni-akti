@@ -6,6 +6,8 @@
   --purple-dark-color: #522F91;
 }
 
+.container a, .container a:hover { color: var(--purple-dark-color); }
+
 /* Header */
 .header_container {
   background-color: var(--purple-dark-color);
@@ -15,11 +17,43 @@
 }
 .header {
   padding-top: 20px;
+  color: white;
 }
 .header svg {
     min-width: 200px;
     max-width: 400px;
     margin-left: -10px;
+}
+.header h2 { font-size: 14px; margin: -26px 0 0 23px; }
+.header h2 svg {
+  width: 9%;
+  margin: 0;
+  /* margin-bottom: 17px; */
+  height: auto;
+  min-width: unset;
+}
+.header h2 .za-grad svg { margin: 0 3px 0 4px }
+.header h2 .zjn svg { width: 6% }
+.header .cfc a {
+    color: white;
+    text-decoration: underline;
+}
+.header .cfc img {
+    width: 2%;
+    display: inline-block;
+    margin: 0 3px;
+}
+
+@media (max-width: 1200px) {
+  
+  .header h1 { font-size: 18px;}
+  .header .subtitle { display: block; }
+  .header h2 svg { width: 11% }
+  
+  .header h2 {
+    font-size: 12px;
+    margin: 0px 0 0 13px;
+  }
 }
 
 /* Search Flexbox */
@@ -107,8 +141,9 @@
 
 /* Help information (collapsible) */
 .collapsibleList {
+    margin-top: 10px;
     margin-left: 2px;
-    font-size: smaller;
+    /* font-size: smaller; */
 }
 
 /* Highlighted text */

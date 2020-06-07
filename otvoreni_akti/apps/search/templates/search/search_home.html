@@ -1,13 +1,15 @@
 {% extends 'search/base.html' %}
 
 {% load svg %}
+{% load static %}
 
 {% block content %}
 
     <!-- Banner -->
     <div class="container-fluid header_container">
         <div class="container header">
-            <h1><a href="{% url 'search_home' %}">{% svg 'search/otvoreni-akti' %}</a></h1>
+            <h1><a href="{% url 'search_home' %}">{% svg 'search/otvoreni-akti' %}</a> <span class="subtitle">– bolja tražilica gradonačelnikovih akata.</span></h1>
+            <h2>Projekt je financirala stranka <a class="za-grad" href="http://za-grad.com/">{% svg 'search/za-grad' %}</a> koja je dio <a class="zjn" href="http://www.zagrebjenas.hr/">{% svg 'search/zjn' %}</a> i <a class="mozemo" href="https://mozemo.hr/">{% svg 'search/mozemo' %}</a> obitelji. <span class="cfc">Podršku je pružila inicijativa <a href="https://codeforcroatia.org/">Programiraj za Hrvatsku <img src={% static 'search/cube-cfc.png' %}></a>.</span></h2>
         </div>
     </div>
 
@@ -27,9 +29,11 @@
                 <!-- Advanced Search Features -->
                 <div>
                     <span>
-                        <a class="text-muted collapsibleList" data-toggle="collapse" href="#advanced_features" role="button" aria-expanded="false" aria-controls="advanced_features">
-                            Click here for advanced search options
-                        </a>
+                        <p class="text-body collapsibleList">Show
+                          <a data-toggle="collapse" href="#advanced_features" role="button" aria-expanded="false" aria-controls="advanced_features">
+                            advanced search options
+                          </a>
+                        </p>
                     </span>
                 </div>
                 {% if advanced_used %}

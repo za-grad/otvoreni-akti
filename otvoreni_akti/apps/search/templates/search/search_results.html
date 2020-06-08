@@ -22,9 +22,9 @@
                         {% endif %}
                     </a>
                 </h6>
-                <span class="subject">Predmet: <a href="{{ result.subject.subject_url }}" target="_blank">{{ result.subject.subject_title }}</a></span><br>
                 <span class="period">Točka: <a href="{{ result.subject.item.period.period_url }}" target="_blank">{{ result.subject.item.item_title }}</a></span><br>
-                <span class="archived"><a href="{% url 'act_detail' result.id %}" target="_blank">Archived (text only)</a></span><br>
+                <span class="subject">Predmet: <a href="{{ result.subject.subject_url }}" target="_blank">{{ result.subject.subject_title }}</a></span><br>
+                <span class="archived"><a href="{% url 'act_detail' result.id %}" target="_blank">Prikaz teksta</a></span><br>
                 {% for fragment in result.meta.highlight.content %}
                     <span class="highlight text-muted">{{ fragment|safe }}</span>
                 {% endfor %}

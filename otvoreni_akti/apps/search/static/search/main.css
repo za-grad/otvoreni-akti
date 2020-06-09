@@ -44,15 +44,16 @@
     margin: 0 3px;
 }
 
+.subtitle { font-size: 18px; }
+.header h2 { margin: 0 0 0 0; }
+
+
 @media (max-width: 1200px) {
-  
-  .header h1 { font-size: 18px;}
   .header .subtitle { display: block; }
   .header h2 svg { width: 11% }
-  
+
   .header h2 {
     font-size: 12px;
-    margin: 0px 0 0 13px;
   }
 }
 

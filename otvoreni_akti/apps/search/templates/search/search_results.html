@@ -1,8 +1,9 @@
 {% extends 'search/search_home.html' %}
+{% load i18n %}
 
 {% block search_results %}
     <div class="container">
-        <p class="search_metrics pt-2 mb-0">Trenutno indeksiramo <strong>{{ total_acts }}</strong> akata između <strong>{{ earliest_period|date:"d.M.Y" }}</strong> i <strong>{{ latest_period|date:"d.M.Y" }}</strong>.</p>
+        <p class="search_metrics pt-2 mb-0">Trenutno indeksiramo <strong>{{ total_acts }}</strong> akata između <strong>{{ earliest_period|date:"d. E Y" }}</strong> i <strong>{{ latest_period|date:"d. E Y" }}</strong>.</p>
         {% if num_results == max_results %}
             <p class="pt-2"><strong>Preko {{ num_results }} rezultata pronađeno. Molimo suzite vašu pretragu koristeći napredne opcije pretrage ({{ time_taken }} sekundi):</strong></p>
         {% else %}
@@ -22,7 +23,7 @@
                         {% endif %}
                     </a>
                 </h6>
-                <span class="period">Točka: <a href="{{ result.subject.item.period.period_url }}" target="_blank">{{ result.subject.item.item_title }}</a></span><br>
+                <span class="period">Točka: <a href="{{ result.subject.item.period.period_url }}" target="_blank">#{{ result.subject.item.item_number }} od {{ result.subject.item.period.start_date|date:"d. E Y" }} do {{ result.subject.item.period.end_date|date:"d. E Y" }}</a></span><br>
                 <span class="subject">Predmet: <a href="{{ result.subject.subject_url }}" target="_blank">{{ result.subject.subject_title }}</a></span><br>
                 <span class="archived"><a href="{% url 'act_detail' result.id %}" target="_blank">Prikaz teksta</a></span><br>
                 {% for fragment in result.meta.highlight.content %}

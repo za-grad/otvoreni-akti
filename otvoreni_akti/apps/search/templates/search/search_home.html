@@ -6,11 +6,19 @@
 {% block content %}
 
     <!-- Banner -->
-    <div class="container-fluid header_container">
-        <div class="container header">
-            <h1><a href="{% url 'search_home' %}">{% svg 'search/otvoreni-akti-with-subtitle' %}</a></h1>
-<!--            <span class="subtitle">Bolja tražilica gradonačelnikovih akata</span>-->
-            <h2>Tražilicu je izradila stranka <a class="za-grad" href="http://za-grad.com/">{% svg 'search/za-grad' %}</a> koja je dio <a class="zjn" href="http://www.zagrebjenas.hr/">{% svg 'search/zjn' %}</a> i <a class="mozemo" href="https://mozemo.hr/">{% svg 'search/mozemo' %}</a> obitelji. <span class="cfc">Podršku je pružila inicijativa <a href="https://codeforcroatia.org/">Programiraj za Hrvatsku <img src={% static 'search/cube-cfc.png' %}></a>.</span></h2>
+    <div class="header">
+        <div class="sponsors">
+            Tražilicu je izradila stranka
+            <a class="za-grad" href="http://za-grad.com/">{% svg 'search/za-grad' %}</a>
+            koja je dio
+            <a class="zjn" href="http://www.zagrebjenas.hr/">{% svg 'search/zjn' %}</a>
+            i
+            <a class="mozemo" href="https://mozemo.hr/">{% svg 'search/mozemo' %}</a> obitelji.
+            Podršku je pružila inicijativa
+            <a class="cfc" href="https://codeforcroatia.org/">Programiraj za Hrvatsku <img src={% static 'search/cube-cfc.png' %}></a>
+        </div>
+        <div class="logo">
+            <a href="{% url 'search_home' %}">{% svg 'search/otvoreni-akti-with-subtitle' %}</a>
         </div>
     </div>
 

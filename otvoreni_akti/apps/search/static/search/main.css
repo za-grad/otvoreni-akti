@@ -6,55 +6,71 @@
   --purple-dark-color: #522F91;
 }
 
-.container a, .container a:hover { color: var(--purple-dark-color); }
+.container a, .container a:hover {
+    color: var(--purple-dark-color);
+}
 
 /* Header */
-.header_container {
-  background-color: var(--purple-dark-color);
-  margin-top: 0;
-  padding: 1rem 0 1rem 0;
-  margin-bottom: 2rem;
-}
 .header {
-  padding-top: 20px;
+  background-color: var(--purple-dark-color);
+  margin-bottom: 4rem;
   color: white;
 }
-.header h1 svg {
+
+.logo {
+    margin: 0px 10%;
+}
+
+.logo svg {
     min-width: 200px;
     max-width: 400px;
-    margin-left: -10px;
+    padding: 4rem 0px;
+    margin: auto;
+    display: block;
 }
-.header h2 { font-size: 14px; margin: -26px 0 0 23px; }
-.header h2 svg {
-  width: 9%;
-  margin: 0;
-  /* margin-bottom: 17px; */
-  height: auto;
-  min-width: unset;
+
+.sponsors {
+    font-size: 14px;
+    margin: 0 auto;
+    text-align: center;
+    display: block;
+    padding: 8px;
+    background: #63449C;
+    opacity: 0.7;
 }
-.header h2 .za-grad svg { margin: 0 3px 0 4px }
-.header h2 .zjn svg { width: 6% }
-.header .cfc a {
+
+.sponsors svg {
+    min-width: 30px;
+}
+
+.sponsors .za-grad svg {
+    width: 7%;
+    margin: 0px 7px 5px 9px;
+}
+
+.sponsors .zjn svg {
+    width: 3.5%;
+    margin: 0 7px ;
+}
+
+.sponsors .mozemo svg {
+    width: 5%;
+    margin: 0 7px;
+}
+
+.sponsors .cfc {
     color: white;
     text-decoration: underline;
 }
-.header .cfc img {
-    width: 2%;
+
+.sponsors .cfc img {
+    width: 1.7%;
     display: inline-block;
-    margin: 0 3px;
+    margin-left: 7px;
 }
 
-.subtitle { font-size: 18px; }
-.header h2 { margin: 0 0 0 0; }
-
-
 @media (max-width: 1200px) {
-  .header .subtitle { display: block; }
-  .header h2 svg { width: 11% }
-
-  .header h2 {
-    font-size: 12px;
-  }
+    .sponsors { font-size: 11px; }
 }
 
 /* Search Flexbox */

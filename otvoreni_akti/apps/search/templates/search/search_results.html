@@ -12,8 +12,8 @@
         {% for result in results %}
             <div class="mb-5 mt-2">
                 <h6>
-                    <a href="{{root_url}}{{result.content_url}}" target="_blank">
-                        {{result.title}}
+                    <a href="{{ root_url }}{{ result.content_url }}" target="_blank">
+                        {{ result.subject.subject_title }}
                         {% if result.file_type == 'docx' %}
                             <i class="far fa-file-word"></i>
                         {% elif result.file_type == 'pdf' %}
@@ -23,12 +23,13 @@
                         {% endif %}
                     </a>
                 </h6>
-                <span class="period">Točka: <a href="{{ result.subject.item.period.period_url }}" target="_blank">#{{ result.subject.item.item_number }} od {{ result.subject.item.period.start_date|date:"d. E Y" }} do {{ result.subject.item.period.end_date|date:"d. E Y" }}</a></span><br>
-                <span class="subject">Predmet: <a href="{{ result.subject.subject_url }}" target="_blank">{{ result.subject.subject_title }}</a></span><br>
-                <span class="archived"><a href="{% url 'act_detail' result.id %}" target="_blank">Prikaz teksta</a></span><br>
                 {% for fragment in result.meta.highlight.content %}
-                    <span class="highlight text-muted">{{ fragment|safe }}</span>
+                    <span class="highlight text-muted">{{ fragment|safe }}</span><br>
                 {% endfor %}
+                <span class="period">Točka: <a href="{{ result.subject.item.period.period_url }}" target="_blank">#{{ result.subject.item.item_number }} od {{ result.subject.item.period.start_date|date:"d. E Y" }} do {{ result.subject.item.period.end_date|date:"d. E Y" }}</a></span><br>
+                <span class="subject">Tip: {{ result.title }}</span><br>
+                <span class="archived"><a href="{% url 'act_detail' result.id %}" target="_blank">Prikaz teksta</a></span><br>
+                
             </div>
         {% endfor %}
 

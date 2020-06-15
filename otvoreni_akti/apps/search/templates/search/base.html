@@ -31,9 +31,17 @@
 	<body>
 		
 		<!-- WARNING FOR ALPHA TESTING -->
-		<div class="alert alert-warning mb-0" role="alert">
-			Ovo je rana verzija aplikacije i <a href="https://forms.gle/hw8ecY5MgSjQzmKU9" target="_blank">vaše povratne informacije</a> su nam od velike pomoći!
-		</div>
+        <div class="comment-modal">
+            Ovo je rana verzija aplikacije i vaše povratne informacije su nam od velike pomoći!
+            <div class="comments-button">
+                <a href="https://forms.gle/hw8ecY5MgSjQzmKU9" target="_blank">
+                    Ostavi komentar
+                </a>
+            </div>
+        </div>
+        <a href="https://forms.gle/hw8ecY5MgSjQzmKU9" target="_blank">
+            <div class="comments-icon"></div> 
+        </a>
 		<!-- END OF WARNING -->
 
         {% block content %}

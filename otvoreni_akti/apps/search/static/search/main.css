@@ -1,6 +1,5 @@
 * {
     box-sizing: border-box;
-    -webkit-appearance: none;
 }
 
 :root {
@@ -153,6 +152,7 @@ form {
     background-color: var(--purple-dark-color);
     border-radius: 40px;
     color: #FFFFFF;
+    -webkit-appearance: none;
 }
 
 .search_metadata > select {

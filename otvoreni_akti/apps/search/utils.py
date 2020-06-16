@@ -107,7 +107,7 @@ def elastic_search(search_term, *args, **kwargs):
 
     query_set = ActDocument.search()\
         .query(q)\
-        .highlight('content', fragment_size=50) \
+        .highlight('content', fragment_size=100) \
         .filter(
             'range',
             **{'subject__item__period__end_date': {'from': start_date, 'to': timezone.now()}}

@@ -6,6 +6,12 @@
   --purple-dark-color: #522F91;
 }
 
+h3 {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1.8;
+}
+
 .container a, .container a:hover {
     color: var(--purple-dark-color);
 }
@@ -77,9 +83,9 @@
 form {
     display: flex;
     flex-direction: column;
-    align-items: center;
     margin: auto;
-    width: 100%;
+    padding-bottom: 40px;
+    width: 55%;
 }
 
 /* Search Flexbox */
@@ -88,16 +94,15 @@ form {
     flex-wrap: nowrap;
     height: 56px;
     border-radius: 40px;
-    border: 1px solid grey;
+    margin-bottom: 25px;
     width: 100%;
-    max-width: 730px;
     background: white;
 }
 
 .search_bar > input {
     width: 90%;
     border: none;
-    transition: box-shadow .3s;
+    outline: none;
     color: #522F91;
     border-radius: 0 50% 50% 0;
 }
@@ -109,15 +114,15 @@ form {
     margin-left: 20px;
     background: white;
     border: none;
+    outline: none;
     border-radius: 50%;
     cursor: pointer;
     transition: 500ms;
 }
 
 .search_bar > button:hover {
-    background: var(--purple-dark-color);
-    opacity: 0.9;
-    transition: 500ms;
+    opacity: 0.5;
+    transition: 300ms;
 }
 
 .search_bar button svg {
@@ -126,8 +131,12 @@ form {
 }
 
 .metadata_container {
-    display: flex;
     flex-flow: row wrap;
+}
+
+.search_expand {
+    text-align: center;
+    margin: auto;
 }
 
 .search_metadata {
@@ -136,17 +145,17 @@ form {
 }
 
 .search_metadata > input, select {
-    margin-top: 3px;
+    margin: 10px 0;
     padding: 10px;
+    height: 56px;
     border: 1px solid #FFFFFF;
     background-color: var(--purple-dark-color);
-    transition: box-shadow .3s;
     border-radius: 40px;
     color: #FFFFFF;
 }
 
-.search_metadata > select{
-    margin-top: 3px;
+.search_metadata > select {
+    margin: 10px 0;
 }
 
 .search_metadata > span {
@@ -163,10 +172,6 @@ form {
     margin-bottom: 25px;
 }
 
-#advanced_features .pt-2 {
-    text-align: center;
-}
-
 /* Search metrics */
 .search_metrics {
     color: var(--purple-dark-color);
@@ -178,11 +183,6 @@ form {
 }
 
 /* Help information (collapsible) */
-.collapsibleList {
-    margin: 25px 0 25px 2px;
-    /* font-size: smaller; */
-}
-
 .collapsibleList a {
     color: #FFFFFF;
 }
@@ -229,6 +229,21 @@ form {
     color: #522F91;
 }
 
+.results {
+    margin-top: 20px;
+    margin-bottom: 70px;
+}
+
+.results_body {
+    margin: 25px 0;
+}
+
+
+.page-item.active .page-link {
+    background-color: var(--purple-dark-color);
+    border-color: var(--purple-dark-color);
+}
+
 @media (max-width: 750px) {
     form {
         width: 90%;
@@ -248,6 +263,7 @@ form {
     }
     .search_metadata > input, select {
         padding: 3px;
+        height: 50px;
     }
     #advanced_features .pt-2 {
         font-size: 14px;

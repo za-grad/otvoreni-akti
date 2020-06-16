@@ -5,15 +5,15 @@
     <div class="container">
         <p class="search_metrics pt-2 mb-0">Trenutno indeksiramo <strong>{{ total_acts }}</strong> akata između <strong>{{ earliest_period|date:"d. E Y" }}</strong> i <strong>{{ latest_period|date:"d. E Y" }}</strong>.</p>
         {% if num_results == max_results %}
-            <p class="pt-2"><strong>Preko {{ num_results }} rezultata pronađeno. Molimo suzite vašu pretragu koristeći napredne opcije pretrage ({{ time_taken }} sekundi):</strong></p>
+            <p class="pt-2 pb-5"><strong>Preko {{ num_results }} rezultata pronađeno. Molimo suzite vašu pretragu koristeći napredne opcije pretrage ({{ time_taken }} sekundi):</strong></p>
         {% else %}
-            <p class="pt-2"><strong>{{ num_results }} rezultata ({{ time_taken }} sekundi):</strong></p>
+            <p class="pt-2 pb-5"><strong>{{ num_results }} rezultata ({{ time_taken }} sekundi):</strong></p>
         {% endif %}
         {% for result in results %}
-            <div class="mb-5 mt-2">
-                <h6>
-                    <a href="{{ root_url }}{{ result.content_url }}" target="_blank">
-                        {{ result.subject.subject_title }}
+            <div class="results">
+                <h3>
+                    <a href="{{root_url}}{{result.content_url}}" target="_blank">
+                        {{result.title}} <i class="fas fa-angle-double-right"></i> {{ result.subject.subject_title }}
                         {% if result.file_type == 'docx' %}
                             <i class="far fa-file-word"></i>
                         {% elif result.file_type == 'pdf' %}
@@ -22,45 +22,49 @@
                             <i class="far fa-file-alt"></i>
                         {% endif %}
                     </a>
-                </h6>
-                {% for fragment in result.meta.highlight.content %}
-                    <span class="highlight text-muted">{{ fragment|safe }}</span><br>
-                {% endfor %}
+                </h3>
+                <p class="results_body">
+                    {{ result.content|truncatechars:300 }}
+                    {% for fragment in result.meta.highlight.content %}
+                        <span class="highlight">{{ fragment|safe }}</span>
+                    {% endfor %}
+                </p>
                 <span class="period">Točka: <a href="{{ result.subject.item.period.period_url }}" target="_blank">#{{ result.subject.item.item_number }} od {{ result.subject.item.period.start_date|date:"d. E Y" }} do {{ result.subject.item.period.end_date|date:"d. E Y" }}</a></span><br>
-                <span class="subject">Tip: {{ result.title }}</span><br>
+                <span class="subject">Predmet: <a href="{{ result.subject.subject_url }}" target="_blank">{{ result.subject.subject_title }}</a></span><br>
                 <span class="archived"><a href="{% url 'act_detail' result.id %}" target="_blank">Prikaz teksta</a></span><br>
-                
             </div>
         {% endfor %}
 
         {% if results.has_other_pages %}
-            <ul class="pagination">
-                {% if results.has_previous  %}
-                    <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}&sort_by={{ request.GET.sort_by }}&file_type={{ request.GET.file_type }}&page={{ results.previous_page_number }}">Nazad</a></li>
-                    <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}&sort_by={{ request.GET.sort_by }}&file_type={{ request.GET.file_type }}&page=1">1</a></li>
-                {% endif %}
-                {% if results.number|add:'-2' > 1 %}
-                    <li class="page-item"><span>...</span></li>
-                {% endif %}
+            <div class="text-center">
+                <ul class="pagination justify-content-center">
+                    {% if results.has_previous  %}
+                        <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}&sort_by={{ request.GET.sort_by }}&file_type={{ request.GET.file_type }}&page={{ results.previous_page_number }}"><<</a></li>
+                        <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}&sort_by={{ request.GET.sort_by }}&file_type={{ request.GET.file_type }}&page=1">1</a></li>
+                    {% endif %}
+                    {% if results.number|add:'-2' > 1 %}
+                        <li class="page-item"><span>...</span></li>
+                    {% endif %}
 
-                {% if results.has_previous == True and results.previous_page_number > 1 %}
-                    <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}&sort_by={{ request.GET.sort_by }}&file_type={{ request.GET.file_type }}&page={{ results.previous_page_number }}">{{ results.previous_page_number }}</a></li>
-                {% endif %}
+                    {% if results.has_previous == True and results.previous_page_number > 1 %}
+                        <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}&sort_by={{ request.GET.sort_by }}&file_type={{ request.GET.file_type }}&page={{ results.previous_page_number }}">{{ results.previous_page_number }}</a></li>
+                    {% endif %}
 
-                <li class="page-item active"><a class="page-link" href="">{{ results.number }}</a></li>
+                    <li class="page-item active"><a class="page-link" href="">{{ results.number }}</a></li>
 
-                {% if results.has_next == True and results.next_page_number < results.paginator.num_pages %}
-                    <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}&sort_by={{ request.GET.sort_by }}&file_type={{ request.GET.file_type }}&page={{ results.next_page_number }}">{{ results.next_page_number }}</a></li>
-                {% endif %}
+                    {% if results.has_next == True and results.next_page_number < results.paginator.num_pages %}
+                        <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}&sort_by={{ request.GET.sort_by }}&file_type={{ request.GET.file_type }}&page={{ results.next_page_number }}">{{ results.next_page_number }}</a></li>
+                    {% endif %}
 
-                {% if results.number|add:'2' < results.paginator.num_pages %}
-                    <li class="page-item"><span>...</span></li>
-                {% endif %}
-                {% if results.has_next %}
-                    <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}&sort_by={{ request.GET.sort_by }}&file_type={{ request.GET.file_type }}&page={{ results.paginator.num_pages }}">{{ results.paginator.num_pages }}</a></li>
-                    <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}&sort_by={{ request.GET.sort_by }}&file_type={{ request.GET.file_type }}&page={{ results.next_page_number }}">Dalje</a></li>
-                {% endif %}
-            </ul>
+                    {% if results.number|add:'2' < results.paginator.num_pages %}
+                        <li class="page-item"><span>...</span></li>
+                    {% endif %}
+                    {% if results.has_next %}
+                        <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}&sort_by={{ request.GET.sort_by }}&file_type={{ request.GET.file_type }}&page={{ results.paginator.num_pages }}">{{ results.paginator.num_pages }}</a></li>
+                        <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}&sort_by={{ request.GET.sort_by }}&file_type={{ request.GET.file_type }}&page={{ results.next_page_number }}">>></a></li>
+                    {% endif %}
+                </ul>
+            </div>
         {% endif %}
     </div>
 

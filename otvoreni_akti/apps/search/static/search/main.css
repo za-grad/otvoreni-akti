@@ -152,6 +152,7 @@ form {
     background-color: var(--purple-dark-color);
     border-radius: 40px;
     color: #FFFFFF;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .search_metadata > select {

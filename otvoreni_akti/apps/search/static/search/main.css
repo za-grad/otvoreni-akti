@@ -45,6 +45,11 @@ h3 {
     opacity: 0.7;
 }
 
+.sponsors-footer {
+    background: var(--purple-dark-color);
+    opacity: unset;
+}
+
 .sponsors svg {
     min-width: 30px;
 }
@@ -226,8 +231,24 @@ form {
     padding-top: 6px;
 }
 
+.comments-button-white {
+  color: #ffffff;
+  border: 1px solid #ffffff;
+}
+
+.comments-button-about {
+  display: inline;
+  margin-left: 18px;
+  padding: 4px 9px;
+  width: auto;
+}
+
 .comments-button a, .comments-button a:hover {
     color: #522F91;
+}
+
+.comments-button-white a, .comments-button-white a:hover {
+    color: #ffffff;
 }
 
 .results {

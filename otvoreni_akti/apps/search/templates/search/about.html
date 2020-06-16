@@ -1,0 +1,49 @@
+{% extends 'search/base.html' %}
+
+{% load svg %}
+{% load static %}
+
+{% block content %}
+
+  <!-- Banner -->
+  <div class="header">
+    <div class="sponsors">
+        Tražilicu je izradila stranka
+        <a class="za-grad" href="http://za-grad.com/" target="_blank">{% svg 'search/za-grad' %}</a>
+        koja je dio
+        <a class="zjn" href="http://www.zagrebjenas.hr/" target="_blank">{% svg 'search/zjn' %}</a>
+        i
+        <a class="mozemo" href="https://mozemo.hr/" target="_blank">{% svg 'search/mozemo' %}</a> platforme.
+        Podršku je pružila inicijativa
+        <a class="cfc" href="https://codeforcroatia.org/" target="_blank">Programiraj za Hrvatsku <img src={% static 'search/cube-cfc.png' %}></a>
+    </div>
+    <div class="logo">
+        <a href="{% url 'search_home' %}">{% svg 'search/otvoreni-akti-with-subtitle' %}</a>
+    </div>
+  
+  </div>
+
+  <div class="container">
+    <div class="results">
+        <h3>
+            Manifest
+        </h3>
+
+            <p>Stranka ZA GRAD, kao dio Zagreb je NAŠ! i Možemo! platforme na ovim vam stranicama predstavlja projekt “Otvoreni akti”. Projekt predstavlja jednostavniju, bolju i transparentniju tražilicu svih gradonačelnikovih donesenih akata. Dok je <<a href="http://web.zagreb.hr/sjednice/2017/Sjednice_2017.nsf/DRJ?OpenFrameSet">postojeća web stranica za pretraživanje gradonačelnikovih akata</a> izuzetno nepregledna i nedostojna 21. stoljeća, naša tražilica predstavlja samo mali dio onoga što možemo i hoćemo napraviti na području digitalizacije i transparentnosti javne uprave, počevši od Zagreba.</p>
+            
+            <p>Umjesto pokušaja zataškavanja sumnjivih odluka, loših sučelja i kompliciranih procedura, “Otvoreni akti” su jednostavna i transparentna tražilica koja omogućuje pretraživanje ne samo i originalnih stranica, nego i svih PDF i Word dokumenata povezanih s donesenim gradonačelnikovim aktima – nešto što do sada nije bilo moguće. Kao jedan izdvojen primjer, dok pretraga za termin “praška” na originalnoj stranici vraća samo tri rezultata, Otvoreni akti pronalaze taj termin u 270 dokumenata, uključujući i Word dokumente koji spominju razne otpise nenaplaćenih potraživanja na adresi Praška 2 (što može ili ne mora biti sumnjivo, na novinarima je da se poigraju s rezultatima – slučajno se radi o adresi na kojoj je i prostor stranke Bandić Milan 365 - Stranka rada i solidarnosti). Otvoreni akti također omogućuju i naprednu pretragu uključivanjem i isključivanjem željenih termina ili cijelih fraza te filtriranje po datumu. Projekt je naš poklon svim novinarima, istraživačima i građanima u nadi da će se koristiti kao sredstvo u borbi protiv korupcije i za postizanje transparentnije javne uprave kakvu Zagreb i Hrvatska zaslužuju.</p>
+
+            <p>Smatramo da je pravo vrijeme za ovakve projekte upravo sad, dok Grad Zagreb pokušava prodati APIS IT, gradsko poduzeće odgovorno za digitalizaciju uprave. Pritom, za čak 92% administrativnih procesa u Hrvatskoj u 2020. još je uvijek potrebno osobno ispunjavati i predavati papirnate obrasce na šalterima. U ovoj smo domeni iza brojnih drugih europskih zemalja koje su došle dalje u procesu digitalizacije.</p>
+
+            <p>Također, iako je ovaj projekt financiran isključivo iz vijećničkih naknada, na gradskoj razini vode se pokušaji ukidanja vijećničkih naknada koji bi posebno naštetili malim političkim strankama poput naše i ograničilo naše šanse u natjecanju s većim strankama.</p>
+
+            <p>Ako želite podržati naš rad i otvoreniju i učinkovitiju javnu službu, podržite nas na predstojećim parlamentarnim izborima. Glasajte za <a href="https://www.mozemo.hr/">Možemo!</a> koaliciju, donirajte našoj kampanji, koristite Otvorene akte i podijelite ih sa svojim prijateljima na društvenim mrežama. Hvala na podršci!</p>
+            
+            
+    </div>
+
+  </div>
+  
+  <div class="sponsors sponsors-footer"><a class="za-grad" href="http://za-grad.com/" target="_blank">{% svg 'search/za-grad' %}</a> <a class="zjn" href="http://www.zagrebjenas.hr/" target="_blank">{% svg 'search/zjn' %}</a> <a class="mozemo" href="https://mozemo.hr/" target="_blank">{% svg 'search/mozemo' %}</a></div>
+
+{% endblock content %}

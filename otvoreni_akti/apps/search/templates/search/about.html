@@ -1,10 +1,14 @@
 {% extends 'search/search_home.html' %}
 
+{% load svg %}
+
 {% block search_results %}
     <div class="container">
         <div class="results">
 
-            <h3>Manifest</h3>
+            <h2>
+                O projektu
+            </h2>
 
             <p>Stranka ZA GRAD, kao dio Zagreb je NAŠ! i Možemo! platforme na ovim vam stranicama predstavlja projekt “Otvoreni akti”. Projekt predstavlja jednostavniju, bolju i transparentniju tražilicu svih gradonačelnikovih donesenih akata. Dok je <<a href="http://web.zagreb.hr/sjednice/2017/Sjednice_2017.nsf/DRJ?OpenFrameSet">postojeća web stranica za pretraživanje gradonačelnikovih akata</a> izuzetno nepregledna i nedostojna 21. stoljeća, naša tražilica predstavlja samo mali dio onoga što možemo i hoćemo napraviti na području digitalizacije i transparentnosti javne uprave, počevši od Zagreba.</p>
 
@@ -12,11 +16,14 @@
 
             <p>Smatramo da je pravo vrijeme za ovakve projekte upravo sad, dok Grad Zagreb pokušava prodati APIS IT, gradsko poduzeće odgovorno za digitalizaciju uprave. Pritom, za čak 92% administrativnih procesa u Hrvatskoj u 2020. još je uvijek potrebno osobno ispunjavati i predavati papirnate obrasce na šalterima. U ovoj smo domeni iza brojnih drugih europskih zemalja koje su došle dalje u procesu digitalizacije.</p>
 
-            <p>Također, iako je ovaj projekt financiran isključivo iz vijećničkih naknada, na gradskoj razini vode se pokušaji ukidanja vijećničkih naknada koji bi posebno naštetili malim političkim strankama poput naše i ograničilo naše šanse u natjecanju s većim strankama.</p>
+            <p>Ovaj je projekt financiran iz vijećničkih naknada i volonterskim radom.</p>
 
             <p>Ako želite podržati naš rad i otvoreniju i učinkovitiju javnu službu, podržite nas na predstojećim parlamentarnim izborima. Glasajte za <a href="https://www.mozemo.hr/">Možemo!</a> koaliciju, donirajte našoj kampanji, koristite Otvorene akte i podijelite ih sa svojim prijateljima na društvenim mrežama. Hvala na podršci!</p>
 
         </div>
     </div>
+    
+    <div class="sponsors sponsors-footer"><a class="za-grad" href="http://za-grad.com/" target="_blank">{% svg 'search/za-grad' %}</a> <a class="zjn" href="http://www.zagrebjena
+    s.hr/" target="_blank">{% svg 'search/zjn' %}</a> <a class="mozemo" href="https://mozemo.hr/" target="_blank">{% svg 'search/mozemo' %}</a></div>
 
 {% endblock search_results %}

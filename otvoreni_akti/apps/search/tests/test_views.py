@@ -83,5 +83,5 @@ class TestActDetail(TestCase):
 
 class TestSearchAbout(TestCase):
     def test_about_view_uses_correct_template(self):
-        response = self.client.get('/manifest/')
+        response = self.client.get('/o-projektu/')
         self.assertTemplateUsed(response, 'search/about.html')

@@ -72,7 +72,10 @@ h3 {
 
 .sponsors .cfc {
     color: white;
-    text-decoration: underline;
+}
+
+.sponsors a.cfc {
+  text-decoration: underline;
 }
 
 .sponsors .cfc img {
@@ -82,7 +85,7 @@ h3 {
 }
 
 @media (max-width: 1200px) {
-    .sponsors { font-size: 11px; }
+    .sponsors { font-size: 10px; }
 }
 
 /* Form Flexbox */
@@ -234,9 +237,10 @@ form {
 }
 
 .comments-button-about {
-  display: inline;
+  display: inline-block;
+  margin-top: 2px;
   margin-left: 18px;
-  padding: 4px 9px;
+  padding: 1px 20px;
   width: auto;
 }
 

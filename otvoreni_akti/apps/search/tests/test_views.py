@@ -80,3 +80,8 @@ class TestActDetail(TestCase):
         self.assertTemplateUsed(response, 'search/act_detail.html')
         self.assertContains(response, 'Letsgetschwifti')
 
+
+class TestSearchAbout(TestCase):
+    def test_about_view_uses_correct_template(self):
+        response = self.client.get('/manifest/')
+        self.assertTemplateUsed(response, 'search/about.html')

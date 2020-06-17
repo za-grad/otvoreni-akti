@@ -73,8 +73,10 @@ def act_detail(request, id):
     }
     return render(request, 'search/act_detail.html', context)
 
+
 def about(request):
     return render(request, 'search/about.html')
+
 
 def view_404(request, exception=None):
     return redirect(search_home)

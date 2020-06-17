@@ -25,102 +25,105 @@
         <div class="logo">
             <a href="{% url 'search_home' %}">{% svg 'search/otvoreni-akti-with-subtitle' %}</a>
         </div>
-    
-        <form method="get" action="{% url 'search_results' %}">
-            <!-- Search Bar -->
-            <div class="search_bar">
-                <button type="submit">
-                    {% svg 'search/ic_search' %}
-                </button>
-                <input type="text" name="q" placeholder="Pretraži po aktu, imenu, pojmu, ..." 
-                       value="{{ request.GET.q }}">
-            </div>
-            <!-- Advanced Search Features -->
-            <div>
-                <span>
-                    <p class="text-body collapsibleList search_expand">
-                        <a data-toggle="collapse" href="#advanced_features" role="button" aria-expanded="false" aria-controls="advanced_features">
-                            Napredne opcije pretrage
-                        </a>
-                    </p>
-                </span>
-            </div>
-            {% if advanced_used %}
-                <div class="collapse show mb-0" id="advanced_features">
-            {% else %}
-                <div class="collapse mb-0" id="advanced_features">
-            {% endif %}
-                <div class="mt-2 metadata_container d-flex justify-content-between">
-                    <div class="search_metadata">
-                        <span>Datum</span><br>
-                        <input type="date" name="start_date" value="{{ request.GET.start_date }}">
-                        do
-                        <input type="date" name="end_date" value="{{ request.GET.end_date }}">
-                    </div>
-                    <div class="search_metadata">
-                        <span>Tip podataka</span><br>
-                        <select name="file_type">
-                            <option value="All" {% if request.GET.file_type == 'All' %}selected
-                            {% endif %}>Svi</option>
-                            <option value="html" {% if request.GET.file_type == 'html' %}selected{% endif %}>HTML</option>
-                            <option value="pdf" {% if request.GET.file_type == 'pdf' %}selected{% endif %}>pdf</option>
-                            <option value="docx" {% if request.GET.file_type == 'docx' %}selected{% endif %}>docx</option>
-                        </select>
-                    </div>
-                    <div class="search_metadata">
-                        <span>Sortiraj po</span><br>
-                        <select name="sort_by">
-                            <option value="newest_first" 
-                                    {% if request.GET.sort_by == 'newest_first' %}selected{% endif %}>Najnovije</option>
-                            <option value="oldest_first" 
-                                    {% if request.GET.sort_by == 'oldest_first' %}selected{% endif %}>Najstarije</option>
-                            <option value="relevance" 
-                                    {% if request.GET.sort_by == 'relevance' %}selected
-                                    {% endif %}>Po Relevantnosti</option>
-                        </select>
-                    </div>
+
+        {% url 'about' as about %}
+        {% if request.get_full_path != about %}
+            <form method="get" action="{% url 'search_results' %}">
+                <!-- Search Bar -->
+                <div class="search_bar">
+                    <button type="submit">
+                        {% svg 'search/ic_search' %}
+                    </button>
+                    <input type="text" name="q" placeholder="Pretraži po aktu, imenu, pojmu, ..."
+                           value="{{ request.GET.q }}">
                 </div>
-                <div class="search_expand mb-2">
-                    <span class="text-body collapsibleList">
-                        <a class="collapsibleList" data-toggle="collapse" href="#feature_list" role="button" aria-expanded="true" aria-controls="feature_list">
-                            Klikni ovdje za prikaz cijele liste mogućnosti!
-                        </a>
+                <!-- Advanced Search Features -->
+                <div>
+                    <span>
+                        <p class="text-body collapsibleList search_expand">
+                            <a data-toggle="collapse" href="#advanced_features" role="button" aria-expanded="false" aria-controls="advanced_features">
+                                Napredne opcije pretrage
+                            </a>
+                        </p>
                     </span>
                 </div>
+                {% if advanced_used %}
+                    <div class="collapse show mb-0" id="advanced_features">
+                {% else %}
+                    <div class="collapse mb-0" id="advanced_features">
+                {% endif %}
+                    <div class="mt-2 metadata_container d-flex justify-content-between">
+                        <div class="search_metadata">
+                            <span>Datum</span><br>
+                            <input type="date" name="start_date" value="{{ request.GET.start_date }}">
+                            do
+                            <input type="date" name="end_date" value="{{ request.GET.end_date }}">
+                        </div>
+                        <div class="search_metadata">
+                            <span>Tip podataka</span><br>
+                            <select name="file_type">
+                                <option value="All" {% if request.GET.file_type == 'All' %}selected
+                                {% endif %}>Svi</option>
+                                <option value="html" {% if request.GET.file_type == 'html' %}selected{% endif %}>HTML</option>
+                                <option value="pdf" {% if request.GET.file_type == 'pdf' %}selected{% endif %}>pdf</option>
+                                <option value="docx" {% if request.GET.file_type == 'docx' %}selected{% endif %}>docx</option>
+                            </select>
+                        </div>
+                        <div class="search_metadata">
+                            <span>Sortiraj po</span><br>
+                            <select name="sort_by">
+                                <option value="newest_first"
+                                        {% if request.GET.sort_by == 'newest_first' %}selected{% endif %}>Najnovije</option>
+                                <option value="oldest_first"
+                                        {% if request.GET.sort_by == 'oldest_first' %}selected{% endif %}>Najstarije</option>
+                                <option value="relevance"
+                                        {% if request.GET.sort_by == 'relevance' %}selected
+                                        {% endif %}>Po Relevantnosti</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="search_expand mb-2">
+                        <span class="text-body collapsibleList">
+                            <a class="collapsibleList" data-toggle="collapse" href="#feature_list" role="button" aria-expanded="true" aria-controls="feature_list">
+                                Klikni ovdje za prikaz cijele liste mogućnosti!
+                            </a>
+                        </span>
+                    </div>
 
-                <div class="collapse collapsibleList" id="feature_list">
-                    <div>
-                        <ul class="mb-0 pt-2 pl-1 pb-2">
-                            <li>
-                                Koristite <strong>razmak</strong> između termina pretrage kako bi ih uključili sve (isto kao logičko <strong>OR</strong>)<br>
-                                <em>Primjer: <strong>Park Centar</strong> će prokazati rezultate za 'Park' skupa s rezultatima za 'Centar'</em>
-                            </li>
-                            <li>
-                                Koristite <strong>AND</strong> ispred termina koji mora biti uključen<br>
-                                <em>Primjer: <strong>Park AND Centar</strong> će prikazati rezultate za 'Park' koji moraju uključivati i termin 'Centar'</em>
-                            </li>
-                            <li>
-                                Koristite <strong>NOT</strong>  prije termina koji mora biti isklkjučen<br>
-                                <em>Prijmer: <strong>Park NOT Centar</strong> će pokazati rezultate za 'Park' koji ne smiju uključivati termin 'Centar'</em>
-                            </li>
-                            <li>
-                                Za <strong>"točnu frazu"</strong>, unesite tu frazu između duplih navodnika<br>
-                                <em>Primjer: <strong>"Park Centar"</strong> će pokazati samo rezultate za točnu frazu "Park Centar"</em>
-                            </li>
-                            <li>
-                                Logički operatori mogu biti <strong>ulančani</strong> kako bi tvorili kompleksnije upite<br>
-                                <em>Primjer: <strong>"Volonterski Centar" AND Park NOT Knjižnice</strong> će vratiti rezultate za točnu frazu "Volonterski Centar" koji moraju uključivati i termin 'Park' i koji ne uključuju termin 'Knjižnice'</em>
-                            </li>
-                            <li>
-                                Napomena: logički operatori ne mogu biti ulančani bez termina između nih<br>
-                                <em>Primjer: <strong>Park AND NOT Centar</strong> neće vraćati rezultate za 'Park' koji ne uključuju 'Centar'. Za takav bi rezultat trebali napisati upit <strong>Park NOT Centar</strong>.</em>
-                            </li>
-                        </ul>
+                    <div class="collapse collapsibleList" id="feature_list">
+                        <div>
+                            <ul class="mb-0 pt-2 pl-1 pb-2">
+                                <li>
+                                    Koristite <strong>razmak</strong> između termina pretrage kako bi ih uključili sve (isto kao logičko <strong>OR</strong>)<br>
+                                    <em>Primjer: <strong>Park Centar</strong> će prokazati rezultate za 'Park' skupa s rezultatima za 'Centar'</em>
+                                </li>
+                                <li>
+                                    Koristite <strong>AND</strong> ispred termina koji mora biti uključen<br>
+                                    <em>Primjer: <strong>Park AND Centar</strong> će prikazati rezultate za 'Park' koji moraju uključivati i termin 'Centar'</em>
+                                </li>
+                                <li>
+                                    Koristite <strong>NOT</strong>  prije termina koji mora biti isklkjučen<br>
+                                    <em>Prijmer: <strong>Park NOT Centar</strong> će pokazati rezultate za 'Park' koji ne smiju uključivati termin 'Centar'</em>
+                                </li>
+                                <li>
+                                    Za <strong>"točnu frazu"</strong>, unesite tu frazu između duplih navodnika<br>
+                                    <em>Primjer: <strong>"Park Centar"</strong> će pokazati samo rezultate za točnu frazu "Park Centar"</em>
+                                </li>
+                                <li>
+                                    Logički operatori mogu biti <strong>ulančani</strong> kako bi tvorili kompleksnije upite<br>
+                                    <em>Primjer: <strong>"Volonterski Centar" AND Park NOT Knjižnice</strong> će vratiti rezultate za točnu frazu "Volonterski Centar" koji moraju uključivati i termin 'Park' i koji ne uključuju termin 'Knjižnice'</em>
+                                </li>
+                                <li>
+                                    Napomena: logički operatori ne mogu biti ulančani bez termina između nih<br>
+                                    <em>Primjer: <strong>Park AND NOT Centar</strong> neće vraćati rezultate za 'Park' koji ne uključuju 'Centar'. Za takav bi rezultat trebali napisati upit <strong>Park NOT Centar</strong>.</em>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-        </form>
+            </form>
+        {% endif %}
     </div>
 
     {% block search_results %}

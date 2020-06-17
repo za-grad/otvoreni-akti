@@ -25,6 +25,23 @@
 				{% endif %}
 			{% endblock title %}
 		</title>
+		
+		<meta property="og:title" content="Otvoreni akti">
+		<meta property="og:description" content="Bolja tražilica gradonačelnikovih akata">
+		<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'search/social.png' %}">
+		<meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}">
+		<meta name="twitter:card" content="summary_large_image">
+		
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-169844219-1"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+
+		  gtag('config', 'UA-169844219-1');
+		</script>
+
 
 		{% block head %}{% endblock %}
 	</head>

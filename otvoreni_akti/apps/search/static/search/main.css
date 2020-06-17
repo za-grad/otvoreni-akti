@@ -109,7 +109,7 @@ form {
     width: 90%;
     border: none;
     outline: none;
-    color: #522F91;
+    var(--purple-dark-color);
     border-radius: 0 50% 50% 0;
 }
 
@@ -157,7 +157,7 @@ form {
     border: 1px solid #FFFFFF;
     background-color: var(--purple-dark-color);
     border-radius: 40px;
-    color: #FFFFFF;
+    color: white;
     -webkit-appearance: none;
 }
 
@@ -166,13 +166,9 @@ form {
 }
 
 .search_metadata > span {
-    color: #FFFFFF !important;
+    color: white;
     margin-left: 2px;
     font-size: smaller;
-}
-
-.pt-2 span a {
-    color: #FFFFFF !important;
 }
 
 #advanced_features {
@@ -191,11 +187,11 @@ form {
 
 /* Help information (collapsible) */
 .collapsibleList a {
-    color: #FFFFFF;
+    color: white;
 }
 
 .collapsibleList a:hover {
-    color: #FFFFFF;
+    color: white;
 }
 
 /* Highlighted text */
@@ -207,7 +203,7 @@ form {
 .comment-modal {
     width: 220px;
     height: 140px;
-    background-color: #FFFFFF;
+    background-color: white;
     position: fixed;
     right: 20px;
     bottom: 20px;
@@ -218,23 +214,23 @@ form {
     font-size: 12px;
     line-height: 16px;
     text-align: center;
-    color: #522F91;
+    color: var(--purple-dark-color);
     padding: 20px 25px;
 }
 
 .comments-button {
     width: 176px;
     height: 32px;
-    color: #522F91;
-    border: 1px solid #522F91;
+    color: var(--purple-dark-color);
+    border: 1px solid var(--purple-dark-color);
     border-radius: 40px;
     margin-top: 20px;
     padding-top: 6px;
 }
 
 .comments-button-white {
-  color: #ffffff;
-  border: 1px solid #ffffff;
+  color: white;
+  border: 1px solid white;
 }
 
 .comments-button-about {
@@ -245,11 +241,11 @@ form {
 }
 
 .comments-button a, .comments-button a:hover {
-    color: #522F91;
+    color: var(--purple-dark-color);
 }
 
 .comments-button-white a, .comments-button-white a:hover {
-    color: #ffffff;
+    color: white;
 }
 
 .results {
@@ -259,6 +255,12 @@ form {
 
 .results_body {
     margin: 25px 0;
+}
+
+.about {
+    margin-top: 50px;
+    margin-bottom: 170px;
+    text-align: justify;
 }
 
 
@@ -299,7 +301,7 @@ form {
         width: 56px;
         background-image: url(../svg/search/ic_comment.svg);
         background-repeat: no-repeat;
-        background-color: #FFFFFF;
+        background-color: white;
         background-position: center;
         position: fixed;
         right: 10px;

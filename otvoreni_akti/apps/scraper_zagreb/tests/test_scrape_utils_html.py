@@ -3,8 +3,9 @@ import os
 from bs4 import BeautifulSoup
 from django.test import TestCase
 import pytest
-from .mock_requests import requests_patcher
+
 from .. import scrape_utils_html
+from otvoreni_akti.apps.common_utils.tests.mock_requests import requests_patcher
 from otvoreni_akti.apps.common_utils.scrape_utils_requests import requests_retry_session
 from otvoreni_akti.apps.search.models import Period, Item, Subject, Act
 

@@ -1,151 +1,107 @@
+import locale
 import re
-import time
-from requests import exceptions
+from datetime import datetime
+from django.utils import timezone
+import dateparser
 from bs4 import BeautifulSoup
+
 from .models import ScraperPeriod
-from .db_utils import write_period_to_db, write_subject_to_db, write_act_to_db
+from otvoreni_akti.apps.search.models import Period, Item, Subject, Act
+from otvoreni_akti.apps.common_utils.scrape_utils_docu import extract_pdffile_data
 from otvoreni_akti.apps.common_utils.scrape_utils_requests import requests_retry_session
 from otvoreni_akti.settings import ACTS_ROOT_URL_SPLIT as root_url
 
 
-def get_visible_text(soup) -> str:
-    # Additional check for pages with JavaScript redirects
-    if 'location.replace(' in soup.getText():
-        # Regex to extract redirect URL from the 'else' branch of Javascript code
-        result = re.search('else\n {4}location.replace[(]"(.*)"[)];', soup.getText())
-        act_url = result.group(1)
-        site = requests_retry_session().get(root_url + act_url).content
-        soup = BeautifulSoup(site, 'html.parser')
-        text = get_visible_text(soup)
-        return text
-    # kill all script and style elements
-    for script in soup(["script", "style"]):
-        script.extract()  # rip it out
-    text = soup.getText()
-    # break into lines and remove leading and trailing space on each
-    lines = (line.strip() for line in text.splitlines())
-    # break multi-headlines into a line each
-    chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
-    # drop blank lines
-    text = '\n'.join(chunk for chunk in chunks if chunk)
-    return text
+def text_to_date(raw_date: str) -> datetime:
+    date_string_1 = re.sub('[\'\"\.\((.*?)\)]','', raw_date)
+    date_string_2 = re.sub('studenoga|studenog','studeni', date_string_1)
+    date_string_3 = re.sub('sijecnj[ \-\_]','sijecnja', date_string_2)
+    date_string_4 = re.sub('lipnj[ \-\_]','lipnja', date_string_3)
+    date_string_final = re.search('.*\d{4}', date_string_4).group(0)
+
+    # parse date and make timezone aware
+    date = dateparser.parse(date_string_final, languages=['hr'])
+    return timezone.make_aware(date)
 
 
-def parse_subject_details(url: str) -> dict:
-    site = requests_retry_session().get(url).content
+def scrape_new_periods():
+    print('Searching for any new date ranges to be scraped from Split city database...')
+    full_url = root_url + '/gradska-uprava/gradonacelnik/akti-gradonacelnika'
+    site = requests_retry_session().get(full_url).content
     soup = BeautifulSoup(site, 'html.parser')
+    raw_urls = soup.select('.c-documents-list__item-link')
 
-    text = get_visible_text(soup)
-    subject_details = {'text': text}
+    # Create dictionary of links:titles
+    raw_urls_dict = {
+        url['href']:                                               # dict key of hrefs
+        text_to_date(url.div.get_text(strip=True))                 # dict value of titles in datetime format
+        for url in raw_urls
+    }
+    raw_urls_set = {k for k in raw_urls_dict}
 
-    act_titles = [el.get_text().strip() for el in soup.select('td a')]
-    act_urls = [el.attrs['href'].lower() for el in soup.select('td a')]
+    existing_urls = set(ScraperPeriod.objects.values_list('url', flat=True))
+    new_urls = raw_urls_set.difference(existing_urls)
 
-    acts = []
-    for i, act_url in enumerate(act_urls):
-        site = requests_retry_session().get(root_url + act_url).content
-        soup = BeautifulSoup(site, 'html.parser')
-        act_content = get_visible_text(soup)
-        act_title = act_titles[i]
-        acts.append(
-            {
-                'act_content': act_content,
-                'act_url': act_url,
-                'act_title': act_title,
-                'act_file_type': 'HTML',
-            }
-        )
+    # create new ScraperPeriod objects if required
+    if new_urls:
+        for url in new_urls:
+            date = raw_urls_dict[url]
 
-    # Check for word or pdf attachments
-    if "<a href='" in text:
-        # Regex to extract link to document
-        docu_urls = re.findall("<a href='(.*)','Dokument", text)
-        for docu_url in docu_urls:
-            docu_title, docu_raw_data, docu_file_type = parse_document_link(docu_url)
-            acts.append(
-                {
-                    'act_content': docu_raw_data,
-                    'act_url': docu_url,
-                    'act_title': docu_title,
-                    'act_file_type': docu_file_type,
-                }
+            # fix bug for date in 2107
+            if date.strftime('%Y') == '2107':
+                date = date.replace(year=2017)
+
+            print(f"Found new period: {date.strftime('%d %b %Y')}...")
+            ScraperPeriod.objects.create(
+                url=url,
+                date=date,
             )
-    subject_details['acts'] = acts
-    return subject_details
 
 
-def scrape_engine(act_period: str, periods_url: str) -> None:
-    """
-    Scraper engine used to scrape open act.
+def scrape_new_acts():
+    locale.setlocale(locale.LC_ALL, '')
+    unscraped_scraper_periods = ScraperPeriod.objects.filter(scrape_completed=False).order_by('-date')
+    if unscraped_scraper_periods:
+        for scraper_period in unscraped_scraper_periods:
+            full_url = root_url + scraper_period.url
 
-    :param str act_period:
-        Example: '20. siječnja 2020. - 24.siječnja 2020'
+            print(f"Scraping new act for {scraper_period.date.strftime('%d %b %Y')} from {scraper_period.url}")
+            pdf_text = extract_pdffile_data(url_pdf=full_url)
 
-    :param str periods_url:
-        Example: 'http://web.zagreb.hr/sjednice/2017/Sjednice_2017.nsf/DRJ?OpenAgent&'
-    """
-    act_period = act_period.strip().lower()
-    print('\nScraping period: ', act_period)
-    url = (periods_url + act_period).replace(' ', '%20').lower()
-    print(url)
-    period_obj = write_period_to_db(act_period, url)
-    subjects, num_els = parse_subjects_list(url)
-    for subject in subjects:
-        parse_complete = False
-        max_retries = 10
-        sleep_time = 10
-        print('Parsing ', subject['subject_url'])
-        while not parse_complete and max_retries > 0:
-            try:
-                subject_details = parse_subject_details(subject['subject_url'])
-                parse_complete = True
-            except exceptions.ConnectionError as e:
-                parse_complete = False
-                max_retries -= 1
-                print('Connection Error while parsing {}:\n{}\n'.format(subject['subject_url'], e))
-                print('Retrying...\n')
-                time.sleep(sleep_time)
-        if max_retries == 0:
-            print('Maximum retries exceeded. Please run the scraper_zagreb again.\n')
-            raise exceptions.ConnectionError
-        subject['details'] = subject_details
-        subject_obj = write_subject_to_db(subject, period_obj)
-        write_act_to_db(subject['details']['acts'], subject_obj)
-        print('Parsed  ', subject['subject_url'], ' **')
+            # create Period object
+            date_as_text = scraper_period.date.strftime('%d. %b %Y')
+            period = Period.objects.create(
+                period_text=f'{date_as_text} to {date_as_text}',
+                start_date=scraper_period.date,
+                end_date=scraper_period.date,
+                period_url=full_url,
+            )
 
+            # create Item object
+            item = Item.objects.create(
+                period=period,
+                item_title=f'#1 from period {period}',
+                item_number=1,
+                item_text='Blank',
+            )
 
-def scrape_everything(year_range: str, url_suffix: str, *args, **kwargs) -> None:
-    """
-    Initial scrape to scrape all open acts with an option to scrape last n dates.
+            # create Subject object
+            subject = Subject.objects.create(
+                item=item,
+                subject_title=f'Split akti {date_as_text}',
+                subject_url=full_url,
+            )
 
-    :param str url_suffix:
-        URL suffix for which range of years to scrape.
+            # create Act object
+            Act.objects.create(
+                subject=subject,
+                title=f'Split akti {date_as_text}',
+                content_url=scraper_period.url,
+                content=pdf_text,
+                file_type='pdf',
+                city='Split',
+            )
 
-    :param str year_range:
-        Range of years to scrape from.
-        Example: '2017-20xx'
-
-    :param kwargs:
-        int rescrape_last_n:
-            Rescrapes the latest acts within the last 'rescrape_last_n' periods.
-        int max_periods:
-            Scrapes the latest acts within the last 'max_periods' periods.
-    """
-    periods_url = root_url + url_suffix.lower()
-    count = 0
-    all_periods = ScraperPeriod.objects.all().order_by('-start_date')
-    if 'max_periods' in kwargs:
-        max_periods = kwargs['max_periods']
-    else:
-        max_periods = all_periods.count()
-    for scraper_period in all_periods[:max_periods]:
-        if 'rescrape_last_n' in kwargs:
-            if scraper_period.scrape_completed is True \
-                    and scraper_period.year_range == year_range\
-                    and count < kwargs['rescrape_last_n']:
-                scrape_engine(scraper_period.period_text, periods_url)
-                count += 1
-        elif scraper_period.scrape_completed is False and scraper_period.year_range == year_range:
-            scrape_engine(scraper_period.period_text, periods_url)
             scraper_period.scrape_completed = True
             scraper_period.save()
+            input('STOP!')

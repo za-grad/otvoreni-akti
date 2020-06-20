@@ -11,4 +11,4 @@ class TestScraperPeriod(TestCase):
 
     def test_str(self):
         obj = mixer.blend('scraper_split.ScraperPeriod')
-        self.assertEqual(str(obj), str(obj.date))
+        self.assertEqual(str(obj), obj.url)

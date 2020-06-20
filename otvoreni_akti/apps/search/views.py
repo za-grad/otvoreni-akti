@@ -3,7 +3,10 @@ from datetime import datetime
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 
-from otvoreni_akti.settings import MAX_SEARCH_RESULTS, RESULTS_PER_PAGE, ACTS_ROOT_URL_ZAGREB as root_url
+from otvoreni_akti.settings import (MAX_SEARCH_RESULTS, RESULTS_PER_PAGE,
+                                    ACTS_ROOT_URL_ZAGREB as root_url_zagreb,
+                                    ACTS_ROOT_URL_SPLIT as root_url_split,
+                                    )
 from .utils import elastic_search
 from .models import Act, Period
 
@@ -54,7 +57,8 @@ def search_results(request):
             'results': results,
             'num_results': num_results,
             'max_results': MAX_SEARCH_RESULTS,
-            'root_url': root_url,
+            'root_url_zagreb': root_url_zagreb,
+            'root_url_split': root_url_split,
             'time_taken': time_taken,
             'earliest_period': earliest_period,
             'latest_period': latest_period,
@@ -67,6 +71,12 @@ def search_results(request):
 
 def act_detail(request, id):
     act = get_object_or_404(Act, id=id)
+
+    if act.city == 'Zagreb':
+        root_url = root_url_zagreb
+    elif act.city == 'Split':
+        root_url = root_url_split
+
     context = {
         'root_url': root_url,
         'act': act,

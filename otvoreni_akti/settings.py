@@ -187,7 +187,7 @@ sentry_sdk.init(
 
 # Custom variables
 ACTS_ROOT_URL_ZAGREB = 'http://web.zagreb.hr'
-ACTS_ROOT_URL_SPLIT = 'https://www.split.hr/'
+ACTS_ROOT_URL_SPLIT = 'https://www.split.hr'
 SITE_ID = 1
 RESCRAPE_LAST_N_PERIODS = 5
 MAX_SEARCH_RESULTS = 1000

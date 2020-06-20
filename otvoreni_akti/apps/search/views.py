@@ -3,7 +3,7 @@ from datetime import datetime
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 
-from otvoreni_akti.settings import MAX_SEARCH_RESULTS, RESULTS_PER_PAGE, ACTS_ROOT_URL as root_url
+from otvoreni_akti.settings import MAX_SEARCH_RESULTS, RESULTS_PER_PAGE, ACTS_ROOT_URL_ZAGREB as root_url
 from .utils import elastic_search
 from .models import Act, Period
 

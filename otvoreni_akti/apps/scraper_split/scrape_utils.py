@@ -4,9 +4,8 @@ from requests import exceptions
 from bs4 import BeautifulSoup
 from .models import ScraperPeriod
 from .db_utils import write_period_to_db, write_subject_to_db, write_act_to_db
-from .scrape_utils_docu import parse_document_link
 from otvoreni_akti.apps.common_utils.scrape_utils_requests import requests_retry_session
-from otvoreni_akti.settings import ACTS_ROOT_URL_ZAGREB as root_url
+from otvoreni_akti.settings import ACTS_ROOT_URL_SPLIT as root_url
 
 
 def get_visible_text(soup) -> str:
@@ -30,24 +29,6 @@ def get_visible_text(soup) -> str:
     # drop blank lines
     text = '\n'.join(chunk for chunk in chunks if chunk)
     return text
-
-
-def parse_subjects_list(url: str) -> tuple:
-    site = requests_retry_session().get(url).content
-    soup = BeautifulSoup(site, 'html.parser')
-    table_items = soup.select('.centralTD ul ol li')
-    print(len(table_items), ' elements')
-    subjects = []
-    for table_item in table_items:
-        content = table_item.contents[0]
-        if hasattr(content, 'href'):
-            link = content.attrs['href'].lower()
-            try:
-                subject_title = content.select('b')[0].contents[0]
-                subjects.append({'subject_title': subject_title, 'subject_url': root_url + link})
-            except AttributeError as e:
-                print('Error occured while extracting subject title from {}: {}'.format(content, e))
-    return subjects, len(table_items)
 
 
 def parse_subject_details(url: str) -> dict:

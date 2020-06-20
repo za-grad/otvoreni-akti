@@ -5,7 +5,7 @@ from django.test import TestCase
 import pytest
 from .mock_requests import requests_patcher
 from .. import scrape_utils_html
-from ..scrape_utils_requests import requests_retry_session
+from otvoreni_akti.apps.common_utils.scrape_utils_requests import requests_retry_session
 from otvoreni_akti.apps.search.models import Period, Item, Subject, Act
 
 pytestmark = pytest.mark.django_db

@@ -58,7 +58,8 @@ INSTALLED_APPS = [
     'django_elasticsearch_dsl',
     'svg',
     'otvoreni_akti.apps.search',
-    'otvoreni_akti.apps.scraper',
+    'otvoreni_akti.apps.scraper_zagreb',
+    'otvoreni_akti.apps.scraper_split',
 ]
 
 # Default host for Elasticsearch
@@ -162,11 +163,11 @@ CELERY_TASK_SERIALIZER = 'json'
 
 CELERY_BEAT_SCHEDULE = {
     'scrape-everything-per-schedule': {
-        'task': 'otvoreni_akti.apps.scraper.tasks.celery_scrape_everything',
+        'task': 'otvoreni_akti.apps.scraper_zagreb.tasks.celery_scrape_everything',
         'schedule': crontab(minute=0, hour=4),
     },
     'rescrape-last-n-periods-per-schedule': {
-        'task': 'otvoreni_akti.apps.scraper.tasks.celery_rescrape_last_n',
+        'task': 'otvoreni_akti.apps.scraper_zagreb.tasks.celery_rescrape_last_n',
         'schedule': crontab(minute=0, hour=0),
     },
 }

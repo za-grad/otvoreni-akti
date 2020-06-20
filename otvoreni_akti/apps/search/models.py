@@ -48,6 +48,7 @@ class Act(models.Model):
         default='HTML',
         choices=CHOICES,
     )
+    city = models.CharField(max_length=100, default='Zagreb')
 
     def __str__(self):
         return self.title

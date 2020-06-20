@@ -2,7 +2,7 @@ import io
 import docx2txt
 import fitz
 from bs4 import BeautifulSoup
-from .scrape_utils_requests import requests_retry_session
+from otvoreni_akti.apps.common_utils.scrape_utils_requests import requests_retry_session
 from otvoreni_akti.settings import ACTS_ROOT_URL as root_url
 
 

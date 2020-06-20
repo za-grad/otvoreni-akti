@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from .models import ScraperPeriod
 from .db_utils import parse_date_range
-from .scrape_utils_requests import requests_retry_session
+from otvoreni_akti.apps.common_utils.scrape_utils_requests import requests_retry_session
 from otvoreni_akti.settings import ACTS_ROOT_URL as root_url
 
 

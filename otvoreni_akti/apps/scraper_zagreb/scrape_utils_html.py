@@ -4,7 +4,7 @@ from requests import exceptions
 from bs4 import BeautifulSoup
 from .models import ScraperPeriod
 from .db_utils import write_period_to_db, write_subject_to_db, write_act_to_db
-from .scrape_utils_requests import requests_retry_session
+from otvoreni_akti.apps.common_utils.scrape_utils_requests import requests_retry_session
 from .scrape_utils_docu import parse_document_link
 from otvoreni_akti.settings import ACTS_ROOT_URL as root_url
 
@@ -125,7 +125,7 @@ def scrape_engine(act_period: str, periods_url: str) -> None:
                 print('Retrying...\n')
                 time.sleep(sleep_time)
         if max_retries == 0:
-            print('Maximum retries exceeded. Please run the scraper again.\n')
+            print('Maximum retries exceeded. Please run the scraper_zagreb again.\n')
             raise exceptions.ConnectionError
         subject['details'] = subject_details
         subject_obj = write_subject_to_db(subject, period_obj)

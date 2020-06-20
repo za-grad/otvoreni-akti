@@ -6,9 +6,9 @@ pytestmark = pytest.mark.django_db
 
 class TestScraperPeriod(TestCase):
     def test_model(self):
-        obj = mixer.blend('scraper.ScraperPeriod')
+        obj = mixer.blend('scraper_split.ScraperPeriod')
         self.assertEqual(obj.pk, 1)
 
     def test_str(self):
-        obj = mixer.blend('scraper.ScraperPeriod')
-        self.assertEqual(str(obj), obj.period_text)
+        obj = mixer.blend('scraper_split.ScraperPeriod')
+        self.assertEqual(str(obj), str(obj.date))

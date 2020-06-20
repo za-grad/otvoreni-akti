@@ -7,8 +7,8 @@ admin.site.register(Item)
 @admin.register(Act)
 class ActAdmin(admin.ModelAdmin):
     # List view
-    list_display = ('title', 'file_type', 'content_url',)
-    list_filter = ('file_type',)
+    list_display = ('title', 'file_type', 'city', 'content_url',)
+    list_filter = ('file_type', 'city',)
     search_fields = ('title', 'content', 'content_url',)
 
 

@@ -2,9 +2,10 @@ import re
 import time
 from requests import exceptions
 from bs4 import BeautifulSoup
+
 from .models import ScraperPeriod
 from .db_utils import write_period_to_db, write_subject_to_db, write_act_to_db
-from .scrape_utils_docu import parse_document_link
+from otvoreni_akti.apps.common_utils.scrape_utils_docu import parse_zagreb_document_link
 from otvoreni_akti.apps.common_utils.scrape_utils_requests import requests_retry_session
 from otvoreni_akti.settings import ACTS_ROOT_URL_ZAGREB as root_url
 
@@ -80,7 +81,7 @@ def parse_subject_details(url: str) -> dict:
         # Regex to extract link to document
         docu_urls = re.findall("<a href='(.*)','Dokument", text)
         for docu_url in docu_urls:
-            docu_title, docu_raw_data, docu_file_type = parse_document_link(docu_url)
+            docu_title, docu_raw_data, docu_file_type = parse_zagreb_document_link(docu_url)
             acts.append(
                 {
                     'act_content': docu_raw_data,

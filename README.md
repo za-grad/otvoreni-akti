@@ -33,12 +33,12 @@ honcho -f Procfile.dev start
 ```
 
 
-Scrape the web and populate Django DB:
+Scrape the web and populate Django DB for Zagreb:
 
 ```bash
 python manage.py migrate
 python manage.py shell
-from otvoreni_akti.apps.scraper import scrape
+from otvoreni_akti.apps.scraper_zagreb import scrape
 ```
 To scrape everything: ```scrape.start()```
 
@@ -46,6 +46,17 @@ To perform a limited scrape of last 3 periods ```scrape.start(max_periods=3)```
 
 To rescrape last few entries ```scrape.rescrape()```
 
+
+Scrape the web and populate Django DB for Split:
+
+```bash
+python manage.py migrate
+python manage.py shell
+from otvoreni_akti.apps.scraper_split import scrape
+```
+To scrape everything: ```scrape.start()```
+
+To perform a limited scrape of last 3 periods ```scrape.start(max_periods=3)```
 
 
 Running Elasticsearch:

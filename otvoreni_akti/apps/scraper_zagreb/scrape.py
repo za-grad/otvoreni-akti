@@ -39,11 +39,11 @@ def start(*args, **kwargs):
             If max_periods is not defined or 0, it scrapes everything.
     """
     for k, v in sidebar_dict.items():
-        print('Searching for any new date ranges to be scraped from {}...'.format(k))
+        print('Searching in Grad Zagreb for any new date ranges to be scraped from {}...'.format(k))
         extract_dates(year_range=k, url_suffix=v)
 
     for k, v in akti_dict.items():
-        print('Scrape started for date ranges in {}'.format(k))
+        print('Scrape of Grad Zagreb started for date ranges in {}'.format(k))
         if 'max_periods' in kwargs:
             max_periods = kwargs['max_periods']
             scrape_everything(year_range=k, url_suffix=v, max_periods=max_periods)

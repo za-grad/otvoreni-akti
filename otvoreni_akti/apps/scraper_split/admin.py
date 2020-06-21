@@ -9,3 +9,4 @@ class ScraperAdmin(admin.ModelAdmin):
     list_filter = ('date', )
     search_fields = ('date', 'url', )
     ordering = ('-date',)
+    list_per_page = 400

@@ -60,6 +60,15 @@
                             <input type="date" name="end_date" value="{{ request.GET.end_date }}">
                         </div>
                         <div class="search_metadata">
+                            <span>Grad</span><br>
+                            <select name="city">
+                                <option value="All" {% if request.GET.city == 'All' %}selected
+                                {% endif %}>Svi</option>
+                                <option value="Zagreb" {% if request.GET.city == 'Zagreb' %}selected{% endif %}>Zagreb</option>
+                                <option value="Split" {% if request.GET.city == 'Split' %}selected{% endif %}>Split</option>
+                            </select>
+                        </div>
+                        <div class="search_metadata">
                             <span>Tip podataka</span><br>
                             <select name="file_type">
                                 <option value="All" {% if request.GET.file_type == 'All' %}selected

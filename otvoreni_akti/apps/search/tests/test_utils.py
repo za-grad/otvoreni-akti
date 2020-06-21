@@ -15,6 +15,7 @@ class TestElasticSearch(TestCase):
             end_date=self.default_end_date,
             sort_by='relevance',
             file_type='All',
+            city='All',
         )
         self.assertEqual(type(results), Response)
 
@@ -25,6 +26,7 @@ class TestElasticSearch(TestCase):
             end_date=self.default_end_date,
             sort_by='relevance',
             file_type='All',
+            city='Zagreb',
         )
         self.assertEqual(type(results), Response)
 
@@ -35,6 +37,7 @@ class TestElasticSearch(TestCase):
             end_date='another garbage date',
             sort_by='newest_first',
             file_type='All',
+            city='All',
         )
         self.assertEqual(type(results), Response)
 
@@ -45,6 +48,7 @@ class TestElasticSearch(TestCase):
             end_date=self.default_end_date,
             sort_by='oldest_first',
             file_type='html',
+            city='All',
         )
         self.assertEqual(type(results), Response)
 
@@ -55,6 +59,7 @@ class TestElasticSearch(TestCase):
             end_date=self.default_end_date,
             sort_by='relevance',
             file_type='All',
+            city='All',
         )
         self.assertEqual(type(results), Response)
 
@@ -65,6 +70,7 @@ class TestElasticSearch(TestCase):
             end_date=self.default_end_date,
             sort_by='relevance',
             file_type='All',
+            city='All',
         )
         self.assertEqual(type(results), Response)
 
@@ -75,5 +81,6 @@ class TestElasticSearch(TestCase):
             end_date=self.default_end_date,
             sort_by='relevance',
             file_type='All',
+            city='All',
         )
         self.assertEqual(type(results), Response)

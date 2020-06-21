@@ -162,15 +162,20 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 
 CELERY_BEAT_SCHEDULE = {
-    'scrape-everything-per-schedule': {
+    'zagreb-scrape-everything-per-schedule': {
         'task': 'otvoreni_akti.apps.scraper_zagreb.tasks.celery_scrape_everything',
         'schedule': crontab(minute=0, hour=4),
     },
-    'rescrape-last-n-periods-per-schedule': {
+    'zagreb-rescrape-last-n-periods-per-schedule': {
         'task': 'otvoreni_akti.apps.scraper_zagreb.tasks.celery_rescrape_last_n',
         'schedule': crontab(minute=0, hour=0),
     },
+    'split-scrape-everything-per-schedule': {
+        'task': 'otvoreni_akti.apps.scraper_split.tasks.celery_scrape_everything',
+        'schedule': crontab(minute=0, hour=6),
+    },
 }
+
 
 # Sentry settings
 import sentry_sdk

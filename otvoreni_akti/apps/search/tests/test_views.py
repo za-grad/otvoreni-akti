@@ -76,7 +76,13 @@ class TestSearchResults(TestCase):
 class TestActDetail(TestCase):
     def test_act_detail_view_uses_correct_template(self):
         mixer.blend('search.Act', content='Letsgetschwifti', id=1)
+        mixer.blend('search.Act', city='Split', content='Letsgetschwifti', id=2)
+
         response = self.client.get('/acts/1/')
+        self.assertTemplateUsed(response, 'search/act_detail.html')
+        self.assertContains(response, 'Letsgetschwifti')
+
+        response = self.client.get('/acts/2/')
         self.assertTemplateUsed(response, 'search/act_detail.html')
         self.assertContains(response, 'Letsgetschwifti')
 

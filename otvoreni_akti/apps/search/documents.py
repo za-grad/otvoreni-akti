@@ -55,6 +55,7 @@ class ActDocument(Document):
             'title',
             'content_url',
             'file_type',
+            'city',
         ]
         related_models = [Subject, Item, Period]  # Optional: to ensure the Act will be re-saved when Subject is updated
 

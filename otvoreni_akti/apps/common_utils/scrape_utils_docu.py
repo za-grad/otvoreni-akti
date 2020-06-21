@@ -22,7 +22,7 @@ def extract_pdffile_data(url_pdf: str) -> str:
     return pdf_raw_data
 
 
-def parse_document_link(docu_url: str) -> tuple:
+def parse_zagreb_document_link(docu_url: str) -> tuple:
     site = requests_retry_session().get(root_url + docu_url).content
     soup = BeautifulSoup(site, 'html.parser')
     docu_text = soup.select('tr td b font')

@@ -10,10 +10,16 @@
             <p class="pt-2 pb-5"><strong>{{ num_results }} rezultata ({{ time_taken }} sekundi):</strong></p>
         {% endif %}
         {% for result in results %}
+
             <div class="results">
                 <h3>
-                    <a href="{{root_url}}{{result.content_url}}" target="_blank">
-                        {{result.title}} <i class="fas fa-angle-double-right"></i> {{ result.subject.subject_title }}
+                    {% if result.city == 'Zagreb' %}
+                        <a href="{{ root_url_zagreb }}{{ result.content_url }}" target="_blank">
+                            {{result.title}} <i class="fas fa-angle-double-right"></i> {{ result.subject.subject_title }}
+                    {% elif result.city == 'Split' %}
+                        <a href="{{ root_url_split }}{{ result.content_url }}" target="_blank">
+                            {{result.title}}
+                    {% endif %}
                         {% if result.file_type == 'docx' %}
                             <i class="far fa-file-word"></i>
                         {% elif result.file_type == 'pdf' %}

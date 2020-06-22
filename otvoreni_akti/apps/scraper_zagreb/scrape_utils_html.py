@@ -115,18 +115,17 @@ def scrape_engine(act_period: str, periods_url: str) -> None:
         max_retries = 10
         sleep_time = 10
         print('Parsing ', subject['subject_url'])
-        while not parse_complete and max_retries > 0:
+        while not parse_complete and max_retries > -1:
             try:
                 subject_details = parse_subject_details(subject['subject_url'])
                 parse_complete = True
             except exceptions.ConnectionError as e:
+                print('Connection Error while parsing {}: {}'.format(subject['subject_url'], e))
                 parse_complete = False
                 max_retries -= 1
-                print('Connection Error while parsing {}:\n{}\n'.format(subject['subject_url'], e))
-                print('Retrying...\n')
                 time.sleep(sleep_time)
-        if max_retries == 0:
-            print('Maximum retries exceeded. Please run the scraper_zagreb again.\n')
+        if max_retries == -1:
+            print('Maximum retries exceeded. Please run the Zagreb scraper again.\n')
             raise exceptions.ConnectionError
         subject['details'] = subject_details
         subject_obj = write_subject_to_db(subject, period_obj)

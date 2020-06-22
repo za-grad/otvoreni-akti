@@ -1,3 +1,5 @@
+import time
+from requests import exceptions
 from .scrape_utils import scrape_new_periods, scrape_new_acts
 
 
@@ -20,10 +22,24 @@ def start(*args, **kwargs):
             Scrapes the latest acts within the last 'max_periods' periods.
             If max_periods is not defined it scrapes everything.
     """
-    scrape_new_periods()
-
-    if 'max_periods' in kwargs:
-        max_periods = kwargs['max_periods']
-        scrape_new_acts(max_periods=max_periods)
-    else:
-        scrape_new_acts()
+    scrape_complete = False
+    max_retries = 10
+    sleep_time = 10
+    while not scrape_complete and max_retries > -1:
+        try:
+            scrape_new_periods()
+            if 'max_periods' in kwargs:
+                max_periods = kwargs['max_periods']
+                scrape_new_acts(max_periods=max_periods)
+            else:
+                scrape_new_acts()
+            scrape_complete = True
+        except exceptions.ConnectionError as e:
+            print(f'Connection Error while scraping Split acts: {e}')
+            print(f'{max_retries} retries left...')
+            scrape_complete = False
+            max_retries -= 1
+            time.sleep(sleep_time)
+    if max_retries == -1:
+        print('Maximum retries exceeded. Please run the Split scraper again.\n')
+        raise exceptions.ConnectionError

@@ -25,6 +25,7 @@ def elastic_search(search_term, *args, **kwargs):
         datetime end_date: Excludes any results after end_date
         string sort_by: Sorts results by date, relevance etc
         string file_type: Filters results by file type
+        string city: Filters results by city
 
     :return: query_set results:
         Returns search results to view
@@ -74,6 +75,12 @@ def elastic_search(search_term, *args, **kwargs):
     else:
         file_type = kwargs['file_type']
 
+    # Check for city
+    if not kwargs['city'] or kwargs['city'] == 'All':
+        city = 'All'
+    else:
+        city = kwargs['city']
+
     # Create a string to be evaluated later
     for position, token in enumerate(tokens):
         if token in keywords and (position == 0 or position == len(tokens)-1):
@@ -120,6 +127,9 @@ def elastic_search(search_term, *args, **kwargs):
 
     if file_type != 'All':
         query_set = query_set.filter('term', file_type=file_type)
+
+    if city != 'All':
+        query_set = query_set.filter('match', city=city)
 
     if sort_string:
         query_set = query_set.sort(sort_string)

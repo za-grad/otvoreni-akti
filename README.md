@@ -1,3 +1,7 @@
+## Live App
+
+You can check out the live version of Otvoreni-Akti here: https://akti.za-grad.com
+
 ## Development
 
 Set up a virtualenv:

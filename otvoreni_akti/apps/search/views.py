@@ -6,6 +6,7 @@ from django.core.paginator import Paginator
 from otvoreni_akti.settings import (MAX_SEARCH_RESULTS, RESULTS_PER_PAGE,
                                     ACTS_ROOT_URL_ZAGREB as root_url_zagreb,
                                     ACTS_ROOT_URL_SPLIT as root_url_split,
+                                    ACTS_ROOT_URL_RIJEKA as root_url_rijeka,
                                     )
 from .utils import elastic_search
 from .models import Act, Period
@@ -61,6 +62,7 @@ def search_results(request):
             'max_results': MAX_SEARCH_RESULTS,
             'root_url_zagreb': root_url_zagreb,
             'root_url_split': root_url_split,
+            'root_url_rijeka': root_url_rijeka,
             'time_taken': time_taken,
             'earliest_period': earliest_period,
             'latest_period': latest_period,

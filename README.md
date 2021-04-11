@@ -63,6 +63,18 @@ To scrape everything: ```scrape.start()```
 To perform a limited scrape of last 3 periods ```scrape.start(max_periods=3)```
 
 
+Scrape the web and populate Django DB for Rijeka:
+
+```bash
+python manage.py migrate
+python manage.py shell
+from otvoreni_akti.apps.scraper_rijeka import scrape
+```
+To scrape everything: ```scrape.start()```
+
+To perform a limited scrape of last 3 periods ```scrape.start(max_periods=3)```
+
+
 Running Elasticsearch:
 
 Download and install Elasticsearch from the [official website](https://www.elastic.co/downloads/elasticsearch).

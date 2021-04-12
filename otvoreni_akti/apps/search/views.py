@@ -80,6 +80,8 @@ def act_detail(request, id):
         root_url = root_url_zagreb
     elif act.city == 'Split':
         root_url = root_url_split
+    elif act.city == 'Rijeka':
+        root_url = root_url_rijeka
 
     context = {
         'root_url': root_url,

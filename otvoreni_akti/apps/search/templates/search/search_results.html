@@ -21,7 +21,7 @@
                             {{result.title|slice:":-11"}} {{ result.subject.item.period.start_date|date:"d. E Y" }}
                     {% elif result.city == 'Rijeka' %}
                         <a href="{{ result.content_url }}" target="_blank">
-                            {{result.title}} {{ result.subject.item.item_title }}
+                            {{result.title}}
                     {% endif %}
                         {% if result.file_type == 'docx' %}
                             <i class="far fa-file-word"></i>
@@ -41,6 +41,8 @@
                 {% if result.city == 'Zagreb' %}
                     <span class="period">Točka: <a href="{{ result.subject.item.period.period_url }}" target="_blank">#{{ result.subject.item.item_number }} od {{ result.subject.item.period.start_date|date:"d. E Y" }} do {{ result.subject.item.period.end_date|date:"d. E Y" }}</a></span><br>
                     <span class="subject">Predmet: <a href="{{ result.subject.subject_url }}" target="_blank">{{ result.subject.subject_title }}</a></span><br>
+                {% elif result.city == 'Rijeka' %}
+                    <span class="period">Točka: <a href="{{ result.subject.item.period.period_url }}" target="_blank">{{ result.subject.item.item_title|slice:":-13" }} od {{ result.subject.item.period.start_date|date:"d. E Y" }} </a></span><br>
                 {% endif %}
                 <span class="archived"><a href="{% url 'act_detail' result.id %}" target="_blank">Prikaz teksta</a></span><br>
             </div>

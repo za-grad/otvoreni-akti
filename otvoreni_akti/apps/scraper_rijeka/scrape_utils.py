@@ -31,10 +31,9 @@ def scrape_new_periods(dummy='dummy'):
     Searches for any new new periods on the Grad Rijeka website and adds them to the database.
     Note: The dummy input is required for requests_patcher (mock requests) to work.
     """
-    ScraperPeriod.objects.all().delete
 
     print('Searching for any new sessions to be scraped from Grad Rijeka database...')
-    existing_urls = set(ScraperPeriod.objects.values_list('url', flat=True))
+    current_session_urls = set(ScraperPeriod.objects.values_list('url', flat=True))
 
     page_url = root_url + '/gradska-uprava/gradonacelnik/gradonacelnikov-kolegij/page/'
     next_page = 1
@@ -54,23 +53,22 @@ def scrape_new_periods(dummy='dummy'):
             raw_date = session.small.get_text(strip=True)
             url = session.h3.a['href']
             title = session.h3.a.get_text(strip=True)
-            info = re.sub('gradona.elnikov ', '', title)
+            info = re.sub(' gradona.elnik(ov|a)', '', title)
             date = text_to_date(raw_date)
 
-            if url in existing_urls:
-                next_page = None  # we've already been here
-                break
+            if url in current_session_urls:
+                print(f'Found already processed url {url}, skipping...')
             else:
                 print(f"Found new session: {info} - {date.strftime('%d %b %Y')}...")
                 found_cnt += 1
                 ScraperPeriod.objects.create(
                     url=url,
                     date=date,
-                    period_text=f"{info} - {date.strftime('%d.%b.%Y')}"
+                    period_text=f"{info[:84]} - {date.strftime('%d.%b.%Y')}"
                 )
 
         if soup.select('div.component-pagination > ul.page-numbers') == []:
-            print('Pagination bar not found, finishing')
+            print('Pagination bar not found, no more pages to scrape')
             next_page = None
 
     print(f'Found {found_cnt} new sessions')
@@ -80,7 +78,7 @@ def scrape_session(scraper_period):
     site = requests_retry_session().get(scraper_period.url).content
     soup = BeautifulSoup(site, 'html.parser')
 
-    print(f'Scraping new sessions from Grad Rijeka for {scraper_period.period_text} from {scraper_period.url}')
+    print(f'Scraping new session from Grad Rijeka for {scraper_period.period_text} from {scraper_period.url}')
 
     if not Period.objects.filter(period_url=scraper_period.url).exists():
         period = Period.objects.create(
@@ -93,9 +91,8 @@ def scrape_session(scraper_period):
         period = Period.objects.get(period_url=scraper_period.url)
 
     sections = soup.select('div.main-content > div.component > ol > li')
-    item_no = 1
 
-    for section in sections:
+    for item_no, section in enumerate(sections, start=1):
         print(f'Scraping item {item_no}  from Grad Rijeka for {scraper_period.period_text}')
         item_title = f'#{item_no} from {period}'
         if not Item.objects.filter(item_title=item_title).exists():
@@ -107,8 +104,6 @@ def scrape_session(scraper_period):
             )
         else:
             item = Item.objects.get(item_title=item_title)
-
-        item_no += 1
 
         documents = section.select('div.item-documents > ul > li')
 

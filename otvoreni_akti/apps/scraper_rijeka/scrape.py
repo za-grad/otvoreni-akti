@@ -1,6 +1,6 @@
 import time
 from requests import exceptions
-from .scrape_utils import scrape_new_periods, scrape_new_acts
+from .scrape_utils import scrape_new_sessions, scrape_new_acts
 
 
 def start(*args, **kwargs):
@@ -27,7 +27,7 @@ def start(*args, **kwargs):
     sleep_time = 10
     while not scrape_complete and max_retries > -1:
         try:
-            scrape_new_periods()
+            scrape_new_sessions()
             if 'max_periods' in kwargs:
                 max_periods = kwargs['max_periods']
                 scrape_new_acts(max_periods=max_periods)
@@ -37,7 +37,6 @@ def start(*args, **kwargs):
         except exceptions.ConnectionError as e:
             print(f'Connection Error while scraping Rijeka acts: {e}')
             print(f'{max_retries} retries left...')
-            scrape_complete = False
             max_retries -= 1
             time.sleep(sleep_time)
     if max_retries == -1:

@@ -32,7 +32,7 @@ class TestScrapeNewPeriods:
         with open(file_path + '/dummy_website/sessions_list_page.html', 'rb') as file:
             requests_patcher(
                 parent_module=scrape_utils,
-                function_to_patch=scrape_utils.scrape_new_periods,
+                function_to_patch=scrape_utils.scrape_new_sessions,
                 payload=file.read()
             )
             assert ScraperPeriod.objects.count() == 2

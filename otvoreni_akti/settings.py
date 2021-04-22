@@ -175,6 +175,14 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'otvoreni_akti.apps.scraper_split.tasks.celery_scrape_everything',
         'schedule': crontab(minute=0, hour=6),
     },
+    'rijeka-scrape-everything-per-schedule': {
+        'task': 'otvoreni_akti.apps.scraper_rijeka.tasks.celery_scrape_everything',
+        'schedule': crontab(minute=0, hour=12),
+    },
+    'rijeka-rescrape-last-n-periods-per-schedule': {
+        'task': 'otvoreni_akti.apps.scraper_rijeka.tasks.celery_rescrape_last_n',
+        'schedule': crontab(minute=0, hour=18),
+    },
 }
 
 

@@ -26,9 +26,9 @@ def text_to_date(raw_date: str) -> datetime:
     return date
 
 
-def scrape_new_periods(dummy='dummy'):
+def scrape_new_sessions(dummy='dummy'):
     """
-    Searches for any new new periods on the Grad Rijeka website and adds them to the database.
+    Searches for any new new sessions on the Grad Rijeka website and adds them to the database.
     Note: The dummy input is required for requests_patcher (mock requests) to work.
     """
 
@@ -40,7 +40,7 @@ def scrape_new_periods(dummy='dummy'):
     found_cnt = 0
 
     while next_page:
-        full_url = f"{page_url}{next_page}/"
+        full_url = f'{page_url}{next_page}/'
         print(f'Parsing session page {full_url}')
         site = requests_retry_session().get(full_url).content
         soup = BeautifulSoup(site, 'html.parser')

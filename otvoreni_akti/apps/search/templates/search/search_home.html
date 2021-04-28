@@ -19,7 +19,7 @@
                     Više o projektu
                 </a>
             </div>
-            <p class="cfc">Korišteni su otvoreni podaci koji su svima bili dostupni zahvaljujući 
+            <p class="cfc">Korišteni su otvoreni podaci koji su svima bili dostupni zahvaljujući
             <a class="cfc" href="https://codeforcroatia.org/" target="_blank">Code for Croatia <img src={% static 'search/cube-cfc.png' %}></a></p>
         </div>
         <div class="logo">
@@ -66,6 +66,7 @@
                                 {% endif %}>Svi</option>
                                 <option value="Zagreb" {% if request.GET.city == 'Zagreb' %}selected{% endif %}>Zagreb</option>
                                 <option value="Split" {% if request.GET.city == 'Split' %}selected{% endif %}>Split</option>
+                                <option value="Rijeka" {% if request.GET.city == 'Rijeka' %}selected{% endif %}>Rijeka</option>
                             </select>
                         </div>
                         <div class="search_metadata">

@@ -94,7 +94,7 @@ def scrape_session(scraper_period):
 
     for item_no, section in enumerate(sections, start=1):
         print(f'Scraping item {item_no}  from Grad Rijeka for {scraper_period.period_text}')
-        item_title = f'#{item_no} - {period}'
+        item_title = f'#{item_no} - {period}'[:99] 
         if not Item.objects.filter(item_title=item_title).exists():
             item = Item.objects.create(
                 period=period,

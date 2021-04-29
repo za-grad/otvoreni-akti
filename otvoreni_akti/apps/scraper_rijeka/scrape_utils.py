@@ -111,6 +111,9 @@ def scrape_session(scraper_period):
             full_url = document.a['href']
             title = document.a.get_text(strip=True)
 
+            if not full_url.startswith("http"): # there are some broken items
+                continue
+
             # create Subject object
             if not Subject.objects.filter(subject_url=full_url).exists():
                 subject = Subject.objects.create(

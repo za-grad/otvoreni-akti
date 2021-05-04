@@ -8,19 +8,16 @@
     <!-- Banner -->
     <div class="header">
         <div class="sponsors">
-            Tražilicu je izradila stranka
-            <a class="za-grad" href="http://za-grad.com/" target="_blank">{% svg 'search/za-grad' %}</a>
-            koja je dio
+            Tražilicu su izradile stranke
+            <a class="mozemo" href="https://mozemo.hr/" target="_blank">{% svg 'search/mozemo' %}</a>
             <a class="zjn" href="http://www.zagrebjenas.hr/" target="_blank">{% svg 'search/zjn' %}</a>
             i
-            <a class="mozemo" href="https://mozemo.hr/" target="_blank">{% svg 'search/mozemo' %}</a> platforme.
+            <a class="za-grad" href="http://za-grad.com/" target="_blank">{% svg 'search/za-grad' %}</a>
             <div class="comments-button comments-button-white comments-button-about">
                 <a href="/o-projektu">
                     Više o projektu
                 </a>
             </div>
-            <p class="cfc">Korišteni su otvoreni podaci koji su svima bili dostupni zahvaljujući
-            <a class="cfc" href="https://codeforcroatia.org/" target="_blank">Code for Croatia <img src={% static 'search/cube-cfc.png' %}></a></p>
         </div>
         <div class="logo">
             <a href="{% url 'search_home' %}">{% svg 'search/otvoreni-akti-with-subtitle' %}</a>
@@ -29,6 +26,38 @@
         {% url 'about' as about %}
         {% if request.get_full_path != about %}
             <form method="get" action="{% url 'search_results' %}">
+                <div class="search_metadata cities">
+                    <button class="city-selector"
+                            id="selected-city"
+                            type="button"
+                            value="All"
+                            onclick="selectCity(this.value, this.id)">
+                        Svi
+                    </button>
+                    <button class="city-selector"
+                            id="zagreb"
+                            type="button"
+                            value="Zagreb"
+                            onclick="selectCity(this.value, this.id)">
+                        Zagreb
+                    </button>
+                    <button class="city-selector"
+                            id="split"
+                            type="button"
+                            value="Split"
+                            onclick="selectCity(this.value, this.id)">
+                        Split
+                    </button>
+                    <button class="city-selector"
+                            id="rijeka"
+                            type="button"
+                            value="Rijeka"
+                            onclick="selectCity(this.value, this.id)">
+                        Rijeka
+                    </button>
+                    <input type='text' id="city" name="city">
+                </div>
+            
                 <!-- Search Bar -->
                 <div class="search_bar">
                     <button type="submit">
@@ -58,16 +87,6 @@
                             <input type="date" name="start_date" value="{{ request.GET.start_date }}">
                             do
                             <input type="date" name="end_date" value="{{ request.GET.end_date }}">
-                        </div>
-                        <div class="search_metadata">
-                            <span>Grad</span><br>
-                            <select name="city">
-                                <option value="All" {% if request.GET.city == 'All' %}selected
-                                {% endif %}>Svi</option>
-                                <option value="Zagreb" {% if request.GET.city == 'Zagreb' %}selected{% endif %}>Zagreb</option>
-                                <option value="Split" {% if request.GET.city == 'Split' %}selected{% endif %}>Split</option>
-                                <option value="Rijeka" {% if request.GET.city == 'Rijeka' %}selected{% endif %}>Rijeka</option>
-                            </select>
                         </div>
                         <div class="search_metadata">
                             <span>Tip podataka</span><br>
@@ -138,5 +157,24 @@
 
     {% block search_results %}
     {% endblock search_results %}
+
+     <script type="text/javascript">
+         function selectCity(city, element_id) {
+             <!-- set value for city in form -->
+             document.getElementById("city").value = city;
+
+             let oldCity = document.getElementById("selected-city");
+
+             <!-- this is a check if the city was actually switched or clicked multiple times -->
+             if (oldCity.value !== city) {
+                 <!-- remove "selected-city" id from old selected city to remove styling and set the value as new id-->
+                 oldCity.removeAttribute("id");
+                 oldCity.id = oldCity.value.toLowerCase();
+
+                 <!-- set "selected-city" id for newly selected city to apply styling -->
+                 document.getElementById(element_id).id = "selected-city"
+             }
+         }
+     </script>
 
 {% endblock content %}

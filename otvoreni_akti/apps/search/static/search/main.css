@@ -153,7 +153,7 @@ form {
     margin-bottom: 20px;
 }
 
-.search_metadata > input, select {
+.search_metadata > input, select, button {
     margin: 10px 0;
     padding: 10px 20px 10px 20px;
     height: 56px;
@@ -172,6 +172,32 @@ form {
     color: white;
     margin-left: 2px;
     font-size: smaller;
+}
+
+.search_metadata.cities {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#city {
+    display: none;
+}
+
+.city-selector {
+    width: 100px;
+    margin: 10px 5px !important;
+}
+
+.city-selector:focus {
+    outline: none;
+}
+
+#selected-city {
+    background-color: white;
+    color: var(--purple-dark-color);
+    font-weight: bold;
 }
 
 #advanced_features {
@@ -266,7 +292,6 @@ form {
     margin-bottom: 170px;
     text-align: justify;
 }
-
 
 .page-item.active .page-link {
     background-color: var(--purple-dark-color);

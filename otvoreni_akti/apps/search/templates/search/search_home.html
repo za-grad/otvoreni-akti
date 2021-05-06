@@ -28,7 +28,7 @@
             <form method="get" action="{% url 'search_results' %}">
                 <div class="search_metadata cities">
                     <button class="city-selector"
-                            id="selected-city"
+                            id="all"
                             type="button"
                             value="All"
                             onclick="selectCity(this.value, this.id)">
@@ -163,18 +163,44 @@
              <!-- set value for city in form -->
              document.getElementById("city").value = city;
 
-             let oldCity = document.getElementById("selected-city");
+             let oldSelection = document.getElementById("selected-city");
 
              <!-- this is a check if the city was actually switched or clicked multiple times -->
-             if (oldCity.value !== city) {
+             if (oldSelection && oldSelection.value !== city) {
                  <!-- remove "selected-city" id from old selected city to remove styling and set the value as new id-->
-                 oldCity.removeAttribute("id");
-                 oldCity.id = oldCity.value.toLowerCase();
-
-                 <!-- set "selected-city" id for newly selected city to apply styling -->
-                 document.getElementById(element_id).id = "selected-city"
-             }
+                 oldSelection.removeAttribute("id");
+                 oldSelection.id = oldSelection.value.toLowerCase();
+             };
+             
+             <!-- set "selected-city" id for newly selected city to apply styling -->
+             document.getElementById(element_id).id = "selected-city";
          }
+
+         function getSelectedCity() {
+             <!-- return city value for search -->
+             
+             let match = RegExp('[?&]' + 'city' + '=([^&]*)').exec(window.location.search);
+             let queryParamCity = match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+             let inputCityValue = document.getElementById("city").value;
+
+             if (queryParamCity) {
+                 <!-- case #1 - when the url contains a city parameter -->
+                 return queryParamCity
+             } else if (inputCityValue) {
+                 <!-- case #2 - when the the input form contains a language -->
+                 return document.getElementById("city").value
+             } else {
+                 return "All"
+             };
+         };
+
+         let selectedCity = getSelectedCity();
+         
+         <!-- on page load set city selector to selected value -->
+         document.addEventListener(
+             'DOMContentLoaded',
+             selectCity(selectedCity, selectedCity.toLowerCase()),
+         );
      </script>
 
 {% endblock content %}

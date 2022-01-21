@@ -14,7 +14,7 @@ pytest-cov==2.8.1
 PyMuPDF==1.16.0
 docx2txt==0.8
 honcho==1.0.1
-ipython==7.13.0
+ipython==7.16.3
 ipdb==0.13.2
 whitenoise==5.0.1
 celery==4.4.2

@@ -7,6 +7,7 @@ from otvoreni_akti.settings import (MAX_SEARCH_RESULTS, RESULTS_PER_PAGE,
                                     ACTS_ROOT_URL_ZAGREB as root_url_zagreb,
                                     ACTS_ROOT_URL_SPLIT as root_url_split,
                                     ACTS_ROOT_URL_RIJEKA as root_url_rijeka,
+                                    SINGLE_CITY_SCOPE,
                                     )
 from .utils import elastic_search
 from .models import Act, Period
@@ -24,10 +25,12 @@ def search_results(request):
         end_date = request.GET.get('end_date')
         sort_by = request.GET.get('sort_by')
         file_type = request.GET.get('file_type')
-        city = request.GET.get('city')
+        city = SINGLE_CITY_SCOPE or request.GET.get('city')
+
+        non_default_city = city != 'All' and not SINGLE_CITY_SCOPE
 
         # Checks if advanced features were used
-        advanced_used = (start_date or end_date or sort_by != 'newest_first' or file_type != 'All' or city != 'All')
+        advanced_used = (start_date or end_date or sort_by != 'newest_first' or file_type != 'All' or non_default_city)
 
         # If no user input, sets default start and end dates
         if not start_date:
@@ -48,8 +51,8 @@ def search_results(request):
         num_results = len(results)
 
         # Pagination
-        pagniator = Paginator(results, RESULTS_PER_PAGE)
-        results = pagniator.get_page(page)
+        paginator = Paginator(results, RESULTS_PER_PAGE)
+        results = paginator.get_page(page)
 
         # Vanity Metrics
         earliest_period = Period.objects.order_by('start_date').first().start_date

@@ -100,6 +100,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'otvoreni_akti.context_processors.template_settings'
             ],
         },
     },
@@ -208,3 +209,8 @@ RESCRAPE_LAST_N_PERIODS = 5
 MAX_SEARCH_RESULTS = 1000
 RESULTS_PER_PAGE = 20
 SEARCH_REQUEST_TIMEOUT = 30     # In seconds
+
+# To enable single city search, assign city name to SINGLE_CITY_SCOPE, e.g.:
+# SINGLE_CITY_SCOPE = 'Rijeka'
+# if SINGLE_CITY_SCOPE is None or '', city selector UI will be displayed
+SINGLE_CITY_SCOPE = 'Rijeka'

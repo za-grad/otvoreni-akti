@@ -26,38 +26,40 @@
         {% url 'about' as about %}
         {% if request.get_full_path != about %}
             <form method="get" action="{% url 'search_results' %}">
-                <div class="search_metadata cities">
-                    <button class="city-selector"
-                            id="all"
-                            type="button"
-                            value="All"
-                            onclick="selectCity(this.value, this.id)">
-                        Svi
-                    </button>
-                    <button class="city-selector"
-                            id="zagreb"
-                            type="button"
-                            value="Zagreb"
-                            onclick="selectCity(this.value, this.id)">
-                        Zagreb
-                    </button>
-                    <button class="city-selector"
-                            id="split"
-                            type="button"
-                            value="Split"
-                            onclick="selectCity(this.value, this.id)">
-                        Split
-                    </button>
-                    <button class="city-selector"
-                            id="rijeka"
-                            type="button"
-                            value="Rijeka"
-                            onclick="selectCity(this.value, this.id)">
-                        Rijeka
-                    </button>
-                    <input type='text' id="city" name="city">
-                </div>
-            
+                {% if SHOW_CITY_SELECTOR %}
+                    <div class="search_metadata cities">
+                        <button class="city-selector"
+                                id="all"
+                                type="button"
+                                value="All"
+                                onclick="selectCity(this.value, this.id)">
+                            Svi
+                        </button>
+                        <button class="city-selector"
+                                id="zagreb"
+                                type="button"
+                                value="Zagreb"
+                                onclick="selectCity(this.value, this.id)">
+                            Zagreb
+                        </button>
+                        <button class="city-selector"
+                                id="split"
+                                type="button"
+                                value="Split"
+                                onclick="selectCity(this.value, this.id)">
+                            Split
+                        </button>
+                        <button class="city-selector"
+                                id="rijeka"
+                                type="button"
+                                value="Rijeka"
+                                onclick="selectCity(this.value, this.id)">
+                            Rijeka
+                        </button>
+                        <input type='text' id="city" name="city">
+                    </div>
+                {% endif %}
+
                 <!-- Search Bar -->
                 <div class="search_bar">
                     <button type="submit">
@@ -171,14 +173,14 @@
                  oldSelection.removeAttribute("id");
                  oldSelection.id = oldSelection.value.toLowerCase();
              };
-             
+
              <!-- set "selected-city" id for newly selected city to apply styling -->
              document.getElementById(element_id).id = "selected-city";
          }
 
          function getSelectedCity() {
              <!-- return city value for search -->
-             
+
              let match = RegExp('[?&]' + 'city' + '=([^&]*)').exec(window.location.search);
              let queryParamCity = match && decodeURIComponent(match[1].replace(/\+/g, ' '));
              let inputCityValue = document.getElementById("city").value;
@@ -195,7 +197,7 @@
          };
 
          let selectedCity = getSelectedCity();
-         
+
          <!-- on page load set city selector to selected value -->
          document.addEventListener(
              'DOMContentLoaded',
